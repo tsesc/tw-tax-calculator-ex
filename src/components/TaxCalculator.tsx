@@ -12,6 +12,7 @@ import {
   TAX_FREE_THRESHOLDS,
   calculateTax
 } from '../data/taxRules'
+import zhTW from '../i18n/zh-TW'
 
 interface TaxCalculatorProps {}
 
@@ -77,26 +78,26 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
 
   const [selectedTab, setSelectedTab] = useState<'calculator' | 'brackets' | 'tips'>('calculator');
 
-  // 计算税额
+  // 計算稅额
   const calculateTaxResults = () => {
-    // 计算免税额
+    // 計算免稅额
     const regularMembers = inputs.familyMembers.length - inputs.eldersOver70;
     const exemptions = (regularMembers * EXEMPTION_AMOUNTS.standard) +
                       (inputs.eldersOver70 * EXEMPTION_AMOUNTS.elderly);
 
-    // 计算标准扣除额或列举扣除额
+    // 計算標準扣除額或列舉扣除額
     const standardDeduction = inputs.isMarried ? 262000 : 131000;
     const itemizedTotal = Object.values(inputs.itemizedDeductions).reduce((sum, val) => sum + val, 0);
     const chosenDeduction = inputs.useStandardDeduction ? standardDeduction : itemizedTotal;
 
-    // 计算特别扣除额
+    // 計算特別扣除額
     let specialDeductions = 0;
 
-    // 薪资扣除额（假设主要收入来源为薪资）
+    // 薪資扣除額（假设主要收入来源為薪資）
     const salaryDeduction = Math.min(inputs.totalIncome, 218000) * inputs.familyMembers.length;
     specialDeductions += salaryDeduction;
 
-    // 幼儿学前扣除额
+    // 幼儿学前扣除額
     if (inputs.childrenUnder6 > 0) {
       specialDeductions += 150000; // 第一名
       if (inputs.childrenUnder6 > 1) {
@@ -104,37 +105,37 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
       }
     }
 
-    // 教育扣除额
+    // 教育扣除額
     specialDeductions += inputs.studentsInCollege * 25000;
 
-    // 身心障碍扣除额
+    // 身心障碍扣除額
     specialDeductions += inputs.disabilityCount * 218000;
 
-    // 长期照顾扣除额
+    // 長期照顧扣除額
     specialDeductions += inputs.longtermCareCount * 120000;
 
-    // 储蓄投资扣除额
+    // 儲蓄投資扣除額
     specialDeductions += Math.min(inputs.savingsInterest, 270000);
 
-    // 房屋租金扣除额
+    // 房屋租金扣除額
     if (inputs.hasRentalExpense) {
       specialDeductions += Math.min(inputs.rentalAmount, 180000);
     }
 
-    // 计算基本生活费差额
+    // 計算基本生活费差额
     const totalMembers = inputs.familyMembers.length;
     const basicLifeExpenseTotal = totalMembers * BASIC_LIVING_EXPENSE.amount;
     const deductionTotal = exemptions + chosenDeduction +
-                          Math.min(inputs.savingsInterest, 270000) + // 储蓄投资特别扣除额
-                          inputs.disabilityCount * 218000 + // 身心障碍扣除额
-                          inputs.studentsInCollege * 25000; // 教育扣除额
+                          Math.min(inputs.savingsInterest, 270000) + // 儲蓄投資特別扣除額
+                          inputs.disabilityCount * 218000 + // 身心障碍扣除額
+                          inputs.studentsInCollege * 25000; // 教育扣除額
     const basicLifeExpenseDiff = Math.max(0, basicLifeExpenseTotal - deductionTotal);
 
-    // 计算综合所得净额
+    // 計算綜合所得淨額
     const totalDeductions = exemptions + chosenDeduction + specialDeductions + basicLifeExpenseDiff;
     const netIncome = Math.max(0, inputs.totalIncome - totalDeductions);
 
-    // 计算税额
+    // 計算稅额
     const { taxAmount, effectiveRate } = calculateTax(netIncome);
 
     setResults({
@@ -177,9 +178,9 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
       <div className="text-center space-y-2">
         <h1 className="text-4xl font-bold text-gray-900 flex items-center justify-center gap-3">
           <Calculator className="text-blue-600" />
-          台湾综合所得税计算器 2025
+          台灣綜合所得稅計算器 2025
         </h1>
-        <p className="text-gray-600 text-lg">最新税制规则 · 详细说明 · 节税建议</p>
+        <p className="text-gray-600 text-lg">最新稅制規則 · 詳細說明 · 节稅建議</p>
       </div>
 
       {/* 导航标签 */}
@@ -191,7 +192,7 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
             className="px-6"
           >
             <Calculator className="w-4 h-4 mr-2" />
-            税额计算
+            稅额計算
           </Button>
           <Button
             variant={selectedTab === 'brackets' ? 'default' : 'ghost'}
@@ -199,7 +200,7 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
             className="px-6"
           >
             <DollarSign className="w-4 h-4 mr-2" />
-            税率级距
+            稅率級距
           </Button>
           <Button
             variant={selectedTab === 'tips' ? 'default' : 'ghost'}
@@ -207,14 +208,14 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
             className="px-6"
           >
             <Info className="w-4 h-4 mr-2" />
-            节税建议
+            节稅建議
           </Button>
         </div>
       </div>
 
       {selectedTab === 'calculator' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* 输入区域 */}
+          {/* 輸入区域 */}
           <div className="space-y-6">
             {/* 基本信息 */}
             <Card>
@@ -224,7 +225,7 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
                   基本信息
                 </CardTitle>
                 <CardDescription>
-                  请输入您的年收入和家庭成员信息
+                  請輸入您的年收入和家庭成员信息
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -236,11 +237,11 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
                     type="number"
                     value={inputs.totalIncome || ''}
                     onChange={(e) => setInputs({...inputs, totalIncome: Number(e.target.value)})}
-                    placeholder="请输入年总收入（新台币）"
+                    placeholder="請輸入年总收入（新台币）"
                     className="text-lg"
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    包含薪资、奖金、利息、股利等各项所得
+                    包含薪資、奖金、利息、股利等各项所得
                   </p>
                 </div>
 
@@ -252,7 +253,7 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
                         checked={inputs.isMarried}
                         onChange={(e) => setInputs({...inputs, isMarried: e.target.checked})}
                       />
-                      <span className="text-sm font-medium">已婚（夫妻合并申报）</span>
+                      <span className="text-sm font-medium">已婚（夫妻合併申報）</span>
                     </label>
                   </div>
                 </div>
@@ -267,7 +268,7 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
                   扶养亲属
                 </CardTitle>
                 <CardDescription>
-                  各类扶养亲属都有不同的免税额和扣除额
+                  各类扶养亲属都有不同的免稅额和扣除額
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -283,7 +284,7 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
                       onChange={(e) => setInputs({...inputs, childrenUnder6: Number(e.target.value)})}
                     />
                     <p className="text-xs text-gray-500 mt-1">
-                      第1名15万，第2名起22.5万扣除额
+                      第1名15萬，第2名起22.5萬扣除額
                     </p>
                   </div>
 
@@ -298,7 +299,7 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
                       onChange={(e) => setInputs({...inputs, eldersOver70: Number(e.target.value)})}
                     />
                     <p className="text-xs text-gray-500 mt-1">
-                      每人免税额14.55万（比一般多4.85万）
+                      每人免稅额14.55萬（比一般多4.85萬）
                     </p>
                   </div>
 
@@ -313,7 +314,7 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
                       onChange={(e) => setInputs({...inputs, studentsInCollege: Number(e.target.value)})}
                     />
                     <p className="text-xs text-gray-500 mt-1">
-                      每人教育扣除额2.5万
+                      每人教育扣除額2.5萬
                     </p>
                   </div>
 
@@ -328,7 +329,7 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
                       onChange={(e) => setInputs({...inputs, disabilityCount: Number(e.target.value)})}
                     />
                     <p className="text-xs text-gray-500 mt-1">
-                      每人扣除额21.8万
+                      每人扣除額21.8萬
                     </p>
                   </div>
                 </div>
@@ -346,7 +347,7 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
               <CardContent className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">
-                    储蓄投资利息收入
+                    儲蓄投資利息收入
                   </label>
                   <Input
                     type="number"
@@ -355,7 +356,7 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
                     onChange={(e) => setInputs({...inputs, savingsInterest: Number(e.target.value)})}
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    银行存款利息等，每户最高扣除27万
+                    银行存款利息等，每戶最高扣除27萬
                   </p>
                 </div>
 
@@ -366,7 +367,7 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
                       checked={inputs.hasRentalExpense}
                       onChange={(e) => setInputs({...inputs, hasRentalExpense: e.target.checked})}
                     />
-                    <span className="text-sm font-medium">租房支出扣除额</span>
+                    <span className="text-sm font-medium">租房支出扣除額</span>
                   </label>
                   {inputs.hasRentalExpense && (
                     <div>
@@ -378,7 +379,7 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
                         placeholder="年租金支出"
                       />
                       <p className="text-xs text-gray-500 mt-1">
-                        租屋自住，每户最高扣除18万（新制：特别扣除额）
+                        租屋自住，每戶最高扣除18萬（新制：特別扣除額）
                       </p>
                     </div>
                   )}
@@ -386,7 +387,7 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
 
                 <div>
                   <label className="block text-sm font-medium mb-1">
-                    长期照顾需求人数
+                    長期照顧需求人数
                   </label>
                   <Input
                     type="number"
@@ -395,21 +396,21 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
                     onChange={(e) => setInputs({...inputs, longtermCareCount: Number(e.target.value)})}
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    符合长照需求者，每人扣除12万
+                    符合长照需求者，每人扣除12萬
                   </p>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* 计算结果区域 */}
+          {/* 計算結果区域 */}
           <div className="space-y-6">
-            {/* 计算结果摘要 */}
+            {/* 計算結果摘要 */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calculator className="w-5 h-5" />
-                  税额计算结果
+                  稅额計算結果
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -419,9 +420,9 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
                       <div className="text-3xl font-bold text-blue-600">
                         {formatCurrency(results.taxAmount)}
                       </div>
-                      <div className="text-sm text-gray-600">应纳税额</div>
+                      <div className="text-sm text-gray-600">應納稅额</div>
                       <div className="text-xs text-gray-500 mt-1">
-                        有效税率: {results.effectiveRate.toFixed(2)}%
+                        有效稅率: {results.effectiveRate.toFixed(2)}%
                       </div>
                     </div>
                   </div>
@@ -432,15 +433,15 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
                       <div className="font-semibold">{formatCurrency(inputs.totalIncome)}</div>
                     </div>
                     <div>
-                      <div className="text-gray-600">扣除额合计</div>
+                      <div className="text-gray-600">扣除額合计</div>
                       <div className="font-semibold text-green-600">-{formatCurrency(results.totalDeductions)}</div>
                     </div>
                     <div>
-                      <div className="text-gray-600">综合所得净额</div>
+                      <div className="text-gray-600">綜合所得淨額</div>
                       <div className="font-semibold">{formatCurrency(results.netIncome)}</div>
                     </div>
                     <div>
-                      <div className="text-gray-600">适用税率</div>
+                      <div className="text-gray-600">適用稅率</div>
                       <div className="font-semibold">
                         {TAX_BRACKETS.find(b =>
                           results.netIncome >= b.min && (b.max === null || results.netIncome <= b.max)
@@ -452,23 +453,23 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
               </CardContent>
             </Card>
 
-            {/* 扣除额明细 */}
+            {/* 扣除額明细 */}
             <Card>
               <CardHeader>
-                <CardTitle>扣除额明细</CardTitle>
+                <CardTitle>扣除額明细</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <span>免税额</span>
+                    <span>免稅额</span>
                     <span className="font-medium">{formatCurrency(results.exemptions)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>标准/列举扣除额</span>
+                    <span>標準/列舉扣除額</span>
                     <span className="font-medium">{formatCurrency(inputs.isMarried ? 262000 : 131000)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>特别扣除额</span>
+                    <span>特別扣除額</span>
                     <span className="font-medium">{formatCurrency(results.specialDeductions)}</span>
                   </div>
                   {results.basicLifeExpenseDiff > 0 && (
@@ -479,25 +480,25 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
                   )}
                   <hr />
                   <div className="flex justify-between font-semibold">
-                    <span>扣除额总计</span>
+                    <span>扣除額总计</span>
                     <span className="text-green-600">{formatCurrency(results.totalDeductions)}</span>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* 完整计算公式 */}
+            {/* 完整計算公式 */}
             <Card>
               <CardHeader>
-                <CardTitle>完整计算公式</CardTitle>
+                <CardTitle>完整計算公式</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="bg-gray-50 p-4 rounded-lg font-mono text-sm space-y-2">
-                  <div>综合所得净额 = 所得总额 - 扣除额总计</div>
+                  <div>綜合所得淨額 = 所得總額 - 扣除額总计</div>
                   <div>= {formatCurrency(inputs.totalIncome)} - {formatCurrency(results.totalDeductions)}</div>
                   <div>= {formatCurrency(results.netIncome)}</div>
                   <hr className="my-2" />
-                  <div>应纳税额 = 综合所得净额 × 税率 - 累进差额</div>
+                  <div>應納稅额 = 綜合所得淨額 × 稅率 - 累进差额</div>
                   <div>= {formatCurrency(results.netIncome)} × {TAX_BRACKETS.find(b =>
                     results.netIncome >= b.min && (b.max === null || results.netIncome <= b.max)
                   )?.rate || 5}% - {formatCurrency(TAX_BRACKETS.find(b =>
@@ -515,9 +516,9 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>2025年综合所得税率级距表</CardTitle>
+              <CardTitle>2025年綜合所得稅率級距表</CardTitle>
               <CardDescription>
-                累进税率制，所得越高税率越高
+                累进稅率制，所得越高稅率越高
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -525,10 +526,10 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="border-b">
-                      <th className="text-left p-3">综合所得净额</th>
-                      <th className="text-left p-3">税率</th>
+                      <th className="text-left p-3">綜合所得淨額</th>
+                      <th className="text-left p-3">稅率</th>
                       <th className="text-left p-3">累进差额</th>
-                      <th className="text-left p-3">说明</th>
+                      <th className="text-left p-3">說明</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -550,7 +551,7 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>免税门槛快速查询</CardTitle>
+              <CardTitle>免稅门槛快速查询</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -573,9 +574,9 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>节税建议与策略</CardTitle>
+              <CardTitle>节稅建議与策略</CardTitle>
               <CardDescription>
-                合法节税，减轻税务负担
+                合法节稅，减轻稅务负担
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -593,35 +594,35 @@ const TaxCalculator: React.FC<TaxCalculatorProps> = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>2025年税制新变化</CardTitle>
+              <CardTitle>2025年稅制新變化</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
-                  <h4 className="font-semibold text-yellow-800">幼儿学前特别扣除额大幅调整</h4>
+                  <h4 className="font-semibold text-yellow-800">幼儿学前特別扣除額大幅调整</h4>
                   <ul className="text-yellow-700 mt-2 space-y-1 text-sm">
-                    <li>• 适用年龄从5岁以下扩大至6岁以下</li>
-                    <li>• 第2名子女起享有加成50%（22.5万）</li>
-                    <li>• 取消排富规定，所有家庭均可适用</li>
+                    <li>• 適用年龄从5岁以下扩大至6岁以下</li>
+                    <li>• 第2名子女起享有加成50%（22.5萬）</li>
+                    <li>• 取消排富規定，所有家庭均可適用</li>
                   </ul>
                 </div>
 
                 <div className="bg-green-50 p-4 rounded-lg border-l-4 border-green-400">
-                  <h4 className="font-semibold text-green-800">房屋租金支出改列特别扣除额</h4>
+                  <h4 className="font-semibold text-green-800">房屋租金支出改列特別扣除額</h4>
                   <ul className="text-green-700 mt-2 space-y-1 text-sm">
-                    <li>• 从列举扣除额改为特别扣除额，申报更简便</li>
-                    <li>• 每户每年最高18万元</li>
-                    <li>• 适用租屋自住且无自有住宅者</li>
+                    <li>• 从列舉扣除額改為特別扣除額，申報更簡便</li>
+                    <li>• 每戶每年最高18萬元</li>
+                    <li>• 適用租屋自住且無自有住宅者</li>
                   </ul>
                 </div>
 
                 <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
-                  <h4 className="font-semibold text-blue-800">各项金额调升</h4>
+                  <h4 className="font-semibold text-blue-800">各项金額调升</h4>
                   <ul className="text-blue-700 mt-2 space-y-1 text-sm">
-                    <li>• 免税额：每人9.7万（+5000）</li>
-                    <li>• 标准扣除额：单身13.1万（+7000）、夫妻26.2万（+14000）</li>
-                    <li>• 薪资及身心障碍扣除额：各21.8万（+11000）</li>
-                    <li>• 基本生活费：每人21万（+8000）</li>
+                    <li>• 免稅额：每人9.7萬（+5000）</li>
+                    <li>• 標準扣除額：單身13.1萬（+7000）、夫妻26.2萬（+14000）</li>
+                    <li>• 薪資及身心障碍扣除額：各21.8萬（+11000）</li>
+                    <li>• 基本生活费：每人21萬（+8000）</li>
                   </ul>
                 </div>
               </div>

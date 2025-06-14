@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-// 税务计算相关工具函数
+// 稅务計算相关工具函数
 export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('zh-TW', {
     style: 'currency',

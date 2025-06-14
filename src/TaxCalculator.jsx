@@ -15,8 +15,9 @@ import {
   calculateTax,
   calculateDeductions
 } from './data/taxRules';
+import zhTW from './i18n/zh-TW';
 
-// 自定义hook用于localStorage缓存
+// 自定义hook用于localStorage快取
 const useLocalStorage = (key, initialValue) => {
   const [storedValue, setStoredValue] = useState(() => {
     try {
@@ -41,7 +42,7 @@ const useLocalStorage = (key, initialValue) => {
 };
 
 export default function TaxCalculator() {
-  // 使用localStorage缓存的状态
+  // 使用localStorage快取的状态
   const [formData, setFormData] = useLocalStorage('taxCalculatorData', {
     salaryIncome: '',
     otherIncome: '',
@@ -83,12 +84,12 @@ export default function TaxCalculator() {
   const [students, setStudents] = useState(formData.students);
   const [disabled, setDisabled] = useState(formData.disabled);
 
-  // 特别扣除额
+  // 特別扣除額
   const [rentalExpenses, setRentalExpenses] = useState(formData.rentalExpenses);
   const [savingsInterest, setSavingsInterest] = useState(formData.savingsInterest);
   const [longTermCare, setLongTermCare] = useState(formData.longTermCare || '');
 
-  // 列举扣除额输入
+  // 列舉扣除額輸入
   const [useItemizedDeduction, setUseItemizedDeduction] = useState(formData.useItemizedDeduction);
   const [donations, setDonations] = useState(formData.donations);
   const [insurancePremiums, setInsurancePremiums] = useState(formData.insurancePremiums);
@@ -99,7 +100,7 @@ export default function TaxCalculator() {
 
   const [result, setResult] = useState(null);
 
-  // 保存数据到localStorage
+  // 保存資料到localStorage
   const saveToLocalStorage = () => {
     const currentData = {
       salaryIncome,
@@ -127,7 +128,7 @@ export default function TaxCalculator() {
     setFormData(currentData);
   };
 
-  // 清除所有缓存数据
+  // 清除所有快取資料
   const clearCachedData = () => {
     const emptyData = {
       salaryIncome: '',
@@ -181,7 +182,7 @@ export default function TaxCalculator() {
     setFormData(emptyData);
   };
 
-  // 当任何输入改变时保存到localStorage
+  // 当任何輸入改变时保存到localStorage
   useEffect(() => {
     saveToLocalStorage();
   }, [
@@ -207,21 +208,21 @@ export default function TaxCalculator() {
     const savings = parseFloat(savingsInterest) || 0;
     const longTermCareCount = parseInt(longTermCare) || 0;
 
-    // 计算薪资净额（先扣除薪资特别扣除额）
+    // 計算薪資淨額（先扣除薪資{zhTW.cardTitles.specialDeductions}）
     const salaryNetIncome = Math.max(0, salary - Math.min(salary, 218000));
     const spouseSalaryNetIncome = Math.max(0, spouseSalary - Math.min(spouseSalary, 218000));
 
-    // 计算综合所得总额
+    // 計算{zhTW.calculationResults.grossIncome}
     const totalIncome = salaryNetIncome + other + (isMarried ? spouseSalaryNetIncome + spouseOther : 0);
 
-    // 如果没有收入，清空结果
+    // 如果没有收入，清空結果
     if (totalIncome === 0 && salary === 0 && other === 0) {
       setResult(null);
       return;
     }
 
     if (isMarried) {
-      // 夫妻合并申报，但分开计税
+      // 夫妻合併申報，但分開计稅
       const results = calculateAllMarriedMethods({
         taxpayerSalary: salary,
         taxpayerOther: other,
@@ -246,7 +247,7 @@ export default function TaxCalculator() {
 
       let finalResult;
       if (taxCalculationMethod === 'auto') {
-        // 选择税负最低的方式
+        // 選擇稅负最低的方式
         const methods = ['combined', 'salary_separate', 'all_separate'];
         let bestMethod = methods[0];
         let lowestTax = results[bestMethod].totalTax;
@@ -274,7 +275,7 @@ export default function TaxCalculator() {
 
       setResult(finalResult);
           } else {
-        // 单身申报
+        // 單身申報
         const deductions = calculateDeductions({
           isMarried: false,
           childrenCount,
@@ -324,11 +325,11 @@ export default function TaxCalculator() {
       donations, insurancePremiums, healthInsurancePremiums, medicalExpenses, disasterLoss, mortgageInterest
     } = params;
 
-    // 计算薪资净额
+    // 計算薪資淨額
     const taxpayerSalaryNet = Math.max(0, taxpayerSalary - Math.min(taxpayerSalary, 218000));
     const spouseSalaryNet = Math.max(0, spouseSalary - Math.min(spouseSalary, 218000));
 
-    // 方法1：全部合并计税
+    // 方法1：全部合併计稅
     const combinedIncome = taxpayerSalaryNet + taxpayerOther + spouseSalaryNet + spouseOther;
     const combinedDeductions = calculateDeductions({
       isMarried: true,
@@ -341,31 +342,31 @@ export default function TaxCalculator() {
     const combinedNetIncome = Math.max(0, combinedIncome - combinedDeductions.totalDeductions);
     const combinedTax = calculateTax(combinedNetIncome);
 
-                // 方法2：薪资分开计税，其他合并
-    // 按照台湾税务系统实际计算方式：
-    // 1. 本人薪资净额 - 本人免税额 = 本人薪资应税净额 × 税率
-    // 2. 综合所得净额 - 本人薪资应税净额 = 剩余所得净额 × 税率 - 累进差额
+                // 方法2：薪資分開计稅，其他合併
+    // 按照台灣稅务系統實際計算方式：
+    // 1. 本{zhTW.common.people}薪資淨額 - 本{zhTW.common.people}免稅额 = 本{zhTW.common.people}薪資应稅淨額 {zhTW.common.multiply} 稅率
+    // 2. {zhTW.calculationResults.netIncome} - 本{zhTW.common.people}薪資应稅淨額 = 剩餘所得淨額 {zhTW.common.multiply} 稅率 - 累进差额
 
-    // 本人薪资净额
+    // 本{zhTW.common.people}薪資淨額
     const taxpayerSalaryForSeparate = taxpayerSalaryNet;
 
-    // 计算本人分配的免税额（假设本人分配一般免税额）
+    // 計算本{zhTW.common.people}分配的免稅额（假设本{zhTW.common.people}分配一般免稅额）
     const taxpayerExemption = EXEMPTION_AMOUNTS.standard;
 
-    // 计算本人薪资应税净额（只扣除本人免税额）
+    // 計算本{zhTW.common.people}薪資应稅淨額（只扣除本{zhTW.common.people}免稅额）
     const taxpayerSalaryNetAfterExemption = Math.max(0, taxpayerSalaryForSeparate - taxpayerExemption);
     const taxpayerSalaryTaxInfo = calculateTax(taxpayerSalaryNetAfterExemption);
 
-    // 计算剩余所得净额 = 综合所得净额 - 本人薪资应税净额
+    // 計算剩餘所得淨額 = {zhTW.calculationResults.netIncome} - 本{zhTW.common.people}薪資应稅淨額
     const remainingNetIncome = Math.max(0, combinedNetIncome - taxpayerSalaryNetAfterExemption);
     const remainingTaxInfo = calculateTax(remainingNetIncome);
 
-    // 实际税额 = 本人薪资税额 + 剩余所得税额
+    // 實際稅额 = 本{zhTW.common.people}薪資稅额 + 剩餘所得稅额
     const totalSalarySepaRateTax = taxpayerSalaryTaxInfo.taxAmount + remainingTaxInfo.taxAmount;
 
     const salarySepaRate = {
       method: 'salary_separate',
-      description: '薪资分开计税，其他合并',
+      description: '薪資分開计稅，其他合併',
       totalTax: totalSalarySepaRateTax,
       taxAmount: totalSalarySepaRateTax,
       grossIncome: combinedIncome,
@@ -380,27 +381,27 @@ export default function TaxCalculator() {
         totalSalaryDeduction: Math.min(taxpayerSalary, 218000) + Math.min(spouseSalary, 218000)
       },
       deductions: combinedDeductions,
-      // 本人薪资部分
+      // 本{zhTW.common.people}薪資部分
       taxpayerSalaryPortion: {
         grossIncome: taxpayerSalaryForSeparate,
         netIncome: taxpayerSalaryNetAfterExemption,
-        exemption: taxpayerExemption, // 只有免税额
+        exemption: taxpayerExemption, // 只有免稅额
         ...taxpayerSalaryTaxInfo,
-        description: '本人薪资所得（分开计税）'
+        description: '本{zhTW.common.people}薪資所得（分開计稅）'
       },
-      // 剩余所得部分
+      // 剩餘所得部分
       remainingPortion: {
-        grossIncome: combinedIncome - taxpayerSalaryForSeparate, // 剩余的总收入
+        grossIncome: combinedIncome - taxpayerSalaryForSeparate, // 剩餘的总收入
         netIncome: remainingNetIncome,
         ...remainingTaxInfo,
-        description: '剩余所得（合并计税）'
+        description: '剩餘所得（合併计稅）'
       }
     };
 
-    // 方法3：各类所得都分开计税
-    // 扣除额分配：每人都有单身标准扣除额，免税额和特别扣除额按实际情况分配
+    // 方法3：各类所得都分開计稅
+    // 扣除額分配：每{zhTW.common.people}都有單身標準扣除額，免稅额和{zhTW.cardTitles.specialDeductions}按實際情况分配
     const taxpayerDeductions = calculateDeductions({
-      isMarried: false, // 分开计税按单身处理
+      isMarried: false, // 分開计稅按單身处理
       childrenCount: Math.floor(childrenCount / 2),
       dependentsCount: Math.floor(dependentsCount / 2),
       elderlyCount: Math.floor(elderlyCount / 2),
@@ -409,14 +410,14 @@ export default function TaxCalculator() {
       longTermCareCount: Math.floor(longTermCareCount / 2),
       rentalExpenses: rentalExpenses / 2,
       savingsInterest: savingsInterest / 2,
-      useItemizedDeduction: false, // 使用标准扣除额
+      useItemizedDeduction: false, // 使用標準扣除額
       donations: 0, insurancePremiums: 0, healthInsurancePremiums: 0, medicalExpenses: 0, disasterLoss: 0, mortgageInterest: 0,
       grossIncome: taxpayerSalaryNet + taxpayerOther,
       hasSalaryIncome: taxpayerSalary > 0
     });
 
     const spouseDeductions = calculateDeductions({
-      isMarried: false, // 分开计税按单身处理
+      isMarried: false, // 分開计稅按單身处理
       childrenCount: Math.ceil(childrenCount / 2),
       dependentsCount: Math.ceil(dependentsCount / 2),
       elderlyCount: Math.ceil(elderlyCount / 2),
@@ -434,14 +435,14 @@ export default function TaxCalculator() {
     const taxpayerNetIncome = Math.max(0, (taxpayerSalaryNet + taxpayerOther) - taxpayerDeductions.totalDeductions);
     const spouseNetIncome = Math.max(0, (spouseSalaryNet + spouseOther) - spouseDeductions.totalDeductions);
 
-    // 分别计算各自的税额，使用各自的税率级距
+    // 分別計算各自的稅额，使用各自的稅率級距
     const taxpayerTax = calculateTax(taxpayerNetIncome);
     const spouseTax = calculateTax(spouseNetIncome);
 
     return {
       combined: {
         method: 'combined',
-        description: '全部合并计税',
+        description: '全部合併计稅',
         totalTax: combinedTax.taxAmount,
         grossIncome: combinedIncome,
         netIncome: combinedNetIncome,
@@ -451,7 +452,7 @@ export default function TaxCalculator() {
       salary_separate: salarySepaRate,
       all_separate: {
         method: 'all_separate',
-        description: '各类所得都分开计税',
+        description: '各类所得都分開计稅',
         totalTax: taxpayerTax.taxAmount + spouseTax.taxAmount,
         taxAmount: taxpayerTax.taxAmount + spouseTax.taxAmount,
         grossIncome: combinedIncome,
@@ -491,7 +492,7 @@ export default function TaxCalculator() {
     };
   };
 
-  // 监听所有输入变化，自动计算
+  // 監聽所有輸入變化，自動計算
   useEffect(() => {
     calculateTaxResult();
   }, [
@@ -501,7 +502,7 @@ export default function TaxCalculator() {
     donations, insurancePremiums, healthInsurancePremiums, medicalExpenses, disasterLoss, mortgageInterest
   ]);
 
-  // 监听所有输入变化，自动保存到localStorage
+  // 監聽所有輸入變化，自動保存到localStorage
   useEffect(() => {
     saveToLocalStorage();
   }, [
@@ -521,23 +522,23 @@ export default function TaxCalculator() {
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
-      {/* 标题和说明 */}
+      {/* 标题和說明 */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold text-gray-900">
-          台湾综合所得税计算器 2025
+          {zhTW.title}
         </h1>
         <p className="text-lg text-gray-600">
-          基于2025年最新税制规则，动态计算税务并提供完整扣除额说明
+          {zhTW.description}
         </p>
-        <div className="flex justify-center space-x-4 text-sm text-blue-600">
-          <span>✓ 即时动态计算</span>
-          <span>✓ 详细扣除额分项</span>
-          <span>✓ 完整公式说明</span>
-          <span>✓ 节税建议</span>
-          <span>✓ 自动保存输入</span>
-        </div>
+                  <div className="flex justify-center space-x-4 text-sm text-blue-600">
+            <span>✓ {zhTW.features.realTimeCalculation}</span>
+            <span>✓ {zhTW.features.detailedDeductions}</span>
+            <span>✓ {zhTW.features.completeFormula}</span>
+            <span>✓ {zhTW.features.taxSavingTips}</span>
+            <span>✓ {zhTW.features.autoSave}</span>
+          </div>
 
-        {/* 清除缓存按钮 */}
+        {/* 清除快取按钮 */}
         <div className="flex justify-center mt-4">
           <Button
             variant="outline"
@@ -545,15 +546,15 @@ export default function TaxCalculator() {
             onClick={clearCachedData}
             className="text-red-600 border-red-200 hover:bg-red-50"
           >
-            🗑️ 清除所有输入数据
+                          🗑️ {zhTW.buttons.clearAllData}
           </Button>
         </div>
       </div>
 
-      {/* 2025年重大税制变革 */}
+      {/* 2025年重大稅制变革 */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-red-600">🎯 2025年重大税制变革</CardTitle>
+          <CardTitle className="text-red-600">🎯 2025年重大稅制变革</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid md:grid-cols-3 gap-4">
@@ -571,10 +572,10 @@ export default function TaxCalculator() {
         </CardContent>
       </Card>
 
-      {/* 免税门槛快速查询 */}
+      {/* 免稅门槛快速查询 */}
       <Card>
         <CardHeader>
-          <CardTitle>💡 免税门槛快速查询</CardTitle>
+          <CardTitle>💡 免稅门槛快速查询</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -592,7 +593,7 @@ export default function TaxCalculator() {
       </Card>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        {/* 左侧：输入区域 */}
+        {/* 左侧：輸入区域 */}
         <div className="space-y-6">
           {/* 基本信息 */}
           <Card>
@@ -602,29 +603,29 @@ export default function TaxCalculator() {
             <CardContent className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  薪资收入 (NT$)
+                  {zhTW.basicInfo.salaryIncome}
                 </label>
                 <Input
                   type="number"
                   value={salaryIncome}
                   onChange={(e) => setSalaryIncome(e.target.value)}
-                  placeholder="薪资、奖金等所得"
+                  placeholder="薪資、奖金等所得"
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 mt-1">
-                  包含：薪资、奖金、年终奖金等薪资所得
+                  包含：薪資、奖金、年终奖金等薪資所得
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  其他收入 (NT$)
+                  {zhTW.basicInfo.otherIncome}
                 </label>
                 <Input
                   type="number"
                   value={otherIncome}
                   onChange={(e) => setOtherIncome(e.target.value)}
-                  placeholder="利息、股利、租金等其他所得"
+                  placeholder="{zhTW.basicInfo.otherPlaceholder}"
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 mt-1">
@@ -640,42 +641,42 @@ export default function TaxCalculator() {
                     onChange={(e) => setIsMarried(e.target.checked)}
                     className="rounded"
                   />
-                  <span>已婚</span>
+                  <span>{zhTW.basicInfo.married}</span>
                 </label>
               </div>
 
               {isMarried && (
                 <div className="bg-blue-50 p-4 rounded-lg space-y-4">
-                  <h4 className="font-medium text-blue-800">配偶信息</h4>
+                  <h4 className="font-medium text-blue-800">{zhTW.calculationResults.spouse}信息</h4>
 
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      配偶薪资收入 (NT$)
+                      {zhTW.calculationResults.spouse}{zhTW.basicInfo.salaryIncome}
                     </label>
                     <Input
                       type="number"
                       value={spouseSalaryIncome}
                       onChange={(e) => setSpouseSalaryIncome(e.target.value)}
-                      placeholder="配偶薪资、奖金等所得"
+                      placeholder="{zhTW.calculationResults.spouse}薪資、奖金等所得"
                       className="w-full"
                     />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      配偶其他收入 (NT$)
+                      {zhTW.calculationResults.spouse}{zhTW.basicInfo.otherIncome}
                     </label>
                     <Input
                       type="number"
                       value={spouseOtherIncome}
                       onChange={(e) => setSpouseOtherIncome(e.target.value)}
-                      placeholder="配偶其他所得"
+                      placeholder="{zhTW.basicInfo.spouseOtherPlaceholder}"
                       className="w-full"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">计税方式 (2018年修法后)</label>
+                    <label className="block text-sm font-medium mb-2">计稅方式 (2018年修法后)</label>
                     <div className="space-y-2">
                       <label className="flex items-center space-x-2">
                         <input
@@ -685,7 +686,7 @@ export default function TaxCalculator() {
                           onChange={() => setTaxCalculationMethod('combined')}
                           className="rounded"
                         />
-                        <span>全部合并计税 (传统方式)</span>
+                        <span>全部合併计稅 (传统方式)</span>
                       </label>
                       <label className="flex items-center space-x-2">
                         <input
@@ -695,7 +696,7 @@ export default function TaxCalculator() {
                           onChange={() => setTaxCalculationMethod('salary_separate')}
                           className="rounded"
                         />
-                        <span>薪资分开计税，其他合并</span>
+                        <span>薪資分開计稅，其他合併</span>
                       </label>
                       <label className="flex items-center space-x-2">
                         <input
@@ -705,7 +706,7 @@ export default function TaxCalculator() {
                           onChange={() => setTaxCalculationMethod('all_separate')}
                           className="rounded"
                         />
-                        <span>各类所得都分开计税 (最常见)</span>
+                        <span>各类所得都分開计稅 (最常见)</span>
                       </label>
                       <label className="flex items-center space-x-2">
                         <input
@@ -715,11 +716,11 @@ export default function TaxCalculator() {
                           onChange={() => setTaxCalculationMethod('auto')}
                           className="rounded"
                         />
-                        <span className="text-blue-600 font-medium">🤖 自动选择最省税方式</span>
+                        <span className="text-blue-600 font-medium">{zhTW.basicInfo.autoSelect}</span>
                       </label>
                     </div>
                     <div className="text-xs text-gray-500 mt-1">
-                      eTax系统会自动计算三种方式，选择税负最低的那种
+                      eTax系統会自動計算三種方式，選擇稅负最低的那種
                     </div>
                   </div>
                 </div>
@@ -731,12 +732,12 @@ export default function TaxCalculator() {
           <Card>
             <CardHeader>
               <CardTitle>扶养亲属</CardTitle>
-              <p className="text-sm text-gray-600">每位扶养亲属可享有免税额，特定条件另有特别扣除额</p>
+                              <p className="text-sm text-gray-600">{zhTW.dependents.description}</p>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  6岁以下子女人数 (🎯2025年新制)
+                  6岁以下子女{zhTW.common.people}数 (🎯2025年新制)
                 </label>
                 <Input
                   type="number"
@@ -746,13 +747,13 @@ export default function TaxCalculator() {
                   className="w-full"
                 />
                 <div className="text-xs text-blue-600 mt-1">
-                  2025年新制：第1名15万元，第2名起22.5万元，已取消排富规定
+                  {zhTW.dependents.childrenDescription}
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  70岁以上长辈人数
+                  70岁以上长辈{zhTW.common.people}数
                 </label>
                 <Input
                   type="number"
@@ -762,13 +763,13 @@ export default function TaxCalculator() {
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 mt-1">
-                  享有较高免税额145,500元(一般为97,000元)
+                  享有较高免稅额145,500元(一般為97,000元)
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  一般扶养亲属人数
+                  一般扶养亲属{zhTW.common.people}数
                 </label>
                 <Input
                   type="number"
@@ -778,13 +779,13 @@ export default function TaxCalculator() {
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 mt-1">
-                  享有一般免税额97,000元
+                  享有一般免稅额97,000元
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  大专院校学生人数
+                  大专院校学生{zhTW.common.people}数
                 </label>
                 <Input
                   type="number"
@@ -794,13 +795,13 @@ export default function TaxCalculator() {
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 mt-1">
-                  每人可享教育学费特别扣除额25,000元
+                  每{zhTW.common.people}可享教育学费{zhTW.cardTitles.specialDeductions}25,000元
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  身心障碍人数
+                  身心障碍{zhTW.common.people}数
                 </label>
                 <Input
                   type="number"
@@ -810,34 +811,34 @@ export default function TaxCalculator() {
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 mt-1">
-                  每人可享身心障碍特别扣除额218,000元
+                  每{zhTW.common.people}可享身心障碍{zhTW.cardTitles.specialDeductions}218,000元
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  长期照顾需求人数
+                  長期照顧需求{zhTW.common.people}数
                 </label>
                 <Input
                   type="number"
                   value={longTermCare}
                   onChange={(e) => setLongTermCare(e.target.value)}
-                  placeholder="符合长期照顾需求者"
+                  placeholder="{zhTW.dependents.longTermCarePlaceholder}"
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 mt-1 space-y-1">
-                  <div>每人可享长期照顾特别扣除额120,000元</div>
-                  <div className="text-orange-600">⚠️ 有排富规定：适用税率20%以上不适用</div>
+                  <div>每{zhTW.common.people}可享長期照顧{zhTW.cardTitles.specialDeductions}120,000元</div>
+                  <div className="text-orange-600">{zhTW.dependents.longTermCareWarning}</div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* 扣除额选择 */}
+          {/* {zhTW.cardTitles.deductionChoice} */}
           <Card>
             <CardHeader>
-              <CardTitle>扣除额选择</CardTitle>
-              <p className="text-sm text-gray-600">可选择标准扣除额或列举扣除额，系统会自动选择对您最有利的方案</p>
+              <CardTitle>{zhTW.cardTitles.deductionChoice}</CardTitle>
+              <p className="text-sm text-gray-600">可選擇標準扣除額或列舉扣除額，系統会自動選擇对您最有利的方案</p>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
@@ -848,137 +849,137 @@ export default function TaxCalculator() {
                     onChange={(e) => setUseItemizedDeduction(e.target.checked)}
                     className="rounded"
                   />
-                  <span>使用列举扣除额 (需检附证明文件)</span>
+                  <span>使用列舉扣除額 (需检附证明文件)</span>
                 </label>
                 <div className="text-xs text-gray-500 mt-1">
-                  标准扣除额：单身131,000元、夫妻262,000元
+                  標準扣除額：單身131,000元、夫妻262,000元
                 </div>
               </div>
 
               {useItemizedDeduction && (
                 <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
-                  <h4 className="font-medium text-gray-800">列举扣除额明细</h4>
+                  <h4 className="font-medium text-gray-800">列舉扣除額明细</h4>
                   <div className="text-xs text-blue-600 mb-4">
-                    💡 提醒：列举扣除额需检附收据证明，国税局有资料者免附
+                    💡 提醒：列舉扣除額需检附收据证明，国稅局有资料者免附
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      1. 捐赠金额 (NT$)
+                      1. 捐贈金額 (NT$)
                     </label>
                     <Input
                       type="number"
                       value={donations}
                       onChange={(e) => setDonations(e.target.value)}
-                      placeholder="对合法团体之捐赠"
+                      placeholder="对合法团体之捐贈"
                     />
                     <div className="text-xs text-gray-500 mt-1 space-y-1">
-                      <div>• 教育、文化、公益、慈善机构：限所得总额20%</div>
-                      <div>• 政府、国防、劳军、古迹维护：无金额限制</div>
-                      <div>• 政治献金：限所得总额20%，最高20万元</div>
+                      <div>• 教育、文化、公益、慈善机构：限所得總額20{zhTW.common.percent}</div>
+                      <div>• 政府、國防、劳军、古迹维护：無金額限制</div>
+                      <div>• 政治献金：限所得總額20{zhTW.common.percent}，最高20萬元</div>
                       <div>• 需检附：受赠单位收据正本</div>
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      2a. 人身保险费 (非健保) (NT$)
+                      2a. {zhTW.common.people}身保險費 (非健保) (NT$)
                     </label>
                     <Input
                       type="number"
                       value={insurancePremiums}
                       onChange={(e) => setInsurancePremiums(e.target.value)}
-                      placeholder="人身保险费（不含健保费）"
+                      placeholder="{zhTW.common.people}身保險費（不含健保費）"
                     />
                     <div className="text-xs text-gray-500 mt-1 space-y-1">
-                      <div>• 人身保险费：每人限24,000元（壽險、傷害險、年金險等）</div>
-                      <div>• 劳保、国民年金、军公教保险：每人限24,000元</div>
-                      <div>• 要保人与被保人需在同一申报户</div>
-                      <div>• 需检附：保险费收据正本或缴费证明</div>
+                      <div>• {zhTW.common.people}身保險費：每{zhTW.common.people}限24,000元（壽險、傷害險、年金險等）</div>
+                      <div>• 劳保、国民年金、军公教保险：每{zhTW.common.people}限24,000元</div>
+                      <div>• 要保{zhTW.common.people}与被保{zhTW.common.people}需在同一申報户</div>
+                      <div>• 需检附：保險費收据正本或缴费证明</div>
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      2b. 全民健保费 (NT$)
+                      2b. 全民健保費 (NT$)
                     </label>
                     <Input
                       type="number"
                       value={healthInsurancePremiums}
                       onChange={(e) => setHealthInsurancePremiums(e.target.value)}
-                      placeholder="全民健保费总额"
+                      placeholder="全民健保費總額"
                     />
                     <div className="text-xs text-gray-500 mt-1 space-y-1">
-                      <div>• 全民健保费：无金额限制，可全额扣除</div>
+                      <div>• 全民健保費：無金額限制，可全額扣除</div>
                       <div>• 包含：一般保费、补充保费</div>
-                      <div>• 不限要保人与被保人关系</div>
-                      <div>• 需检附：健保费缴费证明或收据</div>
+                      <div>• 不限要保{zhTW.common.people}与被保{zhTW.common.people}关系</div>
+                      <div>• 需检附：健保費缴费证明或收据</div>
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      3. 医疗及生育费用 (NT$)
+                      3. 醫療及生育費用 (NT$)
                     </label>
                     <Input
                       type="number"
                       value={medicalExpenses}
                       onChange={(e) => setMedicalExpenses(e.target.value)}
-                      placeholder="合法医院之医疗费用"
+                      placeholder="合法醫院之醫療費用"
                     />
                     <div className="text-xs text-gray-500 mt-1 space-y-1">
-                      <div>• 核实认列，无金额限制</div>
-                      <div>• 限公立医院、健保特约医院或诊所</div>
-                      <div>• 包含长照治疗费用</div>
-                      <div>• 保险理赔部分不可列入</div>
-                      <div>• 需检附：医院开立的收据正本</div>
+                      <div>• 核實認列，無金額限制</div>
+                      <div>• 限公立醫院、健保特約醫院或诊所</div>
+                      <div>• 包含长照治疗費用</div>
+                      <div>• 保险理賠部分不可列入</div>
+                      <div>• 需检附：醫院开立的收据正本</div>
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      4. 灾害损失 (NT$)
+                      4. 災害損失 (NT$)
                     </label>
                     <Input
                       type="number"
                       value={disasterLoss}
                       onChange={(e) => setDisasterLoss(e.target.value)}
-                      placeholder="不可抗力灾害损失"
+                      placeholder="不可抗力災害損失"
                     />
                     <div className="text-xs text-gray-500 mt-1 space-y-1">
-                      <div>• 核实认列，无金额限制</div>
-                      <div>• 限不可抗力灾害（天灾等）</div>
-                      <div>• 保险理赔、救济金部分不可列入</div>
-                      <div>• 需检附：国税局核发的证明文件</div>
+                      <div>• 核實認列，無金額限制</div>
+                      <div>• 限不可抗力災害（天灾等）</div>
+                      <div>• 保险理賠、救济金部分不可列入</div>
+                      <div>• 需检附：国稅局核发的证明文件</div>
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      5. 自用住宅购屋借款利息 (NT$)
+                      5. 自用住宅購屋借款利息 (NT$)
                     </label>
                     <Input
                       type="number"
                       value={mortgageInterest}
                       onChange={(e) => setMortgageInterest(e.target.value)}
-                      placeholder="自用住宅购屋借款利息"
+                      placeholder="自用住宅購屋借款利息"
                     />
                     <div className="text-xs text-gray-500 mt-1 space-y-1">
-                      <div>• 每户限30万元，限一屋</div>
+                      <div>• 每戶限30萬元，限一屋</div>
                       <div>• 需完成户籍登记且未出租、营业</div>
-                      <div>• 需先扣除储蓄投资特别扣除额</div>
+                      <div>• 需先扣除儲蓄投資{zhTW.cardTitles.specialDeductions}</div>
                       <div>• 需检附：金融机构利息单据正本</div>
                     </div>
                   </div>
 
                   <div className="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
-                    <h5 className="font-medium text-yellow-800 mb-2">❌ 不可列入列举扣除额的项目：</h5>
+                    <h5 className="font-medium text-yellow-800 mb-2">❌ 不可列入列舉扣除額的项目：</h5>
                     <div className="text-xs text-yellow-700 space-y-1">
-                      <div>• 医美整形费用</div>
-                      <div>• 已获保险理赔的医疗费</div>
-                      <div>• 看护费用</div>
-                      <div>• 月子中心费用</div>
-                      <div>• 非人身保险费（如财产险）</div>
+                      <div>• 医美整形費用</div>
+                      <div>• 已获保险理賠的醫療费</div>
+                      <div>• 看护費用</div>
+                      <div>• 月子中心費用</div>
+                      <div>• 非{zhTW.common.people}身保險費（如財產险）</div>
                       <div>• 未经核准在台销售的境外保单</div>
                     </div>
                   </div>
@@ -987,11 +988,11 @@ export default function TaxCalculator() {
             </CardContent>
           </Card>
 
-          {/* 特别扣除额 */}
+          {/* {zhTW.cardTitles.specialDeductions} */}
           <Card>
             <CardHeader>
-              <CardTitle>特别扣除额</CardTitle>
-              <p className="text-sm text-gray-600">符合条件可同时适用多项特别扣除额</p>
+              <CardTitle>{zhTW.cardTitles.specialDeductions}</CardTitle>
+                              <p className="text-sm text-gray-600">{zhTW.specialDeductions.description}</p>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
@@ -1006,13 +1007,13 @@ export default function TaxCalculator() {
                   className="w-full"
                 />
                 <div className="text-xs text-blue-600 mt-1">
-                  2025年重大变革：从列举扣除改为特别扣除，每户限180,000元
+                  2025年重大变革：从列舉扣除改為特別扣除，每戶限180,000元
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  储蓄投资利息 (NT$)
+                  儲蓄投資利息 (NT$)
                 </label>
                 <Input
                   type="number"
@@ -1022,50 +1023,50 @@ export default function TaxCalculator() {
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 mt-1">
-                  每户限270,000元，超过部分按一般所得课税
+                  每戶限270,000元，超过部分按一般所得课稅
                 </div>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* 右侧：结果显示 */}
+        {/* 右侧：結果顯示 */}
         <div className="space-y-6">
           {result ? (
             <>
-              {/* 计算结果摘要 */}
+              {/* {zhTW.cardTitles.calculationResults}摘要 */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-green-600">计算结果</CardTitle>
+                  <CardTitle className="text-green-600">{zhTW.cardTitles.calculationResults}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-blue-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600">应纳税额</div>
+                        <div className="text-sm text-gray-600">應納稅额</div>
                         <div className="text-2xl font-bold text-blue-600">
                           {formatCurrency(result.taxAmount)}
                         </div>
                       </div>
                       <div className="bg-green-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600">有效税率</div>
+                        <div className="text-sm text-gray-600">{zhTW.calculationResults.effectiveTaxRate}</div>
                         <div className="text-2xl font-bold text-green-600">
-                          {(result.effectiveRate || 0).toFixed(2)}%
+                          {(result.effectiveRate || 0).toFixed(2)}{zhTW.common.percent}
                         </div>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-gray-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600">税后净收入</div>
+                        <div className="text-sm text-gray-600">稅后净收入</div>
                         <div className="text-xl font-bold text-gray-800">
                           {formatCurrency((result.grossIncome || 0) - (result.taxAmount || 0))}
                         </div>
                       </div>
                       <div className="bg-purple-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600">适用税率级距</div>
+                        <div className="text-sm text-gray-600">{zhTW.calculationResults.applicableTaxBracket}</div>
                         <div className="text-xl font-bold text-purple-600">
-                          {(result.bracketInfo?.rate || 0)}%
+                          {(result.bracketInfo?.rate || 0)}{zhTW.common.percent}
                         </div>
                       </div>
                     </div>
@@ -1073,67 +1074,67 @@ export default function TaxCalculator() {
                 </CardContent>
               </Card>
 
-              {/* 已婚分开计税详细信息 */}
+              {/* {zhTW.basicInfo.married}分開计稅詳細信息 */}
               {isMarried && ((result.taxpayer && result.spouse && result.method === 'all_separate') || (result.taxpayerSalaryPortion && result.remainingPortion && result.method === 'salary_separate')) && (
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-purple-600">分开计税详细信息</CardTitle>
-                    <p className="text-sm text-gray-600">各自适用不同税率级距，分别计算税额</p>
+                    <CardTitle className="text-purple-600">分開计稅詳細信息</CardTitle>
+                    <p className="text-sm text-gray-600">各自適用不同稅率級距，分別計算稅额</p>
                   </CardHeader>
                   <CardContent>
                     <div className="grid md:grid-cols-2 gap-4">
-                      {/* 全部分开计税时显示纳税人和配偶 */}
+                      {/* 全部分開计稅时顯示纳稅{zhTW.common.people}和{zhTW.calculationResults.spouse} */}
                       {result.method === 'all_separate' && result.taxpayer && result.spouse ? (
                         <>
-                          {/* 纳税人 */}
+                          {/* 纳稅{zhTW.common.people} */}
                           <div className="bg-blue-50 p-4 rounded-lg">
-                            <h4 className="font-bold text-blue-800 mb-3">纳税人</h4>
+                            <h4 className="font-bold text-blue-800 mb-3">纳稅{zhTW.common.people}</h4>
                             <div className="space-y-2 text-sm">
                               <div className="flex justify-between">
-                                <span>综合所得总额</span>
+                                <span>{zhTW.calculationResults.grossIncome}</span>
                                 <span>{formatCurrency(result.taxpayer.grossIncome)}</span>
                               </div>
                               <div className="flex justify-between">
-                                <span>减：扣除额总计</span>
+                                <span>减：扣除額总计</span>
                                 <span>-{formatCurrency(result.taxpayer.deductions.totalDeductions)}</span>
                               </div>
                               <div className="flex justify-between font-medium">
-                                <span>综合所得净额</span>
+                                <span>{zhTW.calculationResults.netIncome}</span>
                                 <span>{formatCurrency(result.taxpayer.netIncome)}</span>
                               </div>
                               <div className="flex justify-between text-red-600 font-bold">
-                                <span>适用税率</span>
-                                <span>{result.taxpayer.bracketInfo?.rate || 0}%</span>
+                                <span>{zhTW.calculationResults.applicableTaxRate}</span>
+                                <span>{result.taxpayer.bracketInfo?.rate || 0}{zhTW.common.percent}</span>
                               </div>
                               <div className="flex justify-between text-blue-600 font-bold">
-                                <span>应纳税额</span>
+                                <span>應納稅额</span>
                                 <span>{formatCurrency(result.taxpayer.taxAmount)}</span>
                               </div>
                             </div>
                           </div>
 
-                          {/* 配偶 */}
+                          {/* {zhTW.calculationResults.spouse} */}
                           <div className="bg-pink-50 p-4 rounded-lg">
-                            <h4 className="font-bold text-pink-800 mb-3">配偶</h4>
+                            <h4 className="font-bold text-pink-800 mb-3">{zhTW.calculationResults.spouse}</h4>
                             <div className="space-y-2 text-sm">
                               <div className="flex justify-between">
-                                <span>综合所得总额</span>
+                                <span>{zhTW.calculationResults.grossIncome}</span>
                                 <span>{formatCurrency(result.spouse.grossIncome)}</span>
                               </div>
                               <div className="flex justify-between">
-                                <span>减：扣除额总计</span>
+                                <span>减：扣除額总计</span>
                                 <span>-{formatCurrency(result.spouse.deductions.totalDeductions)}</span>
                               </div>
                               <div className="flex justify-between font-medium">
-                                <span>综合所得净额</span>
+                                <span>{zhTW.calculationResults.netIncome}</span>
                                 <span>{formatCurrency(result.spouse.netIncome)}</span>
                               </div>
                               <div className="flex justify-between text-red-600 font-bold">
-                                <span>适用税率</span>
-                                <span>{result.spouse.bracketInfo?.rate || 0}%</span>
+                                <span>{zhTW.calculationResults.applicableTaxRate}</span>
+                                <span>{result.spouse.bracketInfo?.rate || 0}{zhTW.common.percent}</span>
                               </div>
                               <div className="flex justify-between text-pink-600 font-bold">
-                                <span>应纳税额</span>
+                                <span>應納稅额</span>
                                 <span>{formatCurrency(result.spouse.taxAmount)}</span>
                               </div>
                             </div>
@@ -1141,54 +1142,54 @@ export default function TaxCalculator() {
                         </>
                       ) : result.method === 'salary_separate' && result.taxpayerSalaryPortion && result.remainingPortion ? (
                         <>
-                          {/* 本人薪资分开计税部分 */}
+                          {/* 本{zhTW.common.people}薪資分開计稅部分 */}
                           <div className="bg-blue-50 p-4 rounded-lg">
                             <h4 className="font-bold text-blue-800 mb-3">{result.taxpayerSalaryPortion.description}</h4>
                             <div className="space-y-2 text-sm">
                               <div className="flex justify-between">
-                                <span>本人薪资所得净额</span>
+                                <span>本{zhTW.common.people}薪資所得淨額</span>
                                 <span>{formatCurrency(result.taxpayerSalaryPortion.grossIncome)}</span>
                               </div>
                               <div className="flex justify-between">
-                                <span>减：本人免税额</span>
+                                <span>减：本{zhTW.common.people}免稅额</span>
                                 <span>-{formatCurrency(result.taxpayerSalaryPortion.exemption || 0)}</span>
                               </div>
                               <div className="flex justify-between font-medium">
-                                <span>薪资应税净额</span>
+                                <span>薪資应稅淨額</span>
                                 <span>{formatCurrency(result.taxpayerSalaryPortion.netIncome)}</span>
                               </div>
                               <div className="flex justify-between text-red-600 font-bold">
-                                <span>适用税率</span>
-                                <span>{result.taxpayerSalaryPortion.bracketInfo?.rate || 0}%</span>
+                                <span>{zhTW.calculationResults.applicableTaxRate}</span>
+                                <span>{result.taxpayerSalaryPortion.bracketInfo?.rate || 0}{zhTW.common.percent}</span>
                               </div>
                               <div className="flex justify-between text-blue-600 font-bold">
-                                <span>本人薪资应纳税额</span>
+                                <span>本{zhTW.common.people}薪資應納稅额</span>
                                 <span>{formatCurrency(result.taxpayerSalaryPortion.taxAmount)}</span>
                               </div>
                             </div>
                           </div>
 
-                          {/* 剩余所得合并计税部分 */}
+                          {/* 剩餘所得合併计稅部分 */}
                           <div className="bg-green-50 p-4 rounded-lg">
                             <h4 className="font-bold text-green-800 mb-3">{result.remainingPortion.description}</h4>
                             <div className="space-y-2 text-sm">
                               <div className="flex justify-between">
-                                <span>剩余所得总额</span>
+                                <span>剩餘所得總額</span>
                                 <span>{formatCurrency(result.remainingPortion.grossIncome)}</span>
                               </div>
                               <div className="text-xs text-gray-600 mb-2">
-                                包括：配偶薪资 {formatCurrency(result.salaryBreakdown?.spouseSalaryNet || 0)} + 其他所得
+                                包括：{zhTW.calculationResults.spouse}薪資 {formatCurrency(result.salaryBreakdown?.spouseSalaryNet || 0)} + 其他所得
                               </div>
                               <div className="flex justify-between font-medium">
-                                <span>剩余所得净额</span>
+                                <span>剩餘所得淨額</span>
                                 <span>{formatCurrency(result.remainingPortion.netIncome)}</span>
                               </div>
                               <div className="flex justify-between text-red-600 font-bold">
-                                <span>适用税率</span>
-                                <span>{result.remainingPortion.bracketInfo?.rate || 0}%</span>
+                                <span>{zhTW.calculationResults.applicableTaxRate}</span>
+                                <span>{result.remainingPortion.bracketInfo?.rate || 0}{zhTW.common.percent}</span>
                               </div>
                               <div className="flex justify-between text-green-600 font-bold">
-                                <span>剩余所得应纳税额</span>
+                                <span>剩餘所得應納稅额</span>
                                 <span>{formatCurrency(result.remainingPortion.taxAmount)}</span>
                               </div>
                             </div>
@@ -1201,7 +1202,7 @@ export default function TaxCalculator() {
                     <div className="mt-4 bg-green-50 p-4 rounded-lg">
                       <div className="text-center">
                         <div className="text-sm text-gray-600">
-                          {result.method === 'salary_separate' ? '薪资分开计税总计' : '分开计税总计'}
+                          {result.method === 'salary_separate' ? '薪資分開计稅总计' : '分開计稅总计'}
                         </div>
                         <div className="text-2xl font-bold text-green-600">
                           {formatCurrency(result.taxAmount)}
@@ -1209,11 +1210,11 @@ export default function TaxCalculator() {
                         <div className="text-xs text-gray-500 mt-1">
                           {result.method === 'salary_separate' && result.taxpayerSalaryPortion && result.remainingPortion ? (
                             <div>
-                              <div>本人薪资：{formatCurrency(result.taxpayerSalaryPortion.netIncome)} × {result.taxpayerSalaryPortion.bracketInfo?.rate || 0}% = {formatCurrency(result.taxpayerSalaryPortion.taxAmount)}</div>
-                              <div>剩余所得：{formatCurrency(result.remainingPortion.netIncome)} × {result.remainingPortion.bracketInfo?.rate || 0}% = {formatCurrency(result.remainingPortion.taxAmount)}</div>
+                              <div>本{zhTW.common.people}薪資：{formatCurrency(result.taxpayerSalaryPortion.netIncome)} {zhTW.common.multiply} {result.taxpayerSalaryPortion.bracketInfo?.rate || 0}{zhTW.common.percent} = {formatCurrency(result.taxpayerSalaryPortion.taxAmount)}</div>
+                              <div>剩餘所得：{formatCurrency(result.remainingPortion.netIncome)} {zhTW.common.multiply} {result.remainingPortion.bracketInfo?.rate || 0}{zhTW.common.percent} = {formatCurrency(result.remainingPortion.taxAmount)}</div>
                             </div>
                           ) : result.method === 'all_separate' && result.taxpayer && result.spouse ? (
-                            <div>计算公式：{formatCurrency(result.taxpayer.netIncome)} × {result.taxpayer.bracketInfo?.rate || 0}% + {formatCurrency(result.spouse.netIncome)} × {result.spouse.bracketInfo?.rate || 0}%</div>
+                            <div>計算公式：{formatCurrency(result.taxpayer.netIncome)} {zhTW.common.multiply} {result.taxpayer.bracketInfo?.rate || 0}{zhTW.common.percent} + {formatCurrency(result.spouse.netIncome)} {zhTW.common.multiply} {result.spouse.bracketInfo?.rate || 0}{zhTW.common.percent}</div>
                           ) : null}
                         </div>
                       </div>
@@ -1222,12 +1223,12 @@ export default function TaxCalculator() {
                 </Card>
               )}
 
-              {/* 已婚计税方式比较 */}
+              {/* {zhTW.basicInfo.married}计稅方式比較 */}
               {isMarried && result.allMethods && (
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-orange-600">计税方式比较</CardTitle>
-                    <p className="text-sm text-gray-600">系统自动选择税负最低的计税方式</p>
+                    <CardTitle className="text-orange-600">计稅方式比較</CardTitle>
+                    <p className="text-sm text-gray-600">系統自動選擇稅负最低的计稅方式</p>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
@@ -1244,12 +1245,12 @@ export default function TaxCalculator() {
                             <div>
                               <div className="font-medium">{data.description}</div>
                               <div className="text-sm text-gray-600">
-                                税额：{formatCurrency(data.totalTax || data.taxAmount)}
+                                稅额：{formatCurrency(data.totalTax || data.taxAmount)}
                               </div>
                             </div>
                             {result.chosenMethod === method && (
                               <div className="text-green-600 font-bold">
-                                ✓ 最优选择
+                                ✓ 最优選擇
                               </div>
                             )}
                           </div>
@@ -1260,7 +1261,7 @@ export default function TaxCalculator() {
                     {result.savingsComparedToCombined > 0 && (
                       <div className="mt-4 bg-green-100 p-3 rounded-lg">
                         <div className="text-green-800 font-medium">
-                          💰 相比传统合并申报，您节省了 {formatCurrency(result.savingsComparedToCombined)} 的税款
+                          💰 相比传统合併申報，您节省了 {formatCurrency(result.savingsComparedToCombined)} 的稅款
                         </div>
                       </div>
                     )}
@@ -1268,29 +1269,29 @@ export default function TaxCalculator() {
                 </Card>
               )}
 
-              {/* 详细计算过程 */}
+              {/* 詳細計算過程 */}
               <Card>
                 <CardHeader>
-                  <CardTitle>完整计算公式</CardTitle>
+                  <CardTitle>{zhTW.cardTitles.completeCalculationFormula}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4 text-sm">
                     {result.salaryBreakdown && (result.salaryBreakdown.taxpayerSalary > 0 || result.salaryBreakdown.spouseSalary > 0) && (
                       <div className="bg-orange-50 p-4 rounded-lg">
-                        <h4 className="font-bold text-orange-800 mb-3">步骤1：计算薪资净额（薪资所得扣除薪资特别扣除额）</h4>
+                        <h4 className="font-bold text-orange-800 mb-3">步驟1：計算薪資淨額（薪資所得扣除薪資{zhTW.cardTitles.specialDeductions}）</h4>
                         <div className="space-y-2">
                           {result.salaryBreakdown.taxpayerSalary > 0 && (
                             <div className="space-y-1">
                               <div className="flex justify-between">
-                                <span>纳税人薪资所得</span>
+                                <span>纳稅{zhTW.common.people}薪資所得</span>
                                 <span>{formatCurrency(result.salaryBreakdown.taxpayerSalary)}</span>
                               </div>
                               <div className="flex justify-between">
-                                <span>减：薪资特别扣除额</span>
+                                <span>减：薪資{zhTW.cardTitles.specialDeductions}</span>
                                 <span>-{formatCurrency(Math.min(result.salaryBreakdown.taxpayerSalary, 218000))}</span>
                               </div>
                               <div className="flex justify-between font-medium">
-                                <span>薪资净额</span>
+                                <span>薪資淨額</span>
                                 <span>{formatCurrency(result.salaryBreakdown.taxpayerSalaryNet)}</span>
                               </div>
                             </div>
@@ -1298,21 +1299,21 @@ export default function TaxCalculator() {
                           {result.salaryBreakdown.spouseSalary > 0 && (
                             <div className="space-y-1 mt-3 pt-3 border-t">
                               <div className="flex justify-between">
-                                <span>配偶薪资所得</span>
+                                <span>{zhTW.calculationResults.spouse}薪資所得</span>
                                 <span>{formatCurrency(result.salaryBreakdown.spouseSalary)}</span>
                               </div>
                               <div className="flex justify-between">
-                                <span>减：薪资特别扣除额</span>
+                                <span>减：薪資{zhTW.cardTitles.specialDeductions}</span>
                                 <span>-{formatCurrency(Math.min(result.salaryBreakdown.spouseSalary, 218000))}</span>
                               </div>
                               <div className="flex justify-between font-medium">
-                                <span>配偶薪资净额</span>
+                                <span>{zhTW.calculationResults.spouse}薪資淨額</span>
                                 <span>{formatCurrency(result.salaryBreakdown.spouseSalaryNet)}</span>
                               </div>
                             </div>
                           )}
                           <div className="border-t pt-2 font-bold flex justify-between text-orange-600">
-                            <span>综合所得总额</span>
+                            <span>{zhTW.calculationResults.grossIncome}</span>
                             <span>{formatCurrency(result.grossIncome)}</span>
                           </div>
                         </div>
@@ -1320,75 +1321,75 @@ export default function TaxCalculator() {
                     )}
 
                     <div className="bg-blue-50 p-4 rounded-lg">
-                      <h4 className="font-bold text-blue-800 mb-3">步骤{result.salaryBreakdown?.taxpayerSalary > 0 || result.salaryBreakdown?.spouseSalary > 0 ? '2' : '1'}：计算免税额</h4>
+                      <h4 className="font-bold text-blue-800 mb-3">步驟{result.salaryBreakdown?.taxpayerSalary > 0 || result.salaryBreakdown?.spouseSalary > 0 ? '2' : '1'}：計算免稅额</h4>
                       <div className="space-y-2">
                         <div className="flex justify-between">
-                          <span>一般免税额人数：{result.deductions.familySize - parseInt(elderlyOver70 || '0')}人</span>
+                          <span>一般免稅额{zhTW.common.people}数：{result.deductions.familySize - parseInt(elderlyOver70 || '0')}{zhTW.common.people}</span>
                           <span>{formatCurrency((result.deductions.familySize - parseInt(elderlyOver70 || '0')) * EXEMPTION_AMOUNTS.standard)}</span>
                         </div>
                         {parseInt(elderlyOver70 || '0') > 0 && (
                           <div className="flex justify-between">
-                            <span>70岁以上免税额人数：{elderlyOver70}人</span>
+                            <span>70岁以上免稅额{zhTW.common.people}数：{elderlyOver70}{zhTW.common.people}</span>
                             <span>{formatCurrency(parseInt(elderlyOver70) * EXEMPTION_AMOUNTS.elderly)}</span>
                           </div>
                         )}
                         <div className="border-t pt-2 font-medium flex justify-between">
-                          <span>免税额小计</span>
+                          <span>免稅额小计</span>
                           <span>{formatCurrency(result.deductions.exemptions)}</span>
                         </div>
                       </div>
                     </div>
 
                     <div className="bg-green-50 p-4 rounded-lg">
-                      <h4 className="font-bold text-green-800 mb-3">步骤{result.salaryBreakdown?.taxpayerSalary > 0 || result.salaryBreakdown?.spouseSalary > 0 ? '3' : '2'}：计算一般扣除额</h4>
+                      <h4 className="font-bold text-green-800 mb-3">步驟{result.salaryBreakdown?.taxpayerSalary > 0 || result.salaryBreakdown?.spouseSalary > 0 ? '3' : '2'}：計算一般扣除額</h4>
                       {useItemizedDeduction ? (
                         <div className="space-y-2">
-                          <div className="text-sm text-green-700 mb-2">选择列举扣除额：</div>
+                          <div className="text-sm text-green-700 mb-2">選擇列舉扣除額：</div>
                           {parseFloat(donations || '0') > 0 && (
                             <div className="flex justify-between">
-                              <span>• 捐赠扣除额</span>
+                              <span>• 捐贈扣除額</span>
                               <span>{formatCurrency(Math.min(parseFloat(donations), result.grossIncome * 0.2))}</span>
                             </div>
                           )}
                           {parseFloat(insurancePremiums || '0') > 0 && (
                             <div className="flex justify-between">
-                              <span>• 人身保险费（非健保）</span>
+                              <span>• {zhTW.common.people}身保險費（非健保）</span>
                               <span>{formatCurrency(Math.min(parseFloat(insurancePremiums), result.deductions.familySize * 24000))}</span>
                             </div>
                           )}
                           {parseFloat(healthInsurancePremiums || '0') > 0 && (
                             <div className="flex justify-between">
-                              <span>• 全民健保费</span>
+                              <span>• 全民健保費</span>
                               <span>{formatCurrency(parseFloat(healthInsurancePremiums))}</span>
                             </div>
                           )}
                           {parseFloat(medicalExpenses || '0') > 0 && (
                             <div className="flex justify-between">
-                              <span>• 医疗费用</span>
+                              <span>• 醫療費用</span>
                               <span>{formatCurrency(parseFloat(medicalExpenses))}</span>
                             </div>
                           )}
                           {parseFloat(disasterLoss || '0') > 0 && (
                             <div className="flex justify-between">
-                              <span>• 灾害损失</span>
+                              <span>• 災害損失</span>
                               <span>{formatCurrency(parseFloat(disasterLoss))}</span>
                             </div>
                           )}
                           {parseFloat(mortgageInterest || '0') > 0 && (
                             <div className="flex justify-between">
-                              <span>• 房贷利息</span>
+                              <span>• 房貸利息</span>
                               <span>{formatCurrency(Math.max(0, Math.min(parseFloat(mortgageInterest), 300000) - Math.min(parseFloat(savingsInterest || '0'), 270000)))}</span>
                             </div>
                           )}
                           <div className="border-t pt-2 font-medium flex justify-between">
-                            <span>一般扣除额小计</span>
+                            <span>一般扣除額小计</span>
                             <span>{formatCurrency(result.deductions.generalDeductions)}</span>
                           </div>
                         </div>
                       ) : (
                         <div className="space-y-2">
                           <div className="flex justify-between">
-                            <span>{isMarried ? '夫妻标准扣除额' : '单身标准扣除额'}</span>
+                            <span>{isMarried ? '夫妻標準扣除額' : '單身標準扣除額'}</span>
                             <span>{formatCurrency(result.deductions.generalDeductions)}</span>
                           </div>
                         </div>
@@ -1396,47 +1397,47 @@ export default function TaxCalculator() {
                     </div>
 
                     <div className="bg-purple-50 p-4 rounded-lg">
-                      <h4 className="font-bold text-purple-800 mb-3">步骤{result.salaryBreakdown?.taxpayerSalary > 0 || result.salaryBreakdown?.spouseSalary > 0 ? '4' : '3'}：计算特别扣除额</h4>
+                      <h4 className="font-bold text-purple-800 mb-3">步驟{result.salaryBreakdown?.taxpayerSalary > 0 || result.salaryBreakdown?.spouseSalary > 0 ? '4' : '3'}：計算{zhTW.cardTitles.specialDeductions}</h4>
                       <div className="space-y-2">
-                        <div className="text-xs text-purple-600 mb-2">注：薪资特别扣除额已在步骤1计算</div>
+                        <div className="text-xs text-purple-600 mb-2">注：薪資{zhTW.cardTitles.specialDeductions}已在步驟1計算</div>
                         {result.deductions.breakdown.childrenDeduction > 0 && (
                           <div className="flex justify-between">
-                            <span>• 幼儿学前扣除额：{childrenUnder6}人</span>
+                            <span>• 幼儿学前扣除額：{childrenUnder6}{zhTW.common.people}</span>
                             <span>{formatCurrency(result.deductions.breakdown.childrenDeduction)}</span>
                           </div>
                         )}
                         {result.deductions.breakdown.educationDeduction > 0 && (
                           <div className="flex justify-between">
-                            <span>• 教育学费扣除额：{students}人</span>
+                            <span>• 教育学费扣除額：{students}{zhTW.common.people}</span>
                             <span>{formatCurrency(result.deductions.breakdown.educationDeduction)}</span>
                           </div>
                         )}
                         {result.deductions.breakdown.disabilityDeduction > 0 && (
                           <div className="flex justify-between">
-                            <span>• 身心障碍扣除额：{disabled}人</span>
+                            <span>• 身心障碍扣除額：{disabled}{zhTW.common.people}</span>
                             <span>{formatCurrency(result.deductions.breakdown.disabilityDeduction)}</span>
                           </div>
                         )}
                         {result.deductions.breakdown.longTermCareDeduction > 0 && (
                           <div className="flex justify-between">
-                            <span>• 长期照顾扣除额：{longTermCare}人</span>
+                            <span>• 長期照顧扣除額：{longTermCare}{zhTW.common.people}</span>
                             <span>{formatCurrency(result.deductions.breakdown.longTermCareDeduction)}</span>
                           </div>
                         )}
                         {result.deductions.breakdown.savingsDeduction > 0 && (
                           <div className="flex justify-between">
-                            <span>• 储蓄投资扣除额</span>
+                            <span>• 儲蓄投資扣除額</span>
                             <span>{formatCurrency(result.deductions.breakdown.savingsDeduction)}</span>
                           </div>
                         )}
                         {result.deductions.breakdown.rentalDeduction > 0 && (
                           <div className="flex justify-between">
-                            <span>• 房屋租金扣除额</span>
+                            <span>• 房屋租金扣除額</span>
                             <span>{formatCurrency(result.deductions.breakdown.rentalDeduction)}</span>
                           </div>
                         )}
                         <div className="border-t pt-2 font-medium flex justify-between">
-                          <span>特别扣除额小计</span>
+                          <span>{zhTW.cardTitles.specialDeductions}小计</span>
                           <span>{formatCurrency(result.deductions.specialDeductions - (result.deductions.breakdown.salaryDeduction || 0))}</span>
                         </div>
                       </div>
@@ -1444,14 +1445,14 @@ export default function TaxCalculator() {
 
                     {result.deductions.basicLivingDifference > 0 && (
                       <div className="bg-yellow-50 p-4 rounded-lg">
-                        <h4 className="font-bold text-yellow-800 mb-3">步骤{result.salaryBreakdown?.taxpayerSalary > 0 || result.salaryBreakdown?.spouseSalary > 0 ? '5' : '4'}：基本生活费差额</h4>
+                        <h4 className="font-bold text-yellow-800 mb-3">步驟{result.salaryBreakdown?.taxpayerSalary > 0 || result.salaryBreakdown?.spouseSalary > 0 ? '5' : '4'}：基本生活费差额</h4>
                         <div className="space-y-2">
                           <div className="flex justify-between">
-                            <span>基本生活费总额：{result.deductions.familySize}人 × {formatCurrency(BASIC_LIVING_EXPENSE.amount)}</span>
+                            <span>基本生活费總額：{result.deductions.familySize}{zhTW.common.people} {zhTW.common.multiply} {formatCurrency(BASIC_LIVING_EXPENSE.amount)}</span>
                             <span>{formatCurrency(result.deductions.familySize * BASIC_LIVING_EXPENSE.amount)}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span>减：免税额+扣除额合计</span>
+                            <span>减：免稅额+扣除額合计</span>
                             <span>-{formatCurrency(result.deductions.familySize * BASIC_LIVING_EXPENSE.amount - result.deductions.basicLivingDifference)}</span>
                           </div>
                           <div className="border-t pt-2 font-medium flex justify-between">
@@ -1463,56 +1464,56 @@ export default function TaxCalculator() {
                     )}
 
                     <div className="bg-gray-100 p-4 rounded-lg">
-                      <h4 className="font-bold text-gray-800 mb-3">步骤{(() => {
+                      <h4 className="font-bold text-gray-800 mb-3">步驟{(() => {
                         let step = result.salaryBreakdown?.taxpayerSalary > 0 || result.salaryBreakdown?.spouseSalary > 0 ? 5 : 4;
                         if (result.deductions.basicLivingDifference > 0) step++;
                         return step;
-                      })()}：计算综合所得净额</h4>
+                      })()}：計算{zhTW.calculationResults.netIncome}</h4>
                       <div className="space-y-2">
                         <div className="flex justify-between">
                           <span>年总收入</span>
                           <span>{formatCurrency(result.grossIncome)}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span>减：扣除额总计</span>
+                          <span>减：扣除額总计</span>
                           <span>-{formatCurrency(result.deductions.totalDeductions)}</span>
                         </div>
                         <div className="border-t pt-2 font-bold text-lg flex justify-between">
-                          <span>综合所得净额</span>
+                          <span>{zhTW.calculationResults.netIncome}</span>
                           <span>{formatCurrency(result.netIncome)}</span>
                         </div>
                       </div>
                     </div>
 
                     <div className="bg-red-50 p-4 rounded-lg">
-                      <h4 className="font-bold text-red-800 mb-3">步骤{(() => {
+                      <h4 className="font-bold text-red-800 mb-3">步驟{(() => {
                         let step = result.salaryBreakdown?.taxpayerSalary > 0 || result.salaryBreakdown?.spouseSalary > 0 ? 6 : 5;
                         if (result.deductions.basicLivingDifference > 0) step++;
                         return step;
-                      })()}：计算应纳税额</h4>
+                      })()}：計算應納稅额</h4>
 
-                      {/* 分开计税显示 */}
+                      {/* 分開计稅顯示 */}
                       {(result.method === 'all_separate' || result.method === 'salary_separate') && result.taxpayer && result.spouse ? (
                         <div className="space-y-4">
-                          <div className="text-sm text-red-700 mb-2">分开计税：各自适用不同税率级距</div>
+                          <div className="text-sm text-red-700 mb-2">分開计稅：各自適用不同稅率級距</div>
 
-                          {/* 全部分开计税时显示纳税人和配偶 */}
+                          {/* 全部分開计稅时顯示纳稅{zhTW.common.people}和{zhTW.calculationResults.spouse} */}
                           {result.method === 'all_separate' && result.taxpayer && result.spouse ? (
                             <>
-                              {/* 纳税人 */}
+                              {/* 纳稅{zhTW.common.people} */}
                               <div className="bg-blue-100 p-3 rounded">
-                                <div className="font-medium text-blue-800 mb-2">纳税人税额计算</div>
+                                <div className="font-medium text-blue-800 mb-2">纳稅{zhTW.common.people}稅额計算</div>
                                 <div className="space-y-1 text-sm">
                                   <div className="flex justify-between">
-                                    <span>适用税率级距：{result.taxpayer.bracketInfo?.description || '0-59万元'}</span>
+                                    <span>{zhTW.calculationResults.applicableTaxBracket}：{result.taxpayer.bracketInfo?.description || '0-59萬元'}</span>
                                   </div>
                                   <div className="flex justify-between">
-                                    <span>综合所得净额</span>
+                                    <span>{zhTW.calculationResults.netIncome}</span>
                                     <span>{formatCurrency(result.taxpayer.netIncome)}</span>
                                   </div>
                                   <div className="flex justify-between">
-                                    <span>× 税率</span>
-                                    <span>{result.taxpayer.bracketInfo?.rate || 0}%</span>
+                                    <span>{zhTW.common.multiply} 稅率</span>
+                                    <span>{result.taxpayer.bracketInfo?.rate || 0}{zhTW.common.percent}</span>
                                   </div>
                                   <div className="flex justify-between">
                                     <span>小计</span>
@@ -1523,26 +1524,26 @@ export default function TaxCalculator() {
                                     <span>-{formatCurrency(result.taxpayer.bracketInfo?.progressiveDifference || 0)}</span>
                                   </div>
                                   <div className="border-t pt-1 font-medium text-blue-600 flex justify-between">
-                                    <span>纳税人应纳税额</span>
+                                    <span>纳稅{zhTW.common.people}應納稅额</span>
                                     <span>{formatCurrency(result.taxpayer.taxAmount)}</span>
                                   </div>
                                 </div>
                               </div>
 
-                              {/* 配偶 */}
+                              {/* {zhTW.calculationResults.spouse} */}
                               <div className="bg-pink-100 p-3 rounded">
-                                <div className="font-medium text-pink-800 mb-2">配偶税额计算</div>
+                                <div className="font-medium text-pink-800 mb-2">{zhTW.calculationResults.spouse}稅额計算</div>
                                 <div className="space-y-1 text-sm">
                                   <div className="flex justify-between">
-                                    <span>适用税率级距：{result.spouse.bracketInfo?.description || '0-59万元'}</span>
+                                    <span>{zhTW.calculationResults.applicableTaxBracket}：{result.spouse.bracketInfo?.description || '0-59萬元'}</span>
                                   </div>
                                   <div className="flex justify-between">
-                                    <span>综合所得净额</span>
+                                    <span>{zhTW.calculationResults.netIncome}</span>
                                     <span>{formatCurrency(result.spouse.netIncome)}</span>
                                   </div>
                                   <div className="flex justify-between">
-                                    <span>× 税率</span>
-                                    <span>{result.spouse.bracketInfo?.rate || 0}%</span>
+                                    <span>{zhTW.common.multiply} 稅率</span>
+                                    <span>{result.spouse.bracketInfo?.rate || 0}{zhTW.common.percent}</span>
                                   </div>
                                   <div className="flex justify-between">
                                     <span>小计</span>
@@ -1553,7 +1554,7 @@ export default function TaxCalculator() {
                                     <span>-{formatCurrency(result.spouse.bracketInfo?.progressiveDifference || 0)}</span>
                                   </div>
                                   <div className="border-t pt-1 font-medium text-pink-600 flex justify-between">
-                                    <span>配偶应纳税额</span>
+                                    <span>{zhTW.calculationResults.spouse}應納稅额</span>
                                     <span>{formatCurrency(result.spouse.taxAmount)}</span>
                                   </div>
                                 </div>
@@ -1561,20 +1562,20 @@ export default function TaxCalculator() {
                             </>
                           ) : result.method === 'salary_separate' && result.taxpayerSalaryPortion && result.remainingPortion ? (
                             <>
-                              {/* 本人薪资分开计税部分 */}
+                              {/* 本{zhTW.common.people}薪資分開计稅部分 */}
                               <div className="bg-blue-100 p-3 rounded">
-                                <div className="font-medium text-blue-800 mb-2">本人薪资税额计算</div>
+                                <div className="font-medium text-blue-800 mb-2">本{zhTW.common.people}薪資稅额計算</div>
                                 <div className="space-y-1 text-sm">
                                   <div className="flex justify-between">
-                                    <span>适用税率级距：{result.taxpayerSalaryPortion.bracketInfo?.description || '0-59万元'}</span>
+                                    <span>{zhTW.calculationResults.applicableTaxBracket}：{result.taxpayerSalaryPortion.bracketInfo?.description || '0-59萬元'}</span>
                                   </div>
                                   <div className="flex justify-between">
-                                    <span>本人薪资应税净额</span>
+                                    <span>本{zhTW.common.people}薪資应稅淨額</span>
                                     <span>{formatCurrency(result.taxpayerSalaryPortion.netIncome)}</span>
                                   </div>
                                   <div className="flex justify-between">
-                                    <span>× 税率</span>
-                                    <span>{result.taxpayerSalaryPortion.bracketInfo?.rate || 0}%</span>
+                                    <span>{zhTW.common.multiply} 稅率</span>
+                                    <span>{result.taxpayerSalaryPortion.bracketInfo?.rate || 0}{zhTW.common.percent}</span>
                                   </div>
                                   <div className="flex justify-between">
                                     <span>小计</span>
@@ -1585,26 +1586,26 @@ export default function TaxCalculator() {
                                     <span>-{formatCurrency(result.taxpayerSalaryPortion.bracketInfo?.progressiveDifference || 0)}</span>
                                   </div>
                                   <div className="border-t pt-1 font-medium text-blue-600 flex justify-between">
-                                    <span>本人薪资应纳税额</span>
+                                    <span>本{zhTW.common.people}薪資應納稅额</span>
                                     <span>{formatCurrency(result.taxpayerSalaryPortion.taxAmount)}</span>
                                   </div>
                                 </div>
                               </div>
 
-                              {/* 剩余所得合并计税部分 */}
+                              {/* 剩餘所得合併计稅部分 */}
                               <div className="bg-green-100 p-3 rounded">
-                                <div className="font-medium text-green-800 mb-2">剩余所得税额计算</div>
+                                <div className="font-medium text-green-800 mb-2">剩餘所得稅额計算</div>
                                 <div className="space-y-1 text-sm">
                                   <div className="flex justify-between">
-                                    <span>适用税率级距：{result.remainingPortion.bracketInfo?.description || '0-59万元'}</span>
+                                    <span>{zhTW.calculationResults.applicableTaxBracket}：{result.remainingPortion.bracketInfo?.description || '0-59萬元'}</span>
                                   </div>
                                   <div className="flex justify-between">
-                                    <span>剩余所得净额</span>
+                                    <span>剩餘所得淨額</span>
                                     <span>{formatCurrency(result.remainingPortion.netIncome)}</span>
                                   </div>
                                   <div className="flex justify-between">
-                                    <span>× 税率</span>
-                                    <span>{result.remainingPortion.bracketInfo?.rate || 0}%</span>
+                                    <span>{zhTW.common.multiply} 稅率</span>
+                                    <span>{result.remainingPortion.bracketInfo?.rate || 0}{zhTW.common.percent}</span>
                                   </div>
                                   <div className="flex justify-between">
                                     <span>小计</span>
@@ -1615,7 +1616,7 @@ export default function TaxCalculator() {
                                     <span>-{formatCurrency(result.remainingPortion.bracketInfo?.progressiveDifference || 0)}</span>
                                   </div>
                                   <div className="border-t pt-1 font-medium text-green-600 flex justify-between">
-                                    <span>剩余所得应纳税额</span>
+                                    <span>剩餘所得應納稅额</span>
                                     <span>{formatCurrency(result.remainingPortion.taxAmount)}</span>
                                   </div>
                                 </div>
@@ -1625,21 +1626,21 @@ export default function TaxCalculator() {
 
                           {/* 总计 */}
                           <div className="border-t pt-2 font-bold text-xl flex justify-between text-red-600">
-                            <span>应纳税额总计</span>
+                            <span>應納稅额总计</span>
                             <span>{formatCurrency(result.taxAmount)}</span>
                           </div>
                         </div>
                       ) : (
-                        /* 合并计税显示 */
+                        /* 合併计稅顯示 */
                         <div className="space-y-2">
-                          <div className="text-sm text-red-700 mb-2">适用税率级距：{result.bracketInfo?.description}</div>
+                          <div className="text-sm text-red-700 mb-2">{zhTW.calculationResults.applicableTaxBracket}：{result.bracketInfo?.description}</div>
                           <div className="flex justify-between">
-                            <span>综合所得净额</span>
+                            <span>{zhTW.calculationResults.netIncome}</span>
                             <span>{formatCurrency(result.netIncome)}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span>× 税率</span>
-                            <span>{result.bracketInfo?.rate || 0}%</span>
+                            <span>{zhTW.common.multiply} 稅率</span>
+                            <span>{result.bracketInfo?.rate || 0}{zhTW.common.percent}</span>
                           </div>
                           <div className="flex justify-between">
                             <span>小计</span>
@@ -1650,7 +1651,7 @@ export default function TaxCalculator() {
                             <span>-{formatCurrency(result.bracketInfo?.progressiveDifference || 0)}</span>
                           </div>
                           <div className="border-t pt-2 font-bold text-xl flex justify-between text-red-600">
-                            <span>应纳税额</span>
+                            <span>應納稅额</span>
                             <span>{formatCurrency(result.taxAmount)}</span>
                           </div>
                         </div>
@@ -1660,28 +1661,28 @@ export default function TaxCalculator() {
                 </CardContent>
               </Card>
 
-              {/* 扣除额详细说明 */}
+              {/* {zhTW.cardTitles.deductionDetails} */}
               <Card>
                 <CardHeader>
-                  <CardTitle>扣除额详细说明</CardTitle>
+                  <CardTitle>{zhTW.cardTitles.deductionDetails}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {/* 免税额说明 */}
+                    {/* 免稅额說明 */}
                     <div className="bg-green-50 p-4 rounded-lg">
-                      <h4 className="font-semibold text-green-800 mb-2">免税额</h4>
+                      <h4 className="font-semibold text-green-800 mb-2">免稅额</h4>
                       <div className="text-sm space-y-1">
-                        <div>一般免税额：每人97,000元</div>
-                        <div>70岁以上免税额：每人145,500元</div>
+                        <div>一般免稅额：每{zhTW.common.people}97,000元</div>
+                        <div>70岁以上免稅额：每{zhTW.common.people}145,500元</div>
                         <div className="text-xs text-gray-600 mt-2">
-                          适用条件：{EXEMPTION_AMOUNTS.conditions.join('、')}
+                          適用条件：{EXEMPTION_AMOUNTS.conditions.join('、')}
                         </div>
                       </div>
                     </div>
 
-                    {/* 特别扣除额说明 */}
+                    {/* {zhTW.cardTitles.specialDeductions}說明 */}
                     <div className="space-y-3">
-                      <h4 className="font-semibold text-gray-800">特别扣除额明细</h4>
+                      <h4 className="font-semibold text-gray-800">{zhTW.cardTitles.specialDeductions}明细</h4>
                       {SPECIAL_DEDUCTIONS.map((deduction, index) => (
                         <div key={index} className="bg-blue-50 p-3 rounded border border-blue-200">
                           <div className="font-medium text-blue-800">{deduction.name}</div>
@@ -1704,22 +1705,22 @@ export default function TaxCalculator() {
           ) : (
             <Card>
               <CardHeader>
-                <CardTitle className="text-gray-500">计算结果</CardTitle>
+                <CardTitle className="text-gray-500">{zhTW.cardTitles.calculationResults}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-center py-8 text-gray-500">
                   <div className="text-6xl mb-4">🧮</div>
-                  <div className="text-lg">请输入年总收入开始计算</div>
-                  <div className="text-sm mt-2">系统将自动为您计算税额和详细扣除额</div>
+                  <div className="text-lg">{zhTW.emptyState.title}</div>
+                  <div className="text-sm mt-2">{zhTW.emptyState.description}</div>
                 </div>
               </CardContent>
             </Card>
           )}
 
-          {/* 税率级距表 */}
+          {/* 稅率級距表 */}
           <Card>
             <CardHeader>
-              <CardTitle>2025年税率级距表</CardTitle>
+              <CardTitle>{zhTW.cardTitles.taxBrackets2025}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
@@ -1738,22 +1739,22 @@ export default function TaxCalculator() {
                         <div className="font-medium">
                           {bracket.max ?
                             `${formatNumber(bracket.min)} - ${formatNumber(bracket.max)}` :
-                            `${formatNumber(bracket.min)} 以上`
+                            `${formatNumber(bracket.min)} ${zhTW.taxBrackets.above}`
                           }
                         </div>
                         <div className="text-sm text-gray-600">{bracket.description}</div>
                       </div>
                       <div className="text-right">
-                        <div className="text-xl font-bold text-blue-600">{bracket.rate}%</div>
+                        <div className="text-xl font-bold text-blue-600">{bracket.rate}{zhTW.common.percent}</div>
                         <div className="text-xs text-gray-500">
-                          累进差额: {formatCurrency(bracket.progressiveDifference)}
+                          {zhTW.taxBrackets.progressiveDifference}: {formatCurrency(bracket.progressiveDifference)}
                         </div>
                       </div>
                     </div>
                     {result && result.netIncome >= bracket.min &&
                      (bracket.max === null || result.netIncome <= bracket.max) && (
                       <div className="mt-2 text-sm text-red-600 font-medium">
-                        ← 您的适用级距
+                        {zhTW.taxBrackets.yourApplicableBracket}
                       </div>
                     )}
                   </div>
@@ -1764,11 +1765,11 @@ export default function TaxCalculator() {
         </div>
       </div>
 
-      {/* 列举扣除额详细说明 */}
+      {/* 列舉扣除額詳細說明 */}
       <Card>
         <CardHeader>
-          <CardTitle>列举扣除额详细说明</CardTitle>
-          <p className="text-sm text-gray-600">需检附证明文件，与标准扣除额择一适用</p>
+          <CardTitle>{zhTW.cardTitles.itemizedDeductionDetails}</CardTitle>
+          <p className="text-sm text-gray-600">{zhTW.itemizedDeductionDetails.description}</p>
         </CardHeader>
         <CardContent>
           <div className="grid md:grid-cols-2 gap-6">
@@ -1776,11 +1777,11 @@ export default function TaxCalculator() {
               <div key={index} className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
                 <h4 className="font-semibold text-yellow-800 mb-2">{deduction.name}</h4>
                 <div className="space-y-2 text-sm">
-                  <div><strong>限额：</strong>{deduction.limit}</div>
-                  <div><strong>说明：</strong>{deduction.description}</div>
-                  <div className="text-blue-600"><strong>例子：</strong>{deduction.example}</div>
+                  <div><strong>{zhTW.itemizedDeductionDetails.limit}</strong>{deduction.limit}</div>
+                  <div><strong>{zhTW.itemizedDeductionDetails.description2}</strong>{deduction.description}</div>
+                  <div className="text-blue-600"><strong>{zhTW.itemizedDeductionDetails.example}</strong>{deduction.example}</div>
                   <div className="text-gray-600">
-                    <strong>条件：</strong>
+                    <strong>{zhTW.itemizedDeductionDetails.conditions}</strong>
                     <ul className="list-disc list-inside mt-1 space-y-1">
                       {deduction.conditions.map((condition, i) => (
                         <li key={i} className="text-xs">{condition}</li>
@@ -1788,7 +1789,7 @@ export default function TaxCalculator() {
                     </ul>
                   </div>
                   <div className="text-gray-600">
-                    <strong>应备文件：</strong>
+                    <strong>{zhTW.itemizedDeductionDetails.requiredDocuments}</strong>
                     <ul className="list-disc list-inside mt-1 space-y-1">
                       {deduction.requiredDocuments.map((doc, i) => (
                         <li key={i} className="text-xs">{doc}</li>
@@ -1802,10 +1803,10 @@ export default function TaxCalculator() {
         </CardContent>
       </Card>
 
-      {/* 节税建议 */}
+      {/* 節稅建議 */}
       <Card>
         <CardHeader>
-          <CardTitle>💰 节税建议</CardTitle>
+          <CardTitle>{zhTW.cardTitles.taxSavingTips}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid md:grid-cols-2 gap-4">
@@ -1820,21 +1821,21 @@ export default function TaxCalculator() {
         </CardContent>
       </Card>
 
-      {/* 注意事项和免责声明 */}
-      <Card>
-        <CardHeader>
-          <CardTitle>⚠️ 注意事项</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-sm text-gray-600 space-y-2">
-            <div>• 本计算器仅供参考，实际税额计算请以财政部公告为准</div>
-            <div>• 列举扣除额需检附相关证明文件，请妥善保存收据</div>
-            <div>• 建议在正式申报前咨询专业税务人员</div>
-            <div>• 排富规定：长期照顾及房屋租金扣除额有排富限制</div>
-            <div>• 基本生活费保障机制确保每人基本生活所需不被课税</div>
-          </div>
-        </CardContent>
-      </Card>
+              {/* 注意事項和免責聲明 */}
+        <Card>
+          <CardHeader>
+            <CardTitle>{zhTW.cardTitles.importantNotes}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-sm text-gray-600 space-y-2">
+              <div>{zhTW.importantNotes.calculatorReference}</div>
+              <div>{zhTW.importantNotes.documentReminder}</div>
+              <div>{zhTW.importantNotes.professionalAdvice}</div>
+              <div>{zhTW.importantNotes.wealthRestrictions}</div>
+              <div>{zhTW.importantNotes.basicLivingProtection}</div>
+            </div>
+          </CardContent>
+        </Card>
     </div>
   );
 }

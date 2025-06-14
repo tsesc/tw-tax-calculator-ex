@@ -479,7 +479,17 @@ export default function TaxCalculator() {
     calculateTaxResult();
   }, [
     salaryIncome, otherIncome, spouseSalaryIncome, spouseOtherIncome,
-    isMarried, taxCalculationMethod, childrenUnder6, elderlyOver70, students, disabled,
+    isMarried, taxCalculationMethod, childrenUnder6, dependentsGeneral, elderlyOver70, students, disabled,
+    rentalExpenses, savingsInterest, useItemizedDeduction,
+    donations, insurancePremiums, medicalExpenses, disasterLoss, mortgageInterest
+  ]);
+
+  // 监听所有输入变化，自动保存到localStorage
+  useEffect(() => {
+    saveToLocalStorage();
+  }, [
+    salaryIncome, otherIncome, spouseSalaryIncome, spouseOtherIncome,
+    isMarried, taxCalculationMethod, childrenUnder6, dependentsGeneral, elderlyOver70, students, disabled,
     rentalExpenses, savingsInterest, useItemizedDeduction,
     donations, insurancePremiums, medicalExpenses, disasterLoss, mortgageInterest
   ]);

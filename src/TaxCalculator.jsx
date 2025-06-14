@@ -56,9 +56,11 @@ export default function TaxCalculator() {
     disabled: '',
     rentalExpenses: '',
     savingsInterest: '',
+    longTermCare: '',
     useItemizedDeduction: false,
     donations: '',
     insurancePremiums: '',
+    healthInsurancePremiums: '',
     medicalExpenses: '',
     disasterLoss: '',
     mortgageInterest: ''
@@ -84,11 +86,13 @@ export default function TaxCalculator() {
   // 特别扣除额
   const [rentalExpenses, setRentalExpenses] = useState(formData.rentalExpenses);
   const [savingsInterest, setSavingsInterest] = useState(formData.savingsInterest);
+  const [longTermCare, setLongTermCare] = useState(formData.longTermCare || '');
 
   // 列举扣除额输入
   const [useItemizedDeduction, setUseItemizedDeduction] = useState(formData.useItemizedDeduction);
   const [donations, setDonations] = useState(formData.donations);
   const [insurancePremiums, setInsurancePremiums] = useState(formData.insurancePremiums);
+  const [healthInsurancePremiums, setHealthInsurancePremiums] = useState(formData.healthInsurancePremiums || '');
   const [medicalExpenses, setMedicalExpenses] = useState(formData.medicalExpenses);
   const [disasterLoss, setDisasterLoss] = useState(formData.disasterLoss);
   const [mortgageInterest, setMortgageInterest] = useState(formData.mortgageInterest);
@@ -111,9 +115,11 @@ export default function TaxCalculator() {
       disabled,
       rentalExpenses,
       savingsInterest,
+      longTermCare,
       useItemizedDeduction,
       donations,
       insurancePremiums,
+      healthInsurancePremiums,
       medicalExpenses,
       disasterLoss,
       mortgageInterest
@@ -137,9 +143,11 @@ export default function TaxCalculator() {
       disabled: '',
       rentalExpenses: '',
       savingsInterest: '',
+      longTermCare: '',
       useItemizedDeduction: false,
       donations: '',
       insurancePremiums: '',
+      healthInsurancePremiums: '',
       medicalExpenses: '',
       disasterLoss: '',
       mortgageInterest: ''
@@ -159,9 +167,11 @@ export default function TaxCalculator() {
     setDisabled('');
     setRentalExpenses('');
     setSavingsInterest('');
+    setLongTermCare('');
     setUseItemizedDeduction(false);
     setDonations('');
     setInsurancePremiums('');
+    setHealthInsurancePremiums('');
     setMedicalExpenses('');
     setDisasterLoss('');
     setMortgageInterest('');
@@ -177,8 +187,8 @@ export default function TaxCalculator() {
   }, [
     salaryIncome, otherIncome, spouseSalaryIncome, spouseOtherIncome,
     isMarried, taxCalculationMethod, childrenUnder6, dependentsGeneral, elderlyOver70,
-    students, disabled, rentalExpenses, savingsInterest,
-    useItemizedDeduction, donations, insurancePremiums,
+    students, disabled, rentalExpenses, savingsInterest, longTermCare,
+    useItemizedDeduction, donations, insurancePremiums, healthInsurancePremiums,
     medicalExpenses, disasterLoss, mortgageInterest
   ]);
 
@@ -195,6 +205,7 @@ export default function TaxCalculator() {
     const disabledCount = parseInt(disabled) || 0;
     const rental = parseFloat(rentalExpenses) || 0;
     const savings = parseFloat(savingsInterest) || 0;
+    const longTermCareCount = parseInt(longTermCare) || 0;
 
     // 计算薪资净额（先扣除薪资特别扣除额）
     const salaryNetIncome = Math.max(0, salary - Math.min(salary, 218000));
@@ -221,11 +232,13 @@ export default function TaxCalculator() {
         elderlyCount,
         studentCount,
         disabledCount,
+        longTermCareCount,
         rentalExpenses: rental,
         savingsInterest: savings,
         useItemizedDeduction,
         donations: parseFloat(donations) || 0,
         insurancePremiums: parseFloat(insurancePremiums) || 0,
+        healthInsurancePremiums: parseFloat(healthInsurancePremiums) || 0,
         medicalExpenses: parseFloat(medicalExpenses) || 0,
         disasterLoss: parseFloat(disasterLoss) || 0,
         mortgageInterest: parseFloat(mortgageInterest) || 0
@@ -269,11 +282,13 @@ export default function TaxCalculator() {
           elderlyCount,
           studentCount,
           disabledCount,
+          longTermCareCount,
           rentalExpenses: rental,
           savingsInterest: savings,
           useItemizedDeduction,
           donations: parseFloat(donations) || 0,
           insurancePremiums: parseFloat(insurancePremiums) || 0,
+          healthInsurancePremiums: parseFloat(healthInsurancePremiums) || 0,
           medicalExpenses: parseFloat(medicalExpenses) || 0,
           disasterLoss: parseFloat(disasterLoss) || 0,
           mortgageInterest: parseFloat(mortgageInterest) || 0,
@@ -304,9 +319,9 @@ export default function TaxCalculator() {
     const calculateAllMarriedMethods = (params) => {
     const {
       taxpayerSalary, taxpayerOther, spouseSalary, spouseOther,
-      childrenCount, dependentsCount, elderlyCount, studentCount, disabledCount,
+      childrenCount, dependentsCount, elderlyCount, studentCount, disabledCount, longTermCareCount,
       rentalExpenses, savingsInterest, useItemizedDeduction,
-      donations, insurancePremiums, medicalExpenses, disasterLoss, mortgageInterest
+      donations, insurancePremiums, healthInsurancePremiums, medicalExpenses, disasterLoss, mortgageInterest
     } = params;
 
     // 计算薪资净额
@@ -317,9 +332,9 @@ export default function TaxCalculator() {
     const combinedIncome = taxpayerSalaryNet + taxpayerOther + spouseSalaryNet + spouseOther;
     const combinedDeductions = calculateDeductions({
       isMarried: true,
-      childrenCount, dependentsCount, elderlyCount, studentCount, disabledCount,
+      childrenCount, dependentsCount, elderlyCount, studentCount, disabledCount, longTermCareCount,
       rentalExpenses, savingsInterest, useItemizedDeduction,
-      donations, insurancePremiums, medicalExpenses, disasterLoss, mortgageInterest,
+      donations, insurancePremiums, healthInsurancePremiums, medicalExpenses, disasterLoss, mortgageInterest,
       grossIncome: combinedIncome,
       hasSalaryIncome: taxpayerSalary > 0 || spouseSalary > 0
     });
@@ -391,10 +406,11 @@ export default function TaxCalculator() {
       elderlyCount: Math.floor(elderlyCount / 2),
       studentCount: Math.floor(studentCount / 2),
       disabledCount: Math.floor(disabledCount / 2),
+      longTermCareCount: Math.floor(longTermCareCount / 2),
       rentalExpenses: rentalExpenses / 2,
       savingsInterest: savingsInterest / 2,
       useItemizedDeduction: false, // 使用标准扣除额
-      donations: 0, insurancePremiums: 0, medicalExpenses: 0, disasterLoss: 0, mortgageInterest: 0,
+      donations: 0, insurancePremiums: 0, healthInsurancePremiums: 0, medicalExpenses: 0, disasterLoss: 0, mortgageInterest: 0,
       grossIncome: taxpayerSalaryNet + taxpayerOther,
       hasSalaryIncome: taxpayerSalary > 0
     });
@@ -406,10 +422,11 @@ export default function TaxCalculator() {
       elderlyCount: Math.ceil(elderlyCount / 2),
       studentCount: Math.ceil(studentCount / 2),
       disabledCount: Math.ceil(disabledCount / 2),
+      longTermCareCount: Math.ceil(longTermCareCount / 2),
       rentalExpenses: rentalExpenses / 2,
       savingsInterest: savingsInterest / 2,
       useItemizedDeduction: false,
-      donations: 0, insurancePremiums: 0, medicalExpenses: 0, disasterLoss: 0, mortgageInterest: 0,
+      donations: 0, insurancePremiums: 0, healthInsurancePremiums: 0, medicalExpenses: 0, disasterLoss: 0, mortgageInterest: 0,
       grossIncome: spouseSalaryNet + spouseOther,
       hasSalaryIncome: spouseSalary > 0
     });
@@ -480,8 +497,8 @@ export default function TaxCalculator() {
   }, [
     salaryIncome, otherIncome, spouseSalaryIncome, spouseOtherIncome,
     isMarried, taxCalculationMethod, childrenUnder6, dependentsGeneral, elderlyOver70, students, disabled,
-    rentalExpenses, savingsInterest, useItemizedDeduction,
-    donations, insurancePremiums, medicalExpenses, disasterLoss, mortgageInterest
+    rentalExpenses, savingsInterest, longTermCare, useItemizedDeduction,
+    donations, insurancePremiums, healthInsurancePremiums, medicalExpenses, disasterLoss, mortgageInterest
   ]);
 
   // 监听所有输入变化，自动保存到localStorage
@@ -490,7 +507,7 @@ export default function TaxCalculator() {
   }, [
     salaryIncome, otherIncome, spouseSalaryIncome, spouseOtherIncome,
     isMarried, taxCalculationMethod, childrenUnder6, dependentsGeneral, elderlyOver70, students, disabled,
-    rentalExpenses, savingsInterest, useItemizedDeduction,
+    rentalExpenses, savingsInterest, longTermCare, useItemizedDeduction,
     donations, insurancePremiums, medicalExpenses, disasterLoss, mortgageInterest
   ]);
 
@@ -796,6 +813,23 @@ export default function TaxCalculator() {
                   每人可享身心障碍特别扣除额218,000元
                 </div>
               </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  长期照顾需求人数
+                </label>
+                <Input
+                  type="number"
+                  value={longTermCare}
+                  onChange={(e) => setLongTermCare(e.target.value)}
+                  placeholder="符合长期照顾需求者"
+                  className="w-full"
+                />
+                <div className="text-xs text-gray-500 mt-1 space-y-1">
+                  <div>每人可享长期照顾特别扣除额120,000元</div>
+                  <div className="text-orange-600">⚠️ 有排富规定：适用税率20%以上不适用</div>
+                </div>
+              </div>
             </CardContent>
           </Card>
 
@@ -824,69 +858,128 @@ export default function TaxCalculator() {
               {useItemizedDeduction && (
                 <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
                   <h4 className="font-medium text-gray-800">列举扣除额明细</h4>
+                  <div className="text-xs text-blue-600 mb-4">
+                    💡 提醒：列举扣除额需检附收据证明，国税局有资料者免附
+                  </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">捐赠金额 (NT$)</label>
+                    <label className="block text-sm font-medium mb-2">
+                      1. 捐赠金额 (NT$)
+                    </label>
                     <Input
                       type="number"
                       value={donations}
                       onChange={(e) => setDonations(e.target.value)}
                       placeholder="对合法团体之捐赠"
                     />
-                    <div className="text-xs text-gray-500 mt-1">
-                      一般捐赠限所得总额20%，政府捐献无限制
+                    <div className="text-xs text-gray-500 mt-1 space-y-1">
+                      <div>• 教育、文化、公益、慈善机构：限所得总额20%</div>
+                      <div>• 政府、国防、劳军、古迹维护：无金额限制</div>
+                      <div>• 政治献金：限所得总额20%，最高20万元</div>
+                      <div>• 需检附：受赠单位收据正本</div>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">人身保险费 (NT$)</label>
+                    <label className="block text-sm font-medium mb-2">
+                      2a. 人身保险费 (非健保) (NT$)
+                    </label>
                     <Input
                       type="number"
                       value={insurancePremiums}
                       onChange={(e) => setInsurancePremiums(e.target.value)}
-                      placeholder="人身保险费总额"
+                      placeholder="人身保险费（不含健保费）"
                     />
-                    <div className="text-xs text-gray-500 mt-1">
-                      每人限24,000元，全民健保费不限金额
+                    <div className="text-xs text-gray-500 mt-1 space-y-1">
+                      <div>• 人身保险费：每人限24,000元（壽險、傷害險、年金險等）</div>
+                      <div>• 劳保、国民年金、军公教保险：每人限24,000元</div>
+                      <div>• 要保人与被保人需在同一申报户</div>
+                      <div>• 需检附：保险费收据正本或缴费证明</div>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">医疗费用 (NT$)</label>
+                    <label className="block text-sm font-medium mb-2">
+                      2b. 全民健保费 (NT$)
+                    </label>
+                    <Input
+                      type="number"
+                      value={healthInsurancePremiums}
+                      onChange={(e) => setHealthInsurancePremiums(e.target.value)}
+                      placeholder="全民健保费总额"
+                    />
+                    <div className="text-xs text-gray-500 mt-1 space-y-1">
+                      <div>• 全民健保费：无金额限制，可全额扣除</div>
+                      <div>• 包含：一般保费、补充保费</div>
+                      <div>• 不限要保人与被保人关系</div>
+                      <div>• 需检附：健保费缴费证明或收据</div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      3. 医疗及生育费用 (NT$)
+                    </label>
                     <Input
                       type="number"
                       value={medicalExpenses}
                       onChange={(e) => setMedicalExpenses(e.target.value)}
                       placeholder="合法医院之医疗费用"
                     />
-                    <div className="text-xs text-gray-500 mt-1">
-                      无金额限制，需扣除保险给付部分
+                    <div className="text-xs text-gray-500 mt-1 space-y-1">
+                      <div>• 核实认列，无金额限制</div>
+                      <div>• 限公立医院、健保特约医院或诊所</div>
+                      <div>• 包含长照治疗费用</div>
+                      <div>• 保险理赔部分不可列入</div>
+                      <div>• 需检附：医院开立的收据正本</div>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">灾害损失 (NT$)</label>
+                    <label className="block text-sm font-medium mb-2">
+                      4. 灾害损失 (NT$)
+                    </label>
                     <Input
                       type="number"
                       value={disasterLoss}
                       onChange={(e) => setDisasterLoss(e.target.value)}
                       placeholder="不可抗力灾害损失"
                     />
-                    <div className="text-xs text-gray-500 mt-1">
-                      需国税局勘验证明，扣除保险理赔部分
+                    <div className="text-xs text-gray-500 mt-1 space-y-1">
+                      <div>• 核实认列，无金额限制</div>
+                      <div>• 限不可抗力灾害（天灾等）</div>
+                      <div>• 保险理赔、救济金部分不可列入</div>
+                      <div>• 需检附：国税局核发的证明文件</div>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">房贷利息 (NT$)</label>
+                    <label className="block text-sm font-medium mb-2">
+                      5. 自用住宅购屋借款利息 (NT$)
+                    </label>
                     <Input
                       type="number"
                       value={mortgageInterest}
                       onChange={(e) => setMortgageInterest(e.target.value)}
                       placeholder="自用住宅购屋借款利息"
                     />
-                    <div className="text-xs text-gray-500 mt-1">
-                      限一屋，最高30万元，需减除储蓄投资扣除额
+                    <div className="text-xs text-gray-500 mt-1 space-y-1">
+                      <div>• 每户限30万元，限一屋</div>
+                      <div>• 需完成户籍登记且未出租、营业</div>
+                      <div>• 需先扣除储蓄投资特别扣除额</div>
+                      <div>• 需检附：金融机构利息单据正本</div>
+                    </div>
+                  </div>
+
+                  <div className="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
+                    <h5 className="font-medium text-yellow-800 mb-2">❌ 不可列入列举扣除额的项目：</h5>
+                    <div className="text-xs text-yellow-700 space-y-1">
+                      <div>• 医美整形费用</div>
+                      <div>• 已获保险理赔的医疗费</div>
+                      <div>• 看护费用</div>
+                      <div>• 月子中心费用</div>
+                      <div>• 非人身保险费（如财产险）</div>
+                      <div>• 未经核准在台销售的境外保单</div>
                     </div>
                   </div>
                 </div>
@@ -1259,8 +1352,14 @@ export default function TaxCalculator() {
                           )}
                           {parseFloat(insurancePremiums || '0') > 0 && (
                             <div className="flex justify-between">
-                              <span>• 人身保险费</span>
+                              <span>• 人身保险费（非健保）</span>
                               <span>{formatCurrency(Math.min(parseFloat(insurancePremiums), result.deductions.familySize * 24000))}</span>
+                            </div>
+                          )}
+                          {parseFloat(healthInsurancePremiums || '0') > 0 && (
+                            <div className="flex justify-between">
+                              <span>• 全民健保费</span>
+                              <span>{formatCurrency(parseFloat(healthInsurancePremiums))}</span>
                             </div>
                           )}
                           {parseFloat(medicalExpenses || '0') > 0 && (
@@ -1316,6 +1415,12 @@ export default function TaxCalculator() {
                           <div className="flex justify-between">
                             <span>• 身心障碍扣除额：{disabled}人</span>
                             <span>{formatCurrency(result.deductions.breakdown.disabilityDeduction)}</span>
+                          </div>
+                        )}
+                        {result.deductions.breakdown.longTermCareDeduction > 0 && (
+                          <div className="flex justify-between">
+                            <span>• 长期照顾扣除额：{longTermCare}人</span>
+                            <span>{formatCurrency(result.deductions.breakdown.longTermCareDeduction)}</span>
                           </div>
                         )}
                         {result.deductions.breakdown.savingsDeduction > 0 && (

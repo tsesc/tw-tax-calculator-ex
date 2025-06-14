@@ -444,11 +444,13 @@ export function calculateDeductions(params: {
   elderlyCount: number;
   studentCount: number;
   disabledCount: number;
+  longTermCareCount?: number;
   rentalExpenses: number;
   savingsInterest: number;
   useItemizedDeduction: boolean;
   donations: number;
   insurancePremiums: number;
+  healthInsurancePremiums?: number;
   medicalExpenses: number;
   disasterLoss: number;
   mortgageInterest: number;
@@ -462,11 +464,13 @@ export function calculateDeductions(params: {
     elderlyCount,
     studentCount,
     disabledCount,
+    longTermCareCount = 0,
     rentalExpenses,
     savingsInterest,
     useItemizedDeduction,
     donations,
     insurancePremiums,
+    healthInsurancePremiums = 0,
     medicalExpenses,
     disasterLoss,
     mortgageInterest,
@@ -489,9 +493,12 @@ export function calculateDeductions(params: {
     // 捐赠（限所得总额20%）
     itemizedTotal += Math.min(donations, grossIncome * 0.2);
 
-    // 人身保险费（每人限24,000元）
+    // 人身保险费（每人限24,000元，健保费无限制）
     const familyInsuranceLimit = familySize * 24000;
     itemizedTotal += Math.min(insurancePremiums, familyInsuranceLimit);
+
+    // 全民健保费（无金额限制）
+    itemizedTotal += healthInsurancePremiums;
 
     // 医疗费用（无限制）
     itemizedTotal += medicalExpenses;
@@ -528,6 +535,9 @@ export function calculateDeductions(params: {
   // 身心障碍特别扣除额
   specialDeductions += disabledCount * 218000;
 
+  // 长期照顾特别扣除额
+  specialDeductions += longTermCareCount * 120000;
+
   // 储蓄投资特别扣除额
   specialDeductions += Math.min(savingsInterest, 270000);
 
@@ -539,6 +549,7 @@ export function calculateDeductions(params: {
   const comparionItems = exemptions + generalDeductions +
     Math.min(savingsInterest, 270000) + // 储蓄投资
     disabledCount * 218000 + // 身心障碍
+    longTermCareCount * 120000 + // 长期照顾
     studentCount * 25000 + // 教育学费
     (childrenCount > 0 ? (150000 + (childrenCount - 1) * 225000) : 0) + // 幼儿学前
     Math.min(rentalExpenses, 180000); // 房屋租金
@@ -561,6 +572,7 @@ export function calculateDeductions(params: {
       childrenDeduction: childrenCount > 0 ? (150000 + (childrenCount - 1) * 225000) : 0,
       educationDeduction: studentCount * 25000,
       disabilityDeduction: disabledCount * 218000,
+      longTermCareDeduction: longTermCareCount * 120000,
       savingsDeduction: Math.min(savingsInterest, 270000),
       rentalDeduction: Math.min(rentalExpenses, 180000)
     }

@@ -1,5 +1,4 @@
-import React from 'react'
-import TaxCalculator from './TaxCalculator'
+import TaxCalculator from './TaxCalculator.tsx'
 
 function App() {
   return (

@@ -131,6 +131,15 @@ interface I18nTexts {
     calculationFormula: string;
     taxpayerSalary: string;
     remainingIncome: string;
+    minusDeductionsTotal: string;
+    salaryTaxableNet: string;
+    taxpayerSalaryTaxAmount: string;
+    remainingIncomeTaxAmount: string;
+    separateFilingTotalLabel: string;
+    salarySeperateTotalLabel: string;
+    calculationFormulaLabel: string;
+    bestChoice: string;
+    savingsMessage: string;
   };
   filingMethodComparison: {
     description: string;
@@ -193,6 +202,34 @@ interface I18nTexts {
     remainingIncomeTaxAmount: string;
     totalTaxAmount: string;
     combinedFilingDisplay: string;
+    calculateSalaryNet: string;
+    calculateExemptions: string;
+    calculateGeneralDeductions: string;
+    calculateSpecialDeductions: string;
+    calculateBasicLivingDifference: string;
+    calculateNetIncome: string;
+    calculateTaxAmount: string;
+    salarySpecialDeductionAlreadyCalculated: string;
+    generalExemptionPeople: string;
+    elderlyExemptionPeople: string;
+    chooseItemizedDeduction: string;
+    donationDeductionItem: string;
+    personalInsuranceDeductionItem: string;
+    healthInsuranceDeductionItem: string;
+    medicalExpensesItem: string;
+    disasterLossItem: string;
+    mortgageInterestItem: string;
+    childrenDeductionItem: string;
+    educationDeductionItem: string;
+    disabilityDeductionItem: string;
+    longTermCareDeductionItem: string;
+    savingsDeductionItem: string;
+    rentalDeductionItem: string;
+    basicLivingExpenseTotalCalc: string;
+    minusExemptionsAndDeductions: string;
+    multiplyTaxRate: string;
+    minusProgressiveDifference: string;
+    people: string;
   };
   deductionDetails: {
     exemptions: string;
@@ -247,14 +284,77 @@ interface I18nTexts {
     yuan: string;
     tenThousandYuan: string;
   };
+  taxReforms: {
+    before: string;
+    after: string;
+    impact: string;
+  };
+  labels: {
+    info: string;
+    spouseInfo: string;
+    taxCalculationMethodPost2018: string;
+    childrenUnder6New2025: string;
+    elderlyOver70Count: string;
+    generalDependentsCount: string;
+    collegeStudentsCount: string;
+    disabledCount: string;
+    longTermCareCount: string;
+    rentalExpensesNew2025: string;
+    savingsInterestIncome: string;
+    itemizedDeductionDetails: string;
+    itemizedDeductionReminder: string;
+    donationAmount: string;
+    personalInsuranceNonNHI: string;
+    nationalHealthInsurance: string;
+    medicalAndBirthExpenses: string;
+    disasterLosses: string;
+    mortgageInterestSelfUse: string;
+    excludedFromItemizedDeduction: string;
+    separateFilingDetailedInfo: string;
+    filingMethodComparisonTitle: string;
+    detailedCalculationProcess: string;
+    taxBracketTable2025: string;
+  };
+  placeholders: {
+    salaryAndBonus: string;
+    interestDividendRent: string;
+    spouseSalaryAndBonus: string;
+    spouseOtherIncome: string;
+    bornAfter2018: string;
+    elderlyOver70: string;
+    dependents6to70: string;
+    collegeStudents: string;
+    disabledPersons: string;
+    longTermCareNeeds: string;
+    rentalExpensesForSelfUse: string;
+    bankDepositInterest: string;
+    donationsToLegalOrgs: string;
+    personalInsuranceExcludingNHI: string;
+    totalNHIPremiums: string;
+    legalHospitalMedicalFees: string;
+    forceDisasterLosses: string;
+    selfUseMortgageInterest: string;
+  };
+  descriptions: {
+    salaryIncomeIncluding: string;
+    otherIncomeIncluding: string;
+    elderlyHigherExemption: string;
+    generalExemptionAmount: string;
+    educationFeeDeduction: string;
+    disabilityDeduction: string;
+    longTermCareDeduction: string;
+    rentalMajorReform2025: string;
+    savingsInterestLimit: string;
+    standardDeductionAmounts: string;
+    includesSpouseSalary: string;
+    otherIncome: string;
+  };
 }
 
 export const zhTW: I18nTexts = {
-  // 頁面標題和描述
   title: "台灣綜合所得稅計算器 2025",
   description: "基於2025年最新稅制規則，動態計算稅務並提供完整扣除額說明",
 
-  // 功能特色
   features: {
     realTimeCalculation: "即時動態計算",
     detailedDeductions: "詳細扣除額分項",
@@ -263,12 +363,10 @@ export const zhTW: I18nTexts = {
     autoSave: "自動保存輸入"
   },
 
-  // 按鈕文字
   buttons: {
     clearAllData: "清除所有輸入資料"
   },
 
-  // 卡片標題
   cardTitles: {
     majorTaxReforms2025: "🎯 2025年重大稅制變革",
     taxFreeThresholds: "💡 免稅門檻快速查詢",
@@ -287,7 +385,6 @@ export const zhTW: I18nTexts = {
     importantNotes: "⚠️ 注意事項"
   },
 
-  // 基本資訊
   basicInfo: {
     salaryIncome: "薪資收入 (NT$)",
     salaryPlaceholder: "薪資、獎金等所得",
@@ -309,7 +406,6 @@ export const zhTW: I18nTexts = {
     eTaxDescription: "eTax系統會自動計算三種方式，選擇稅負最低的那種"
   },
 
-  // 扶養親屬
   dependents: {
     description: "每位扶養親屬可享有免稅額，特定條件另有特別扣除額",
     childrenUnder6: "6歲以下子女人數 (🎯2025年新制)",
@@ -333,7 +429,6 @@ export const zhTW: I18nTexts = {
     longTermCareWarning: "⚠️ 有排富規定：適用稅率20%以上不適用"
   },
 
-  // 扣除額選擇
   deductionChoice: {
     description: "可選擇標準扣除額或列舉扣除額，系統會自動選擇對您最有利的方案",
     useItemizedDeduction: "使用列舉扣除額 (需檢附證明文件)",
@@ -341,8 +436,7 @@ export const zhTW: I18nTexts = {
     itemizedDeductionDetails: "列舉扣除額明細",
     itemizedDeductionReminder: "💡 提醒：列舉扣除額需檢附收據證明，國稅局有資料者免附",
 
-    // 列舉扣除額項目
-    donations: "捐贈金額 (NT$)",
+    donations: "1. 捐贈金額 (NT$)",
     donationsPlaceholder: "對合法團體之捐贈",
     donationsConditions: [
       "• 教育、文化、公益、慈善機構：限所得總額20%",
@@ -351,7 +445,7 @@ export const zhTW: I18nTexts = {
       "• 需檢附：受贈單位收據正本"
     ],
 
-    personalInsurance: "人身保險費 (非健保) (NT$)",
+    personalInsurance: "2a. 人身保險費 (非健保) (NT$)",
     personalInsurancePlaceholder: "人身保險費（不含健保費）",
     personalInsuranceConditions: [
       "• 人身保險費：每人限24,000元（壽險、傷害險、年金險等）",
@@ -360,7 +454,7 @@ export const zhTW: I18nTexts = {
       "• 需檢附：保險費收據正本或繳費證明"
     ],
 
-    healthInsurance: "全民健保費 (NT$)",
+    healthInsurance: "2b. 全民健保費 (NT$)",
     healthInsurancePlaceholder: "全民健保費總額",
     healthInsuranceConditions: [
       "• 全民健保費：無金額限制，可全額扣除",
@@ -369,7 +463,7 @@ export const zhTW: I18nTexts = {
       "• 需檢附：健保費繳費證明或收據"
     ],
 
-    medicalExpenses: "醫療及生育費用 (NT$)",
+    medicalExpenses: "3. 醫療及生育費用 (NT$)",
     medicalPlaceholder: "合法醫院之醫療費用",
     medicalConditions: [
       "• 核實認列，無金額限制",
@@ -379,7 +473,7 @@ export const zhTW: I18nTexts = {
       "• 需檢附：醫院開立的收據正本"
     ],
 
-    disasterLoss: "災害損失 (NT$)",
+    disasterLoss: "4. 災害損失 (NT$)",
     disasterPlaceholder: "不可抗力災害損失",
     disasterConditions: [
       "• 核實認列，無金額限制",
@@ -388,7 +482,7 @@ export const zhTW: I18nTexts = {
       "• 需檢附：國稅局核發的證明文件"
     ],
 
-    mortgageInterest: "自用住宅購屋借款利息 (NT$)",
+    mortgageInterest: "5. 自用住宅購屋借款利息 (NT$)",
     mortgagePlaceholder: "自用住宅購屋借款利息",
     mortgageConditions: [
       "• 每戶限30萬元，限一屋",
@@ -408,7 +502,6 @@ export const zhTW: I18nTexts = {
     ]
   },
 
-  // 特別扣除額
   specialDeductions: {
     description: "符合條件可同時適用多項特別扣除額",
     rentalExpenses: "房屋租金支出 (NT$) (🎯2025年新制)",
@@ -419,7 +512,6 @@ export const zhTW: I18nTexts = {
     savingsDescription: "每戶限270,000元，超過部分按一般所得課稅"
   },
 
-  // 計算結果
   calculationResults: {
     taxAmount: "應納稅額",
     effectiveTaxRate: "有效稅率",
@@ -444,10 +536,18 @@ export const zhTW: I18nTexts = {
     salarySeperateTotal: "薪資分開計稅總計",
     calculationFormula: "計算公式",
     taxpayerSalary: "本人薪資",
-    remainingIncome: "剩餘所得"
+    remainingIncome: "剩餘所得",
+    minusDeductionsTotal: "減：扣除額總計",
+    salaryTaxableNet: "薪資應稅淨額",
+    taxpayerSalaryTaxAmount: "本人薪資應納稅額",
+    remainingIncomeTaxAmount: "剩餘所得應納稅額",
+    separateFilingTotalLabel: "分開計稅總計",
+    salarySeperateTotalLabel: "薪資分開計稅總計",
+    calculationFormulaLabel: "計算公式",
+    bestChoice: "✓ 最優選擇",
+    savingsMessage: "💰 相比傳統合併申報，您節省了"
   },
 
-  // 計稅方式比較
   filingMethodComparison: {
     description: "系統自動選擇稅負最低的計稅方式",
     taxAmount: "稅額",
@@ -456,7 +556,6 @@ export const zhTW: I18nTexts = {
     taxSavings: "的稅款"
   },
 
-  // 完整計算公式
   calculationSteps: {
     step1: "步驟1：計算薪資淨額（薪資所得扣除薪資特別扣除額）",
     step2: "步驟2：計算免稅額",
@@ -517,10 +616,37 @@ export const zhTW: I18nTexts = {
     taxpayerSalaryTaxAmount: "本人薪資應納稅額",
     remainingIncomeTaxAmount: "剩餘所得應納稅額",
     totalTaxAmount: "應納稅額總計",
-    combinedFilingDisplay: "合併計稅顯示"
+    combinedFilingDisplay: "合併計稅顯示",
+    calculateSalaryNet: "計算薪資淨額（薪資所得扣除薪資特別扣除額）",
+    calculateExemptions: "計算免稅額",
+    calculateGeneralDeductions: "計算一般扣除額",
+    calculateSpecialDeductions: "計算特別扣除額",
+    calculateBasicLivingDifference: "基本生活費差額",
+    calculateNetIncome: "計算綜合所得淨額",
+    calculateTaxAmount: "計算應納稅額",
+    salarySpecialDeductionAlreadyCalculated: "注：薪資特別扣除額已在步驟1計算",
+    generalExemptionPeople: "一般免稅額人數",
+    elderlyExemptionPeople: "70歲以上免稅額人數",
+    chooseItemizedDeduction: "選擇列舉扣除額：",
+    donationDeductionItem: "• 捐贈扣除額",
+    personalInsuranceDeductionItem: "• 人身保險費（非健保）",
+    healthInsuranceDeductionItem: "• 全民健保費",
+    medicalExpensesItem: "• 醫療費用",
+    disasterLossItem: "• 災害損失",
+    mortgageInterestItem: "• 房貸利息",
+    childrenDeductionItem: "• 幼兒學前扣除額",
+    educationDeductionItem: "• 教育學費扣除額",
+    disabilityDeductionItem: "• 身心障礙扣除額",
+    longTermCareDeductionItem: "• 長期照顧扣除額",
+    savingsDeductionItem: "• 儲蓄投資扣除額",
+    rentalDeductionItem: "• 房屋租金扣除額",
+    basicLivingExpenseTotalCalc: "基本生活費總額",
+    minusExemptionsAndDeductions: "減：免稅額+扣除額合計",
+    multiplyTaxRate: "× 稅率",
+    minusProgressiveDifference: "減：累進差額",
+    people: "人"
   },
 
-  // 扣除額詳細說明
   deductionDetails: {
     exemptions: "免稅額",
     generalExemption: "一般免稅額：每人97,000元",
@@ -530,14 +656,12 @@ export const zhTW: I18nTexts = {
     conditions: "條件："
   },
 
-  // 稅率級距表
   taxBrackets: {
     progressiveDifference: "累進差額",
     yourApplicableBracket: "← 您的適用級距",
     above: "以上"
   },
 
-  // 列舉扣除額詳細說明
   itemizedDeductionDetails: {
     description: "需檢附證明文件，與標準扣除額擇一適用",
     limit: "限額：",
@@ -547,7 +671,6 @@ export const zhTW: I18nTexts = {
     requiredDocuments: "應備文件："
   },
 
-  // 注意事項
   importantNotes: {
     calculatorReference: "• 本計算器僅供參考，實際稅額計算請以財政部公告為準",
     documentReminder: "• 列舉扣除額需檢附相關證明文件，請妥善保存收據",
@@ -556,13 +679,11 @@ export const zhTW: I18nTexts = {
     basicLivingProtection: "• 基本生活費保障機制確保每人基本生活所需不被課稅"
   },
 
-  // 空狀態
   emptyState: {
     title: "請輸入年總收入開始計算",
     description: "系統將自動為您計算稅額和詳細扣除額"
   },
 
-  // 通用詞彙
   common: {
     people: "人",
     ntd: "NT$",
@@ -583,6 +704,75 @@ export const zhTW: I18nTexts = {
     annually: "每年",
     yuan: "元",
     tenThousandYuan: "萬元"
+  },
+
+  taxReforms: {
+    before: "修正前",
+    after: "修正後",
+    impact: "影響"
+  },
+
+  labels: {
+    info: "資訊",
+    spouseInfo: "配偶資訊",
+    taxCalculationMethodPost2018: "計稅方式 (2018年修法後)",
+    childrenUnder6New2025: "6歲以下子女人數 (🎯2025年新制)",
+    elderlyOver70Count: "70歲以上長輩人數",
+    generalDependentsCount: "一般扶養親屬人數",
+    collegeStudentsCount: "大專院校學生人數",
+    disabledCount: "身心障礙人數",
+    longTermCareCount: "長期照顧需求人數",
+    rentalExpensesNew2025: "房屋租金支出 (NT$) (🎯2025年新制)",
+    savingsInterestIncome: "儲蓄投資利息 (NT$)",
+    itemizedDeductionDetails: "列舉扣除額明細",
+    itemizedDeductionReminder: "💡 提醒：列舉扣除額需檢附收據證明，國稅局有資料者免附",
+    donationAmount: "1. 捐贈金額 (NT$)",
+    personalInsuranceNonNHI: "2a. 人身保險費 (非健保) (NT$)",
+    nationalHealthInsurance: "2b. 全民健保費 (NT$)",
+    medicalAndBirthExpenses: "3. 醫療及生育費用 (NT$)",
+    disasterLosses: "4. 災害損失 (NT$)",
+    mortgageInterestSelfUse: "5. 自用住宅購屋借款利息 (NT$)",
+    excludedFromItemizedDeduction: "❌ 不可列入列舉扣除額的項目：",
+    separateFilingDetailedInfo: "分開計稅詳細資訊",
+    filingMethodComparisonTitle: "計稅方式比較",
+    detailedCalculationProcess: "詳細計算過程",
+    taxBracketTable2025: "2025年稅率級距表"
+  },
+
+  placeholders: {
+    salaryAndBonus: "薪資、獎金等所得",
+    interestDividendRent: "利息、股利、租金等其他所得",
+    spouseSalaryAndBonus: "配偶薪資、獎金等所得",
+    spouseOtherIncome: "配偶其他所得",
+    bornAfter2018: "民國107年(含)以後出生",
+    elderlyOver70: "年滿70歲之直系尊親屬",
+    dependents6to70: "6歲以上70歲以下扶養親屬",
+    collegeStudents: "大專以上在學子女",
+    disabledPersons: "持有身心障礙證明者",
+    longTermCareNeeds: "符合長期照顧條件者",
+    rentalExpensesForSelfUse: "租屋自住年支出",
+    bankDepositInterest: "銀行存款利息收入",
+    donationsToLegalOrgs: "對合法團體之捐贈",
+    personalInsuranceExcludingNHI: "人身保險費（不含健保費）",
+    totalNHIPremiums: "全民健保費總額",
+    legalHospitalMedicalFees: "合法醫院之醫療費用",
+    forceDisasterLosses: "不可抗力災害損失",
+    selfUseMortgageInterest: "自用住宅購屋借款利息"
+  },
+
+  descriptions: {
+    salaryIncomeIncluding: "包含：薪資、獎金、年終獎金等薪資所得",
+    otherIncomeIncluding: "包含：利息所得、股利所得、租賃所得、其他所得等",
+    elderlyHigherExemption: "享有較高免稅額145,500元(一般為97,000元)",
+    generalExemptionAmount: "享有一般免稅額97,000元",
+    educationFeeDeduction: "每人可享教育學費特別扣除額25,000元",
+    disabilityDeduction: "每人可享身心障礙特別扣除額218,000元",
+    longTermCareDeduction: "每人可享長期照顧特別扣除額120,000元",
+    rentalMajorReform2025: "2025年重大變革：從列舉扣除改為特別扣除，每戶限180,000元",
+    savingsInterestLimit: "每戶限270,000元，超過部分按一般所得課稅",
+    standardDeductionAmounts: "標準扣除額：單身131,000元、夫妻262,000元",
+    includesSpouseSalary: "包括：配偶薪資",
+    otherIncome: "+ 其他所得"
   }
 };
 

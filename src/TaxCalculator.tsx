@@ -5,9 +5,6 @@ import { Input } from './components/ui/input';
 import {
   TAX_BRACKETS,
   EXEMPTION_AMOUNTS,
-  STANDARD_DEDUCTIONS,
-  ITEMIZED_DEDUCTIONS,
-  SPECIAL_DEDUCTIONS,
   BASIC_LIVING_EXPENSE,
   TAX_SAVING_TIPS,
   TAX_FREE_THRESHOLDS,
@@ -17,7 +14,7 @@ import zhTW from './i18n/zh-TW';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useTaxCalculation } from './hooks/useTaxCalculation';
 import { formatCurrency, formatNumber } from './utils/formatters';
-import { TaxFormData, MarriedTaxResult, TaxResult } from './types/tax';
+import { TaxFormData } from './types/tax';
 
 const TaxCalculator: React.FC = () => {
   // 使用localStorage缓存的状态
@@ -199,7 +196,7 @@ const TaxCalculator: React.FC = () => {
       {/* 2025年重大税制变革 */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-red-600">🎯 2025年重大税制变革</CardTitle>
+          <CardTitle className="text-red-600">{zhTW.cardTitles.majorTaxReforms2025}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid md:grid-cols-3 gap-4">
@@ -207,9 +204,9 @@ const TaxCalculator: React.FC = () => {
               <div key={index} className="bg-red-50 p-4 rounded-lg border border-red-200">
                 <h4 className="font-semibold text-red-800 mb-2">{reform.item}</h4>
                 <div className="text-sm space-y-1">
-                  <div className="text-gray-600">修正前: {reform.before}</div>
-                  <div className="text-green-600 font-medium">修正后: {reform.after}</div>
-                  <div className="text-blue-600">影响: {reform.impact}</div>
+                  <div className="text-gray-600">{zhTW.taxReforms.before}: {reform.before}</div>
+                  <div className="text-green-600 font-medium">{zhTW.taxReforms.after}: {reform.after}</div>
+                  <div className="text-blue-600">{zhTW.taxReforms.impact}: {reform.impact}</div>
                 </div>
               </div>
             ))}
@@ -220,7 +217,7 @@ const TaxCalculator: React.FC = () => {
       {/* 免税门槛快速查询 */}
       <Card>
         <CardHeader>
-          <CardTitle>💡 免税门槛快速查询</CardTitle>
+          <CardTitle>{zhTW.cardTitles.taxFreeThresholds}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -240,43 +237,43 @@ const TaxCalculator: React.FC = () => {
       <div className="grid lg:grid-cols-2 gap-6">
         {/* 左侧：输入区域 */}
         <div className="space-y-6">
-          {/* 基本信息 */}
-          <Card>
-            <CardHeader>
-              <CardTitle>基本信息</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  {zhTW.basicInfo.salaryIncome}
-                </label>
-                <Input
-                  type="number"
-                  value={salaryIncome}
-                  onChange={(e) => setSalaryIncome(e.target.value)}
-                  placeholder="薪资、奖金等所得"
-                  className="w-full"
-                />
-                <div className="text-xs text-gray-500 mt-1">
-                  包含：薪资、奖金、年终奖金等薪资所得
-                </div>
+                  {/* 基本信息 */}
+        <Card>
+          <CardHeader>
+            <CardTitle>{zhTW.cardTitles.basicInfo}</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                {zhTW.basicInfo.salaryIncome}
+              </label>
+              <Input
+                type="number"
+                value={salaryIncome}
+                onChange={(e) => setSalaryIncome(e.target.value)}
+                placeholder={zhTW.placeholders.salaryAndBonus}
+                className="w-full"
+              />
+              <div className="text-xs text-gray-500 mt-1">
+                {zhTW.descriptions.salaryIncomeIncluding}
               </div>
+            </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  {zhTW.basicInfo.otherIncome}
-                </label>
-                <Input
-                  type="number"
-                  value={otherIncome}
-                  onChange={(e) => setOtherIncome(e.target.value)}
-                  placeholder="利息、股利、租金等其他所得"
-                  className="w-full"
-                />
-                <div className="text-xs text-gray-500 mt-1">
-                  包含：利息所得、股利所得、租赁所得、其他所得等
-                </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                {zhTW.basicInfo.otherIncome}
+              </label>
+              <Input
+                type="number"
+                value={otherIncome}
+                onChange={(e) => setOtherIncome(e.target.value)}
+                placeholder={zhTW.placeholders.interestDividendRent}
+                className="w-full"
+              />
+              <div className="text-xs text-gray-500 mt-1">
+                {zhTW.descriptions.otherIncomeIncluding}
               </div>
+            </div>
 
               <div>
                 <label className="flex items-center space-x-2">
@@ -292,7 +289,7 @@ const TaxCalculator: React.FC = () => {
 
               {isMarried && (
                 <div className="bg-blue-50 p-4 rounded-lg space-y-4">
-                  <h4 className="font-medium text-blue-800">{zhTW.calculationResults.spouse}信息</h4>
+                  <h4 className="font-medium text-blue-800">{zhTW.calculationResults.spouse}{zhTW.labels.info}</h4>
 
                   <div>
                     <label className="block text-sm font-medium mb-2">
@@ -302,7 +299,7 @@ const TaxCalculator: React.FC = () => {
                       type="number"
                       value={spouseSalaryIncome}
                       onChange={(e) => setSpouseSalaryIncome(e.target.value)}
-                      placeholder="配偶薪资、奖金等所得"
+                      placeholder={zhTW.placeholders.spouseSalaryAndBonus}
                       className="w-full"
                     />
                   </div>
@@ -315,13 +312,13 @@ const TaxCalculator: React.FC = () => {
                       type="number"
                       value={spouseOtherIncome}
                       onChange={(e) => setSpouseOtherIncome(e.target.value)}
-                      placeholder="配偶其他所得"
+                      placeholder={zhTW.placeholders.spouseOtherIncome}
                       className="w-full"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">计税方式 (2018年修法后)</label>
+                    <label className="block text-sm font-medium mb-2">{zhTW.labels.taxCalculationMethodPost2018}</label>
                     <div className="space-y-2">
                       <label className="flex items-center space-x-2">
                         <input
@@ -331,7 +328,7 @@ const TaxCalculator: React.FC = () => {
                           onChange={() => setTaxCalculationMethod('combined')}
                           className="rounded"
                         />
-                        <span>全部合并计税 (传统方式)</span>
+                        <span>{zhTW.basicInfo.combinedFiling}</span>
                       </label>
                       <label className="flex items-center space-x-2">
                         <input
@@ -341,7 +338,7 @@ const TaxCalculator: React.FC = () => {
                           onChange={() => setTaxCalculationMethod('salary_separate')}
                           className="rounded"
                         />
-                        <span>薪资分开计税，其他合并</span>
+                        <span>{zhTW.basicInfo.salarySeparate}</span>
                       </label>
                       <label className="flex items-center space-x-2">
                         <input
@@ -351,7 +348,7 @@ const TaxCalculator: React.FC = () => {
                           onChange={() => setTaxCalculationMethod('all_separate')}
                           className="rounded"
                         />
-                        <span>各类所得都分开计税 (最常见)</span>
+                        <span>{zhTW.basicInfo.allSeparate}</span>
                       </label>
                       <label className="flex items-center space-x-2">
                         <input
@@ -365,7 +362,7 @@ const TaxCalculator: React.FC = () => {
                       </label>
                     </div>
                     <div className="text-xs text-gray-500 mt-1">
-                      eTax系统会自动计算三种方式，选择税负最低的那种
+                      {zhTW.basicInfo.eTaxDescription}
                     </div>
                   </div>
                 </div>
@@ -376,19 +373,19 @@ const TaxCalculator: React.FC = () => {
           {/* 扶养亲属 */}
           <Card>
             <CardHeader>
-              <CardTitle>扶养亲属</CardTitle>
+              <CardTitle>{zhTW.cardTitles.dependents}</CardTitle>
               <p className="text-sm text-gray-600">{zhTW.dependents.description}</p>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  6岁以下子女人数 (🎯2025年新制)
+                  {zhTW.labels.childrenUnder6New2025}
                 </label>
                 <Input
                   type="number"
                   value={childrenUnder6}
                   onChange={(e) => setChildrenUnder6(e.target.value)}
-                  placeholder="民国107年(含)以后出生"
+                  placeholder={zhTW.placeholders.bornAfter2018}
                   className="w-full"
                 />
                 <div className="text-xs text-blue-600 mt-1">
@@ -398,81 +395,81 @@ const TaxCalculator: React.FC = () => {
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  70岁以上长辈人数
+                  {zhTW.labels.elderlyOver70Count}
                 </label>
                 <Input
                   type="number"
                   value={elderlyOver70}
                   onChange={(e) => setElderlyOver70(e.target.value)}
-                  placeholder="年满70岁之直系尊亲属"
+                  placeholder={zhTW.placeholders.elderlyOver70}
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 mt-1">
-                  享有较高免税额145,500元(一般为97,000元)
+                  {zhTW.descriptions.elderlyHigherExemption}
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  一般扶养亲属人数
+                  {zhTW.labels.generalDependentsCount}
                 </label>
                 <Input
                   type="number"
                   value={dependentsGeneral}
                   onChange={(e) => setDependentsGeneral(e.target.value)}
-                  placeholder="6岁以上70岁以下扶养亲属"
+                  placeholder={zhTW.placeholders.dependents6to70}
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 mt-1">
-                  享有一般免税额97,000元
+                  {zhTW.descriptions.generalExemptionAmount}
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  大专院校学生人数
+                  {zhTW.labels.collegeStudentsCount}
                 </label>
                 <Input
                   type="number"
                   value={students}
                   onChange={(e) => setStudents(e.target.value)}
-                  placeholder="大专以上在学子女"
+                  placeholder={zhTW.placeholders.collegeStudents}
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 mt-1">
-                  每人可享教育学费特别扣除额25,000元
+                  {zhTW.descriptions.educationFeeDeduction}
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  身心障碍人数
+                  {zhTW.labels.disabledCount}
                 </label>
                 <Input
                   type="number"
                   value={disabled}
                   onChange={(e) => setDisabled(e.target.value)}
-                  placeholder="持有身心障碍证明者"
+                  placeholder={zhTW.placeholders.disabledPersons}
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 mt-1">
-                  每人可享身心障碍特别扣除额218,000元
+                  {zhTW.descriptions.disabilityDeduction}
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  长期照顾需求人数
+                  {zhTW.labels.longTermCareCount}
                 </label>
                 <Input
                   type="number"
                   value={longTermCare}
                   onChange={(e) => setLongTermCare(e.target.value)}
-                  placeholder="符合长期照顾条件者"
+                  placeholder={zhTW.placeholders.longTermCareNeeds}
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 mt-1 space-y-1">
-                  <div>每人可享长期照顾特别扣除额120,000元</div>
+                  <div>{zhTW.descriptions.longTermCareDeduction}</div>
                   <div className="text-orange-600">{zhTW.dependents.longTermCareWarning}</div>
                 </div>
               </div>
@@ -483,151 +480,141 @@ const TaxCalculator: React.FC = () => {
           <Card>
             <CardHeader>
               <CardTitle>{zhTW.cardTitles.deductionChoice}</CardTitle>
-              <p className="text-sm text-gray-600">可选择标准扣除额或列举扣除额，系统会自动选择对您最有利的方案</p>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={useItemizedDeduction}
-                    onChange={(e) => setUseItemizedDeduction(e.target.checked)}
-                    className="rounded"
-                  />
-                  <span>使用列举扣除额 (需检附证明文件)</span>
-                </label>
-                <div className="text-xs text-gray-500 mt-1">
-                  标准扣除额：单身131,000元、夫妻262,000元
-                </div>
+                          <p className="text-sm text-gray-600">{zhTW.deductionChoice.description}</p>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <label className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={useItemizedDeduction}
+                  onChange={(e) => setUseItemizedDeduction(e.target.checked)}
+                  className="rounded"
+                />
+                <span>{zhTW.deductionChoice.useItemizedDeduction}</span>
+              </label>
+              <div className="text-xs text-gray-500 mt-1">
+                {zhTW.descriptions.standardDeductionAmounts}
               </div>
+            </div>
 
-              {useItemizedDeduction && (
-                <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
-                  <h4 className="font-medium text-gray-800">列举扣除额明细</h4>
-                  <div className="text-xs text-blue-600 mb-4">
-                    💡 提醒：列举扣除额需检附收据证明，国税局有资料者免附
-                  </div>
+            {useItemizedDeduction && (
+              <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
+                <h4 className="font-medium text-gray-800">{zhTW.labels.itemizedDeductionDetails}</h4>
+                <div className="text-xs text-blue-600 mb-4">
+                  {zhTW.labels.itemizedDeductionReminder}
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      1. 捐赠金额 (NT$)
-                    </label>
-                    <Input
-                      type="number"
-                      value={donations}
-                      onChange={(e) => setDonations(e.target.value)}
-                      placeholder="对合法团体之捐赠"
-                    />
-                    <div className="text-xs text-gray-500 mt-1 space-y-1">
-                      <div>• 教育、文化、公益、慈善机构：限所得总额20%</div>
-                      <div>• 政府、国防、劳军、古迹维护：无金额限制</div>
-                      <div>• 政治献金：限所得总额20%，最高20万元</div>
-                      <div>• 需检附：受赠单位收据正本</div>
-                    </div>
+                                  <div>
+                  <label className="block text-sm font-medium mb-2">
+                    {zhTW.labels.donationAmount}
+                  </label>
+                  <Input
+                    type="number"
+                    value={donations}
+                    onChange={(e) => setDonations(e.target.value)}
+                    placeholder={zhTW.placeholders.donationsToLegalOrgs}
+                  />
+                  <div className="text-xs text-gray-500 mt-1 space-y-1">
+                    {zhTW.deductionChoice.donationsConditions.map((condition, index) => (
+                      <div key={index}>{condition}</div>
+                    ))}
                   </div>
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      2a. 人身保险费 (非健保) (NT$)
-                    </label>
-                    <Input
-                      type="number"
-                      value={insurancePremiums}
-                      onChange={(e) => setInsurancePremiums(e.target.value)}
-                      placeholder="人身保险费（不含健保费）"
-                    />
-                    <div className="text-xs text-gray-500 mt-1 space-y-1">
-                      <div>• 人身保险费：每人限24,000元（寿险、伤害险、年金险等）</div>
-                      <div>• 劳保、国民年金、军公教保险：每人限24,000元</div>
-                      <div>• 要保人与被保人需在同一申报户</div>
-                      <div>• 需检附：保险费收据正本或缴费证明</div>
-                    </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    {zhTW.labels.personalInsuranceNonNHI}
+                  </label>
+                  <Input
+                    type="number"
+                    value={insurancePremiums}
+                    onChange={(e) => setInsurancePremiums(e.target.value)}
+                    placeholder={zhTW.placeholders.personalInsuranceExcludingNHI}
+                  />
+                  <div className="text-xs text-gray-500 mt-1 space-y-1">
+                    {zhTW.deductionChoice.personalInsuranceConditions.map((condition, index) => (
+                      <div key={index}>{condition}</div>
+                    ))}
                   </div>
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      2b. 全民健保费 (NT$)
-                    </label>
-                    <Input
-                      type="number"
-                      value={healthInsurancePremiums}
-                      onChange={(e) => setHealthInsurancePremiums(e.target.value)}
-                      placeholder="全民健保费总额"
-                    />
-                    <div className="text-xs text-gray-500 mt-1 space-y-1">
-                      <div>• 全民健保费：无金额限制，可全额扣除</div>
-                      <div>• 包含：一般保费、补充保费</div>
-                      <div>• 不限要保人与被保人关系</div>
-                      <div>• 需检附：健保费缴费证明或收据</div>
-                    </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    {zhTW.labels.nationalHealthInsurance}
+                  </label>
+                  <Input
+                    type="number"
+                    value={healthInsurancePremiums}
+                    onChange={(e) => setHealthInsurancePremiums(e.target.value)}
+                    placeholder={zhTW.placeholders.totalNHIPremiums}
+                  />
+                  <div className="text-xs text-gray-500 mt-1 space-y-1">
+                    {zhTW.deductionChoice.healthInsuranceConditions.map((condition, index) => (
+                      <div key={index}>{condition}</div>
+                    ))}
                   </div>
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      3. 医疗及生育费用 (NT$)
-                    </label>
-                    <Input
-                      type="number"
-                      value={medicalExpenses}
-                      onChange={(e) => setMedicalExpenses(e.target.value)}
-                      placeholder="合法医院之医疗费用"
-                    />
-                    <div className="text-xs text-gray-500 mt-1 space-y-1">
-                      <div>• 核实认列，无金额限制</div>
-                      <div>• 限公立医院、健保特约医院或诊所</div>
-                      <div>• 包含长照治疗费用</div>
-                      <div>• 保险理赔部分不可列入</div>
-                      <div>• 需检附：医院开立的收据正本</div>
-                    </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    {zhTW.labels.medicalAndBirthExpenses}
+                  </label>
+                  <Input
+                    type="number"
+                    value={medicalExpenses}
+                    onChange={(e) => setMedicalExpenses(e.target.value)}
+                    placeholder={zhTW.placeholders.legalHospitalMedicalFees}
+                  />
+                  <div className="text-xs text-gray-500 mt-1 space-y-1">
+                    {zhTW.deductionChoice.medicalConditions.map((condition, index) => (
+                      <div key={index}>{condition}</div>
+                    ))}
                   </div>
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      4. 灾害损失 (NT$)
-                    </label>
-                    <Input
-                      type="number"
-                      value={disasterLoss}
-                      onChange={(e) => setDisasterLoss(e.target.value)}
-                      placeholder="不可抗力灾害损失"
-                    />
-                    <div className="text-xs text-gray-500 mt-1 space-y-1">
-                      <div>• 核实认列，无金额限制</div>
-                      <div>• 限不可抗力灾害（天灾等）</div>
-                      <div>• 保险理赔、救济金部分不可列入</div>
-                      <div>• 需检附：国税局核发的证明文件</div>
-                    </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    {zhTW.labels.disasterLosses}
+                  </label>
+                  <Input
+                    type="number"
+                    value={disasterLoss}
+                    onChange={(e) => setDisasterLoss(e.target.value)}
+                    placeholder={zhTW.placeholders.forceDisasterLosses}
+                  />
+                  <div className="text-xs text-gray-500 mt-1 space-y-1">
+                    {zhTW.deductionChoice.disasterConditions.map((condition, index) => (
+                      <div key={index}>{condition}</div>
+                    ))}
                   </div>
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      5. 自用住宅购屋借款利息 (NT$)
-                    </label>
-                    <Input
-                      type="number"
-                      value={mortgageInterest}
-                      onChange={(e) => setMortgageInterest(e.target.value)}
-                      placeholder="自用住宅购屋借款利息"
-                    />
-                    <div className="text-xs text-gray-500 mt-1 space-y-1">
-                      <div>• 每户限30万元，限一屋</div>
-                      <div>• 需完成户籍登记且未出租、营业</div>
-                      <div>• 需先扣除储蓄投资特别扣除额</div>
-                      <div>• 需检附：金融机构利息单据正本</div>
-                    </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    {zhTW.labels.mortgageInterestSelfUse}
+                  </label>
+                  <Input
+                    type="number"
+                    value={mortgageInterest}
+                    onChange={(e) => setMortgageInterest(e.target.value)}
+                    placeholder={zhTW.placeholders.selfUseMortgageInterest}
+                  />
+                  <div className="text-xs text-gray-500 mt-1 space-y-1">
+                    {zhTW.deductionChoice.mortgageConditions.map((condition, index) => (
+                      <div key={index}>{condition}</div>
+                    ))}
                   </div>
+                </div>
 
-                  <div className="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
-                    <h5 className="font-medium text-yellow-800 mb-2">❌ 不可列入列举扣除额的项目：</h5>
-                    <div className="text-xs text-yellow-700 space-y-1">
-                      <div>• 医美整形费用</div>
-                      <div>• 已获保险理赔的医疗费</div>
-                      <div>• 看护费用</div>
-                      <div>• 月子中心费用</div>
-                      <div>• 非人身保险费（如财产险）</div>
-                      <div>• 未经核准在台销售的境外保单</div>
-                    </div>
+                <div className="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
+                  <h5 className="font-medium text-yellow-800 mb-2">{zhTW.labels.excludedFromItemizedDeduction}</h5>
+                  <div className="text-xs text-yellow-700 space-y-1">
+                    {zhTW.deductionChoice.excludedItemsList.map((item, index) => (
+                      <div key={index}>{item}</div>
+                    ))}
                   </div>
+                </div>
                 </div>
               )}
             </CardContent>
@@ -642,33 +629,33 @@ const TaxCalculator: React.FC = () => {
             <CardContent className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  房屋租金支出 (NT$) (🎯2025年新制)
+                  {zhTW.labels.rentalExpensesNew2025}
                 </label>
                 <Input
                   type="number"
                   value={rentalExpenses}
                   onChange={(e) => setRentalExpenses(e.target.value)}
-                  placeholder="租屋自住年支出"
+                  placeholder={zhTW.placeholders.rentalExpensesForSelfUse}
                   className="w-full"
                 />
                 <div className="text-xs text-blue-600 mt-1">
-                  2025年重大变革：从列举扣除改为特别扣除，每户限180,000元
+                  {zhTW.descriptions.rentalMajorReform2025}
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  储蓄投资利息 (NT$)
+                  {zhTW.labels.savingsInterestIncome}
                 </label>
                 <Input
                   type="number"
                   value={savingsInterest}
                   onChange={(e) => setSavingsInterest(e.target.value)}
-                  placeholder="银行存款利息收入"
+                  placeholder={zhTW.placeholders.bankDepositInterest}
                   className="w-full"
                 />
                 <div className="text-xs text-gray-500 mt-1">
-                  每户限270,000元，超过部分按一般所得课税
+                  {zhTW.descriptions.savingsInterestLimit}
                 </div>
               </div>
             </CardContent>
@@ -688,7 +675,7 @@ const TaxCalculator: React.FC = () => {
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-blue-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600">应纳税额</div>
+                        <div className="text-sm text-gray-600">{zhTW.calculationResults.taxAmount}</div>
                         <div className="text-2xl font-bold text-blue-600">
                           {formatCurrency(result.taxAmount || 0)}
                         </div>
@@ -703,7 +690,7 @@ const TaxCalculator: React.FC = () => {
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-gray-50 p-4 rounded-lg">
-                        <div className="text-sm text-gray-600">税后净收入</div>
+                        <div className="text-sm text-gray-600">{zhTW.calculationResults.afterTaxIncome}</div>
                         <div className="text-xl font-bold text-gray-800">
                           {formatCurrency((result.grossIncome || 0) - (result.taxAmount || 0))}
                         </div>
@@ -725,8 +712,8 @@ const TaxCalculator: React.FC = () => {
                  ('taxpayerSalaryPortion' in result && 'remainingPortion' in result && result.method === 'salary_separate')) && (
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-purple-600">分开计税详细信息</CardTitle>
-                      <p className="text-sm text-gray-600">各自适用不同税率级距，分别计算税额</p>
+                      <CardTitle className="text-purple-600">{zhTW.labels.separateFilingDetailedInfo}</CardTitle>
+                      <p className="text-sm text-gray-600">{zhTW.calculationResults.separateFilingDescription}</p>
                     </CardHeader>
                     <CardContent>
                       <div className="grid md:grid-cols-2 gap-4">
@@ -734,14 +721,14 @@ const TaxCalculator: React.FC = () => {
                           <>
                             {/* 纳税人 */}
                             <div className="bg-blue-50 p-4 rounded-lg">
-                              <h4 className="font-bold text-blue-800 mb-3">纳税人</h4>
+                              <h4 className="font-bold text-blue-800 mb-3">{zhTW.calculationResults.taxpayer}</h4>
                               <div className="space-y-2 text-sm">
                                 <div className="flex justify-between">
                                   <span>{zhTW.calculationResults.grossIncome}</span>
                                   <span>{formatCurrency(result.taxpayer.grossIncome || 0)}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                  <span>减：扣除额总计</span>
+                                  <span>{zhTW.calculationResults.minusDeductionsTotal}</span>
                                   <span>-{formatCurrency(result.taxpayer.deductions.totalDeductions)}</span>
                                 </div>
                                 <div className="flex justify-between font-medium">
@@ -753,7 +740,7 @@ const TaxCalculator: React.FC = () => {
                                   <span>{result.taxpayer.bracketInfo?.rate || 0}%</span>
                                 </div>
                                 <div className="flex justify-between text-blue-600 font-bold">
-                                  <span>应纳税额</span>
+                                  <span>{zhTW.calculationResults.taxAmount}</span>
                                   <span>{formatCurrency(result.taxpayer.taxAmount)}</span>
                                 </div>
                               </div>
@@ -793,15 +780,15 @@ const TaxCalculator: React.FC = () => {
                               <h4 className="font-bold text-blue-800 mb-3">{result.taxpayerSalaryPortion.description}</h4>
                               <div className="space-y-2 text-sm">
                                 <div className="flex justify-between">
-                                  <span>本人薪资所得净额</span>
+                                  <span>{zhTW.calculationResults.taxpayerSalaryNet}</span>
                                   <span>{formatCurrency(result.taxpayerSalaryPortion.grossIncome || 0)}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                  <span>减：本人免税额</span>
+                                  <span>{zhTW.common.minus}{zhTW.calculationResults.taxpayerExemption}</span>
                                   <span>-{formatCurrency(result.taxpayerSalaryPortion.exemption || 0)}</span>
                                 </div>
                                 <div className="flex justify-between font-medium">
-                                  <span>薪资应税净额</span>
+                                  <span>{zhTW.calculationResults.salaryTaxableNet}</span>
                                   <span>{formatCurrency(result.taxpayerSalaryPortion.netIncome || 0)}</span>
                                 </div>
                                 <div className="flex justify-between text-red-600 font-bold">
@@ -809,7 +796,7 @@ const TaxCalculator: React.FC = () => {
                                   <span>{result.taxpayerSalaryPortion.bracketInfo?.rate || 0}%</span>
                                 </div>
                                 <div className="flex justify-between text-blue-600 font-bold">
-                                  <span>本人薪资应纳税额</span>
+                                  <span>{zhTW.calculationResults.taxpayerSalaryTaxAmount}</span>
                                   <span>{formatCurrency(result.taxpayerSalaryPortion.taxAmount)}</span>
                                 </div>
                               </div>
@@ -820,14 +807,14 @@ const TaxCalculator: React.FC = () => {
                               <h4 className="font-bold text-green-800 mb-3">{result.remainingPortion.description}</h4>
                               <div className="space-y-2 text-sm">
                                 <div className="flex justify-between">
-                                  <span>剩余所得总额</span>
+                                  <span>{zhTW.calculationResults.remainingIncomeTotal}</span>
                                   <span>{formatCurrency(result.remainingPortion.grossIncome || 0)}</span>
                                 </div>
                                 <div className="text-xs text-gray-600 mb-2">
-                                  包括：{zhTW.calculationResults.spouse}薪资 {formatCurrency('salaryBreakdown' in result ? result.salaryBreakdown?.spouseSalaryNet || 0 : 0)} + 其他所得
+                                  {zhTW.descriptions.includesSpouseSalary} {formatCurrency('salaryBreakdown' in result ? result.salaryBreakdown?.spouseSalaryNet || 0 : 0)} {zhTW.descriptions.otherIncome}
                                 </div>
                                 <div className="flex justify-between font-medium">
-                                  <span>剩余所得净额</span>
+                                  <span>{zhTW.calculationResults.remainingIncomeNet}</span>
                                   <span>{formatCurrency(result.remainingPortion.netIncome || 0)}</span>
                                 </div>
                                 <div className="flex justify-between text-red-600 font-bold">
@@ -835,7 +822,7 @@ const TaxCalculator: React.FC = () => {
                                   <span>{result.remainingPortion.bracketInfo?.rate || 0}%</span>
                                 </div>
                                 <div className="flex justify-between text-green-600 font-bold">
-                                  <span>剩余所得应纳税额</span>
+                                  <span>{zhTW.calculationResults.remainingIncomeTaxAmount}</span>
                                   <span>{formatCurrency(result.remainingPortion.taxAmount)}</span>
                                 </div>
                               </div>
@@ -848,7 +835,7 @@ const TaxCalculator: React.FC = () => {
                       <div className="mt-4 bg-green-50 p-4 rounded-lg">
                         <div className="text-center">
                           <div className="text-sm text-gray-600">
-                            {result.method === 'salary_separate' ? '薪资分开计税总计' : '分开计税总计'}
+                            {result.method === 'salary_separate' ? zhTW.calculationResults.salarySeperateTotalLabel : zhTW.calculationResults.separateFilingTotalLabel}
                           </div>
                           <div className="text-2xl font-bold text-green-600">
                             {formatCurrency(result.taxAmount || 0)}
@@ -856,11 +843,11 @@ const TaxCalculator: React.FC = () => {
                           <div className="text-xs text-gray-500 mt-1">
                             {result.method === 'salary_separate' && 'taxpayerSalaryPortion' in result && 'remainingPortion' in result && result.taxpayerSalaryPortion && result.remainingPortion ? (
                               <div>
-                                <div>本人薪资：{formatCurrency(result.taxpayerSalaryPortion.netIncome || 0)} × {result.taxpayerSalaryPortion.bracketInfo?.rate || 0}% = {formatCurrency(result.taxpayerSalaryPortion.taxAmount)}</div>
-                                <div>剩余所得：{formatCurrency(result.remainingPortion.netIncome || 0)} × {result.remainingPortion.bracketInfo?.rate || 0}% = {formatCurrency(result.remainingPortion.taxAmount)}</div>
+                                <div>{zhTW.calculationResults.taxpayerSalary}：{formatCurrency(result.taxpayerSalaryPortion.netIncome || 0)} × {result.taxpayerSalaryPortion.bracketInfo?.rate || 0}% = {formatCurrency(result.taxpayerSalaryPortion.taxAmount)}</div>
+                                <div>{zhTW.calculationResults.remainingIncome}：{formatCurrency(result.remainingPortion.netIncome || 0)} × {result.remainingPortion.bracketInfo?.rate || 0}% = {formatCurrency(result.remainingPortion.taxAmount)}</div>
                               </div>
                             ) : result.method === 'all_separate' && 'taxpayer' in result && 'spouse' in result && result.taxpayer && result.spouse ? (
-                              <div>计算公式：{formatCurrency(result.taxpayer.netIncome || 0)} × {result.taxpayer.bracketInfo?.rate || 0}% + {formatCurrency(result.spouse.netIncome || 0)} × {result.spouse.bracketInfo?.rate || 0}%</div>
+                              <div>{zhTW.calculationResults.calculationFormulaLabel}：{formatCurrency(result.taxpayer.netIncome || 0)} × {result.taxpayer.bracketInfo?.rate || 0}% + {formatCurrency(result.spouse.netIncome || 0)} × {result.spouse.bracketInfo?.rate || 0}%</div>
                             ) : null}
                           </div>
                         </div>
@@ -874,8 +861,8 @@ const TaxCalculator: React.FC = () => {
               {isMarried && 'allMethods' in result && result.allMethods && (
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-orange-600">计税方式比较</CardTitle>
-                    <p className="text-sm text-gray-600">系统自动选择税负最低的计税方式</p>
+                    <CardTitle className="text-orange-600">{zhTW.labels.filingMethodComparisonTitle}</CardTitle>
+                    <p className="text-sm text-gray-600">{zhTW.filingMethodComparison.description}</p>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
@@ -892,12 +879,12 @@ const TaxCalculator: React.FC = () => {
                             <div>
                               <div className="font-medium">{data.description}</div>
                               <div className="text-sm text-gray-600">
-                                税额：{formatCurrency(data.totalTax || data.taxAmount)}
+                                {zhTW.filingMethodComparison.taxAmount}：{formatCurrency(data.totalTax || data.taxAmount)}
                               </div>
                             </div>
                             {'chosenMethod' in result && result.chosenMethod === method && (
                               <div className="text-green-600 font-bold">
-                                ✓ 最优选择
+                                {zhTW.calculationResults.bestChoice}
                               </div>
                             )}
                           </div>
@@ -908,7 +895,7 @@ const TaxCalculator: React.FC = () => {
                     {'savingsComparedToCombined' in result && result.savingsComparedToCombined && result.savingsComparedToCombined > 0 && (
                       <div className="mt-4 bg-green-100 p-3 rounded-lg">
                         <div className="text-green-800 font-medium">
-                          💰 相比传统合并申报，您节省了 {formatCurrency(result.savingsComparedToCombined)} 的税款
+                          {zhTW.calculationResults.savingsMessage} {formatCurrency(result.savingsComparedToCombined)} {zhTW.filingMethodComparison.taxSavings}
                         </div>
                       </div>
                     )}

@@ -1,9 +1,9 @@
-import TaxCalculator from './TaxCalculator.tsx'
+import TaxCalculatorRefactored from './TaxCalculatorRefactored'
 
 function App() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <TaxCalculator />
+      <TaxCalculatorRefactored />
     </div>
   )
 }

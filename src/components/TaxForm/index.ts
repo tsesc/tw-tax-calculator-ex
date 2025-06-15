@@ -1,0 +1,10 @@
+export { default as TaxReformInfo } from './TaxReformInfo';
+export { default as TaxThresholdInfo } from './TaxThresholdInfo';
+export { default as BasicInfoForm } from './BasicInfoForm';
+export { default as DependentsForm } from './DependentsForm';
+export { default as DeductionForm } from './DeductionForm';
+export { default as TaxResultDisplay } from './TaxResultDisplay';
+export { default as DetailedCalculationProcess } from './DetailedCalculationProcess';
+export { default as TaxBracketsTable } from './TaxBracketsTable';
+export { default as TaxSavingTips } from './TaxSavingTips';
+export { default as ImportantNotes } from './ImportantNotes';

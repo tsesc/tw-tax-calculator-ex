@@ -10,6 +10,14 @@ interface BasicInfoFormProps {
 }
 
 const BasicInfoForm: React.FC<BasicInfoFormProps> = ({ formData, onFieldChange }) => {
+  // Helper function to calculate monthly amount from annual
+  const calculateMonthly = (annualAmount: string): string => {
+    if (!annualAmount || annualAmount === '0') return '';
+    const annual = parseFloat(annualAmount);
+    if (isNaN(annual) || annual <= 0) return '';
+    return Math.round(annual / 12).toLocaleString();
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -20,13 +28,24 @@ const BasicInfoForm: React.FC<BasicInfoFormProps> = ({ formData, onFieldChange }
           <label className="block text-sm font-medium mb-2">
             {zhTW.basicInfo.salaryIncome}
           </label>
-          <Input
-            type="number"
-            value={formData.salaryIncome}
-            onChange={(e) => onFieldChange('salaryIncome', e.target.value)}
-            placeholder={zhTW.placeholders.salaryAndBonus}
-            className="w-full"
-          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div>
+              <Input
+                type="number"
+                value={formData.salaryIncome}
+                onChange={(e) => onFieldChange('salaryIncome', e.target.value)}
+                placeholder={zhTW.placeholders.salaryAndBonus}
+                className="w-full text-sm sm:text-base"
+              />
+              <div className="text-xs text-gray-400 mt-1">年薪</div>
+            </div>
+            <div>
+              <div className="w-full p-2 bg-gray-50 border rounded-md text-gray-600 text-sm sm:text-base break-all min-h-[2.5rem] flex items-center">
+                {calculateMonthly(formData.salaryIncome) || '平均月薪'}
+              </div>
+              <div className="text-xs text-gray-400 mt-1">平均月薪</div>
+            </div>
+          </div>
           <div className="text-xs text-gray-500 mt-1">
             {zhTW.descriptions.salaryIncomeIncluding}
           </div>
@@ -36,13 +55,24 @@ const BasicInfoForm: React.FC<BasicInfoFormProps> = ({ formData, onFieldChange }
           <label className="block text-sm font-medium mb-2">
             {zhTW.basicInfo.otherIncome}
           </label>
-          <Input
-            type="number"
-            value={formData.otherIncome}
-            onChange={(e) => onFieldChange('otherIncome', e.target.value)}
-            placeholder={zhTW.placeholders.interestDividendRent}
-            className="w-full"
-          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div>
+              <Input
+                type="number"
+                value={formData.otherIncome}
+                onChange={(e) => onFieldChange('otherIncome', e.target.value)}
+                placeholder={zhTW.placeholders.interestDividendRent}
+                className="w-full text-sm sm:text-base"
+              />
+              <div className="text-xs text-gray-400 mt-1">年收入</div>
+            </div>
+            <div>
+              <div className="w-full p-2 bg-gray-50 border rounded-md text-gray-600 text-sm sm:text-base break-all min-h-[2.5rem] flex items-center">
+                {calculateMonthly(formData.otherIncome) || '平均月收入'}
+              </div>
+              <div className="text-xs text-gray-400 mt-1">平均月收入</div>
+            </div>
+          </div>
           <div className="text-xs text-gray-500 mt-1">
             {zhTW.descriptions.otherIncomeIncluding}
           </div>
@@ -68,26 +98,48 @@ const BasicInfoForm: React.FC<BasicInfoFormProps> = ({ formData, onFieldChange }
               <label className="block text-sm font-medium mb-2">
                 {zhTW.calculationResults.spouse}{zhTW.basicInfo.salaryIncome}
               </label>
-              <Input
-                type="number"
-                value={formData.spouseSalaryIncome}
-                onChange={(e) => onFieldChange('spouseSalaryIncome', e.target.value)}
-                placeholder={zhTW.placeholders.spouseSalaryAndBonus}
-                className="w-full"
-              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <Input
+                    type="number"
+                    value={formData.spouseSalaryIncome}
+                    onChange={(e) => onFieldChange('spouseSalaryIncome', e.target.value)}
+                    placeholder={zhTW.placeholders.spouseSalaryAndBonus}
+                    className="w-full text-sm sm:text-base"
+                  />
+                  <div className="text-xs text-gray-400 mt-1">年薪</div>
+                </div>
+                <div>
+                  <div className="w-full p-2 bg-gray-50 border rounded-md text-gray-600 text-sm sm:text-base break-all min-h-[2.5rem] flex items-center">
+                    {calculateMonthly(formData.spouseSalaryIncome) || '平均月薪'}
+                  </div>
+                  <div className="text-xs text-gray-400 mt-1">平均月薪</div>
+                </div>
+              </div>
             </div>
 
             <div>
               <label className="block text-sm font-medium mb-2">
                 {zhTW.calculationResults.spouse}{zhTW.basicInfo.otherIncome}
               </label>
-              <Input
-                type="number"
-                value={formData.spouseOtherIncome}
-                onChange={(e) => onFieldChange('spouseOtherIncome', e.target.value)}
-                placeholder={zhTW.placeholders.spouseOtherIncome}
-                className="w-full"
-              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <Input
+                    type="number"
+                    value={formData.spouseOtherIncome}
+                    onChange={(e) => onFieldChange('spouseOtherIncome', e.target.value)}
+                    placeholder={zhTW.placeholders.spouseOtherIncome}
+                    className="w-full text-sm sm:text-base"
+                  />
+                  <div className="text-xs text-gray-400 mt-1">年收入</div>
+                </div>
+                <div>
+                  <div className="w-full p-2 bg-gray-50 border rounded-md text-gray-600 text-sm sm:text-base break-all min-h-[2.5rem] flex items-center">
+                    {calculateMonthly(formData.spouseOtherIncome) || '平均月收入'}
+                  </div>
+                  <div className="text-xs text-gray-400 mt-1">平均月收入</div>
+                </div>
+              </div>
             </div>
 
             <div>

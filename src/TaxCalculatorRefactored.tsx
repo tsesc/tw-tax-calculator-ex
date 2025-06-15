@@ -81,16 +81,16 @@ const TaxCalculatorRefactored: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
+    <div className="max-w-6xl mx-auto p-4 sm:p-6 space-y-6">
       {/* 标题和说明 */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold text-gray-900">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
           {zhTW.title}
         </h1>
-        <p className="text-lg text-gray-600">
+        <p className="text-base sm:text-lg text-gray-600">
           {zhTW.description}
         </p>
-        <div className="flex justify-center space-x-4 text-sm text-blue-600">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-4 text-xs sm:text-sm text-blue-600">
           <span>✓ {zhTW.features.realTimeCalculation}</span>
           <span>✓ {zhTW.features.detailedDeductions}</span>
           <span>✓ {zhTW.features.completeFormula}</span>
@@ -104,7 +104,7 @@ const TaxCalculatorRefactored: React.FC = () => {
             variant="outline"
             size="sm"
             onClick={clearCachedData}
-            className="text-red-600 border-red-200 hover:bg-red-50"
+            className="text-red-600 border-red-200 hover:bg-red-50 text-xs sm:text-sm"
           >
             🗑️ {zhTW.buttons.clearAllData}
           </Button>
@@ -117,7 +117,7 @@ const TaxCalculatorRefactored: React.FC = () => {
       {/* 免税门槛快速查询 */}
       <TaxThresholdInfo />
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* 左侧：输入区域 */}
         <div className="space-y-6">
           {/* 基本信息 */}
@@ -140,7 +140,7 @@ const TaxCalculatorRefactored: React.FC = () => {
       </div>
 
       {/* 税率级距表 */}
-      <TaxBracketsTable result={result} />
+      <TaxBracketsTable result={result} formData={formData} />
 
       {/* 节税建议 */}
       <TaxSavingTips />

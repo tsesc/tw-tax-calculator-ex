@@ -210,6 +210,27 @@ const DetailedCalculationProcess: React.FC<DetailedCalculationProcessProps> = ({
                 </div>
               </div>
 
+              {/* 步骤5：基本生活费差额 */}
+              {result.deductions.basicLivingDifference > 0 && (
+                <div className="bg-yellow-50 p-4 rounded-lg">
+                  <h4 className="font-bold text-yellow-800 mb-3">{zhTW.calculationSteps.stepNumber}{'salaryBreakdown' in result && result.salaryBreakdown && (result.salaryBreakdown.taxpayerSalary > 0 || result.salaryBreakdown.spouseSalary > 0) ? '5' : '4'}：{zhTW.calculationSteps.calculateBasicLivingDifference}</h4>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span>{zhTW.calculationSteps.basicLivingExpenseTotalCalc}：{result.deductions.familySize}{zhTW.calculationSteps.people} × {formatCurrency(BASIC_LIVING_EXPENSE.amount)}</span>
+                      <span>{formatCurrency(result.deductions.familySize * BASIC_LIVING_EXPENSE.amount)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>{zhTW.calculationSteps.minusExemptionsAndDeductions}</span>
+                      <span>-{formatCurrency(result.deductions.familySize * BASIC_LIVING_EXPENSE.amount - result.deductions.basicLivingDifference)}</span>
+                    </div>
+                    <div className="border-t pt-2 font-medium flex justify-between">
+                      <span>{zhTW.calculationSteps.basicLivingExpenseDifference}</span>
+                      <span>{formatCurrency(result.deductions.basicLivingDifference)}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* 扣除额总结 */}
               <div className="bg-indigo-50 p-4 rounded-lg">
                 <h4 className="font-bold text-indigo-800 mb-3">{zhTW.calculationSteps.deductionSummary}</h4>
@@ -238,27 +259,6 @@ const DetailedCalculationProcess: React.FC<DetailedCalculationProcessProps> = ({
                   </div>
                 </div>
               </div>
-
-              {/* 步骤5：基本生活费差额 */}
-              {result.deductions.basicLivingDifference > 0 && (
-                <div className="bg-yellow-50 p-4 rounded-lg">
-                  <h4 className="font-bold text-yellow-800 mb-3">{zhTW.calculationSteps.stepNumber}{'salaryBreakdown' in result && result.salaryBreakdown && (result.salaryBreakdown.taxpayerSalary > 0 || result.salaryBreakdown.spouseSalary > 0) ? '5' : '4'}：{zhTW.calculationSteps.calculateBasicLivingDifference}</h4>
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span>{zhTW.calculationSteps.basicLivingExpenseTotalCalc}：{result.deductions.familySize}{zhTW.calculationSteps.people} × {formatCurrency(BASIC_LIVING_EXPENSE.amount)}</span>
-                      <span>{formatCurrency(result.deductions.familySize * BASIC_LIVING_EXPENSE.amount)}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>{zhTW.calculationSteps.minusExemptionsAndDeductions}</span>
-                      <span>-{formatCurrency(result.deductions.familySize * BASIC_LIVING_EXPENSE.amount - result.deductions.basicLivingDifference)}</span>
-                    </div>
-                    <div className="border-t pt-2 font-medium flex justify-between">
-                      <span>{zhTW.calculationSteps.basicLivingExpenseDifference}</span>
-                      <span>{formatCurrency(result.deductions.basicLivingDifference)}</span>
-                    </div>
-                  </div>
-                </div>
-              )}
 
               {/* 步骤6：计算综合所得净额 */}
               <div className="bg-gray-100 p-4 rounded-lg">

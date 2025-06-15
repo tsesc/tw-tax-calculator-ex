@@ -140,6 +140,9 @@ interface I18nTexts {
     calculationFormulaLabel: string;
     bestChoice: string;
     savingsMessage: string;
+    totalIncome: string;
+    effectiveTaxRateFormula: string;
+    afterTaxIncomeFormula: string;
   };
   filingMethodComparison: {
     description: string;
@@ -512,7 +515,7 @@ export const zhTW: I18nTexts = {
       "• 看護費用",
       "• 月子中心費用",
       "• 非人身保險費（如財產險）",
-      "• 未經核准在台銷售的境外保單"
+      "• 未經核準在台銷售的境外保單"
     ]
   },
 
@@ -559,7 +562,10 @@ export const zhTW: I18nTexts = {
     salarySeperateTotalLabel: "薪資分開計稅總計",
     calculationFormulaLabel: "計算公式",
     bestChoice: "✓ 最優選擇",
-    savingsMessage: "💰 相比傳統合併申報，您節省了"
+    savingsMessage: "💰 相比傳統合併申報，您節省了",
+    totalIncome: "總收入",
+    effectiveTaxRateFormula: "有效稅率 = 應納稅額 ÷ 總收入 × 100%",
+    afterTaxIncomeFormula: "稅後淨收入 = 總收入 - 應納稅額"
   },
 
   filingMethodComparison: {

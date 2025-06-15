@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { formatCurrency } from '../../utils/formatters';
 import zhTW from '../../i18n/zh-TW';
@@ -9,6 +9,9 @@ interface TaxResultDisplayProps {
 }
 
 const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }) => {
+  const [showEffectiveRateFormula, setShowEffectiveRateFormula] = useState(false);
+  const [showAfterTaxFormula, setShowAfterTaxFormula] = useState(false);
+
   if (!result) {
     return (
       <Card>
@@ -31,28 +34,68 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
+            {/* 第一行：總收入和應納稅額 */}
             <div className="grid grid-cols-2 gap-4">
+              <div className="bg-indigo-50 p-4 rounded-lg">
+                <div className="text-sm text-gray-600">{zhTW.calculationResults.totalIncome}</div>
+                <div className="text-2xl font-bold text-indigo-600">
+                  {formatCurrency(result.grossIncome || 0)}
+                </div>
+              </div>
               <div className="bg-blue-50 p-4 rounded-lg">
                 <div className="text-sm text-gray-600">{zhTW.calculationResults.taxAmount}</div>
                 <div className="text-2xl font-bold text-blue-600">
                   {formatCurrency(result.taxAmount || 0)}
                 </div>
               </div>
-              <div className="bg-green-50 p-4 rounded-lg">
-                <div className="text-sm text-gray-600">{zhTW.calculationResults.effectiveTaxRate}</div>
+            </div>
+
+            {/* 第二行：有效稅率和稅後淨收入 */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-green-50 p-4 rounded-lg relative">
+                <div className="flex items-center gap-2">
+                  <div className="text-sm text-gray-600">{zhTW.calculationResults.effectiveTaxRate}</div>
+                  <button
+                    onClick={() => setShowEffectiveRateFormula(!showEffectiveRateFormula)}
+                    className="w-4 h-4 bg-green-600 text-white rounded-full text-xs flex items-center justify-center hover:bg-green-700 transition-colors"
+                    title="點擊查看計算公式"
+                  >
+                    ?
+                  </button>
+                </div>
                 <div className="text-2xl font-bold text-green-600">
                   {(result.effectiveRate || 0).toFixed(2)}%
                 </div>
+                {showEffectiveRateFormula && (
+                  <div className="absolute top-full left-0 mt-2 p-2 bg-white border border-gray-200 rounded-lg shadow-lg z-10 text-xs text-gray-700 whitespace-nowrap">
+                    {zhTW.calculationResults.effectiveTaxRateFormula}
+                  </div>
+                )}
               </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <div className="text-sm text-gray-600">{zhTW.calculationResults.afterTaxIncome}</div>
+              <div className="bg-gray-50 p-4 rounded-lg relative">
+                <div className="flex items-center gap-2">
+                  <div className="text-sm text-gray-600">{zhTW.calculationResults.afterTaxIncome}</div>
+                  <button
+                    onClick={() => setShowAfterTaxFormula(!showAfterTaxFormula)}
+                    className="w-4 h-4 bg-gray-600 text-white rounded-full text-xs flex items-center justify-center hover:bg-gray-700 transition-colors"
+                    title="點擊查看計算公式"
+                  >
+                    ?
+                  </button>
+                </div>
                 <div className="text-xl font-bold text-gray-800">
                   {formatCurrency((result.grossIncome || 0) - (result.taxAmount || 0))}
                 </div>
+                {showAfterTaxFormula && (
+                  <div className="absolute top-full left-0 mt-2 p-2 bg-white border border-gray-200 rounded-lg shadow-lg z-10 text-xs text-gray-700 whitespace-nowrap">
+                    {zhTW.calculationResults.afterTaxIncomeFormula}
+                  </div>
+                )}
               </div>
+            </div>
+
+            {/* 第三行：適用稅率級距 */}
+            <div className="grid grid-cols-1 gap-4">
               <div className="bg-purple-50 p-4 rounded-lg">
                 <div className="text-sm text-gray-600">{zhTW.calculationResults.applicableTaxBracket}</div>
                 <div className="text-xl font-bold text-purple-600">

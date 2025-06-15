@@ -19,8 +19,8 @@ const TaxBracketsTable: React.FC<TaxBracketsTableProps> = ({ result }) => {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b">
-                <th className="text-left p-2">綜合所得淨額</th>
-                <th className="text-left p-2">稅率</th>
+                <th className="text-left p-2">{zhTW.taxBrackets.netIncomeRange}</th>
+                <th className="text-left p-2">{zhTW.taxBrackets.taxRate}</th>
                 <th className="text-left p-2">{zhTW.taxBrackets.progressiveDifference}</th>
               </tr>
             </thead>

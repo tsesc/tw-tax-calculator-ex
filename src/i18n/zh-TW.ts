@@ -230,6 +230,14 @@ interface I18nTexts {
     multiplyTaxRate: string;
     minusProgressiveDifference: string;
     people: string;
+    deductionSummary: string;
+    exemptions: string;
+    generalDeductions: string;
+    specialDeductions: string;
+    basicLivingExpenseDiff: string;
+    totalDeductions: string;
+    minus: string;
+    stepNumber: string;
   };
   deductionDetails: {
     exemptions: string;
@@ -243,6 +251,8 @@ interface I18nTexts {
     progressiveDifference: string;
     yourApplicableBracket: string;
     above: string;
+    netIncomeRange: string;
+    taxRate: string;
   };
   itemizedDeductionDetails: {
     description: string;
@@ -258,6 +268,10 @@ interface I18nTexts {
     professionalAdvice: string;
     wealthRestrictions: string;
     basicLivingProtection: string;
+    disclaimerTitle: string;
+    documentReminderTitle: string;
+    professionalAdviceTitle: string;
+    basicLivingProtectionTitle: string;
   };
   emptyState: {
     title: string;
@@ -644,7 +658,15 @@ export const zhTW: I18nTexts = {
     minusExemptionsAndDeductions: "減：免稅額+扣除額合計",
     multiplyTaxRate: "× 稅率",
     minusProgressiveDifference: "減：累進差額",
-    people: "人"
+    people: "人",
+    deductionSummary: "扣除額總結",
+    exemptions: "免稅額",
+    generalDeductions: "一般扣除額",
+    specialDeductions: "特別扣除額",
+    basicLivingExpenseDiff: "基本生活費差額",
+    totalDeductions: "扣除額總計",
+    minus: "減：",
+    stepNumber: "步驟"
   },
 
   deductionDetails: {
@@ -659,7 +681,9 @@ export const zhTW: I18nTexts = {
   taxBrackets: {
     progressiveDifference: "累進差額",
     yourApplicableBracket: "← 您的適用級距",
-    above: "以上"
+    above: "以上",
+    netIncomeRange: "綜合所得淨額",
+    taxRate: "稅率"
   },
 
   itemizedDeductionDetails: {
@@ -676,7 +700,11 @@ export const zhTW: I18nTexts = {
     documentReminder: "• 列舉扣除額需檢附相關證明文件，請妥善保存收據",
     professionalAdvice: "• 建議在正式申報前諮詢專業稅務人員",
     wealthRestrictions: "• 排富規定：長期照顧及房屋租金扣除額有排富限制",
-    basicLivingProtection: "• 基本生活費保障機制確保每人基本生活所需不被課稅"
+    basicLivingProtection: "• 基本生活費保障機制確保每人基本生活所需不被課稅",
+    disclaimerTitle: "⚠️ 免責聲明",
+    documentReminderTitle: "📋 文件提醒",
+    professionalAdviceTitle: "💡 專業建議",
+    basicLivingProtectionTitle: "🛡️ 基本生活保障"
   },
 
   emptyState: {

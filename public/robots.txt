@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tsesc.github.io/tw-tax-calculator-ex/sitemap.xml

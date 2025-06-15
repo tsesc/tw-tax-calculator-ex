@@ -101,6 +101,17 @@
 - ✅ 單身上班族免稅門檻驗證
 - ✅ 雙薪夫妻免稅門檻驗證
 
+### 3. 工具與 Hook 測試 (`utilsFunctions.test.ts`, `useLocalStorage.test.tsx`, `useTaxCalculation.test.tsx`)
+
+- ✅ **公用格式化函式**：`formatNumber`, `formatCurrency`（lib 與 utils 版本輸出一致）
+- ✅ **CSS class 合併**：`cn` 函式處理 falsy 值
+- ✅ **useLocalStorage Hook**：
+  - 初始值讀取
+  - `setValue` 同步更新 `localStorage`
+- ✅ **useTaxCalculation Hook**：
+  - 單身情境（5%級距、有效稅率 <= 5%）
+  - 已婚 *auto* 情境（自動選擇最省稅方案、`allMethods` & `savingsComparedToCombined` 驗證）
+
 ## 測試覆蓋率
 
 - **稅務計算邏輯**：100% 覆蓋率
@@ -169,3 +180,14 @@ npm run test:run src/test/taxScenarios.test.ts
 2. 提供詳細的計算過程註釋
 3. 測試邊界條件和異常情況
 4. 保持測試的獨立性和可重複性
+
+## 最新測試覆蓋率（`npm run test:coverage`）
+
+| 指標 | 覆蓋率 |
+|------|--------|
+| 行 (Lines) | **96%** |
+| 陳述式 (Statements) | **96%** |
+| 函式 (Functions) | **81%** |
+| 分支 (Branches) | **72%** |
+
+> UI 元件 (`*.tsx`) 及靜態文案/i18n 已排除覆蓋率計算。

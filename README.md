@@ -74,6 +74,31 @@ npm run build
 npm run preview
 ```
 
+### 🧪 測試指引
+
+```bash
+# 啟動即時監聽模式（watch）
+npm run test
+
+# 僅執行一次（CI 或驗收環境）
+npm run test:run
+
+# 產生覆蓋率報告（./coverage）
+npm run test:coverage
+```
+
+**手動驗收（Local Testing）**
+
+1. 啟動本地開發伺服器：
+   ```bash
+   npm run dev
+   ```
+2. 於瀏覽器開啟 `http://localhost:5173`。
+3. 輸入不同情境資料，確認計算結果、快取/清除功能、已婚計稅方式比較等互動皆正常。
+4. 若有修改程式碼，頁面將自動透過 Vite HMR 熱重載，無須手動重新整理。
+
+測試檔案位於 `src/test` 目錄，採用 [Vitest](https://vitest.dev/) ＋ [Testing Library](https://testing-library.com/docs/react-testing-library/intro/) 進行 React 元件測試，執行環境為 **jsdom**。如需自訂測試設定，請參閱 `vitest.config.ts`。
+
 ## 🛠️ 技術堆疊
 
 - **React 18** - 現代化的使用者介面函式庫
@@ -85,16 +110,23 @@ npm run preview
 ## 📁 專案結構
 
 ```
-src/
-├── components/           # 可重複使用元件
-│   └── ui/              # UI基礎元件
-├── data/                # 稅務規則資料
-│   └── taxRules.ts      # 2025年稅務規則
-├── lib/                 # 工具函式
-├── TaxCalculator.jsx    # 主要計算器元件
-├── App.tsx              # 主應用程式元件
-├── main.tsx             # 應用程式進入點
-└── index.css            # 全域樣式
+tax-cal/
+├── src/
+│   ├── components/
+│   │   ├── TaxForm/      # 計算器表單與結果元件
+│   │   └── ui/           # 共用 UI 基礎元件
+│   ├── hooks/            # React 自訂 hooks（useLocalStorage、useTaxCalculation 等）
+│   ├── utils/            # 通用工具與格式化函式
+│   ├── data/             # 稅務規則與常數
+│   ├── lib/              # 核心運算與演算法
+│   ├── types/            # 全域型別定義
+│   ├── App.tsx           # 主應用元件
+│   ├── main.tsx          # 入口檔
+│   └── index.css         # 全域樣式
+├── vitest.config.ts      # Vitest 測試設定
+├── tailwind.config.js    # Tailwind 設定
+├── vite.config.ts        # Vite 設定
+└── ...
 ```
 
 ## 💰 計算器功能說明
@@ -142,10 +174,12 @@ src/
 ### 計算結果顯示
 - **應納稅額**及有效稅率
 - **稅後淨收入**
-- **適用稅率級距**
+- **適用稅率級距**（以顏色區分分級稅率）
 - **完整計算步驟**（薪資淨額→扣除額→綜合所得淨額→應納稅額）
-- **扣除額明細分項**
-- **已婚分開計稅比較**（自動選擇最省稅方案）
+- **扣除額明細分項**（自動展開列舉／特別扣除額）
+- **已婚分開計稅比較**（自動選擇最省稅方案，並標示差異）
+- **個別納稅人明細**（薪資分開計稅時會分別列出配偶各自稅額）
+- **快取狀態顯示與一鍵清除**
 
 ## 🎯 節稅建議
 

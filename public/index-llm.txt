@@ -4,5 +4,11 @@
 功能摘要：
 本計算器依據台灣 2025 年最新稅法，可即時計算單身或已婚（三種方式）應納稅額與有效稅率；顯示幼兒學前、長期照顧、教育學費、房屋租金等各項扣除額明細，並自動比較最省稅方案，提供節稅建議。
 
+English Summary:
+This calculator follows Taiwan's 2025 Individual Income Tax rules. Enter salary and deduction information to instantly obtain payable tax, effective rate, and the most tax-efficient filing option (combined, salary-separate, or all-separate for married couples). It details deductions such as preschool children, long-term care, tuition, rental expense, and more.
+
 關鍵字：
 綜合所得稅, 綜所稅試算, 2025稅率級距, 免稅額, 扣除額, 節稅, 薪資分開計稅, 台灣稅務
+
+Keywords (EN):
+Taiwan income tax, 2025 tax calculator, deduction, tax planning, separate filing, progressive rates

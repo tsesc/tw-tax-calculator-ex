@@ -29,6 +29,14 @@ interface I18nTexts {
     taxSavingTips: string;
     importantNotes: string;
   };
+  taxSavingTipsContent: {
+    specialDeductions: string;
+    insurancePlanning: string;
+    rentalBenefit: string;
+    marriedCouple: string;
+    itemizedDeductions: string;
+    longTermCare: string;
+  };
   basicInfo: {
     salaryIncome: string;
     salaryPlaceholder: string;
@@ -371,6 +379,29 @@ interface I18nTexts {
     includesSpouseSalary: string;
     otherIncome: string;
   };
+
+  taxReformData: {
+    // 項目名稱
+    childPreschoolDeduction: string;
+    housingRentalDeduction: string;
+    allAmountsIncrease: string;
+    // 變更描述
+    ageExpansionAmountIncrease: string;
+    fromItemizedToSpecial: string;
+    exemptionDeductionIncrease: string;
+    // 修改前
+    under5with120k: string;
+    itemized120kMutuallyExclusive: string;
+    exemption92kStandard124k: string;
+    // 修改後
+    under6with150kAnd225k: string;
+    special180kCanCombine: string;
+    exemption97kStandard131k: string;
+    // 影響
+    multChildFamilyBenefit: string;
+    renterTaxReduction: string;
+    overallTaxReduction: string;
+  };
 }
 
 export const zhTW: I18nTexts = {
@@ -406,6 +437,14 @@ export const zhTW: I18nTexts = {
     itemizedDeductionDetails: "列舉扣除額詳細說明",
     taxSavingTips: "💰 節稅建議",
     importantNotes: "⚠️ 注意事項"
+  },
+  taxSavingTipsContent: {
+    specialDeductions: "善用各項特別扣除額，特別是2025年大幅調升的幼兒學前扣除額",
+    insurancePlanning: "保險規劃：人身保險費每人每年最高2.4萬元，健保費無限制全額扣除",
+    rentalBenefit: "租屋族新福利：房租改列特別扣除額，每戶18萬元",
+    marriedCouple: "已婚夫妻：系統自動比較三種計稅方式，選擇最省稅方案",
+    itemizedDeductions: "列舉扣除額：合法捐贈、醫療費用等可列舉扣除",
+    longTermCare: "長期照顧：符合條件者每人可扣除12萬元（有排富規定）"
   },
 
   basicInfo: {
@@ -579,7 +618,12 @@ export const zhTW: I18nTexts = {
     taxAmount: "稅額",
     bestChoice: "✓ 最優選擇",
     savingsMessage: "💰 相比傳統合併申報，您節省了",
-    taxSavings: "的稅款"
+    taxSavings: "的稅款",
+    combinedFiling: "全部合併計稅",
+    salarySeperateOtherCombined: "薪資分開計稅，其他合併",
+    allSeparateFiling: "各類所得都分開計稅",
+    youSave: "您節省",
+    save: "節稅"
   },
 
   calculationSteps: {
@@ -695,7 +739,24 @@ export const zhTW: I18nTexts = {
     yourApplicableBracket: "← 您的適用級距",
     above: "以上",
     netIncomeRange: "綜合所得淨額",
-    taxRate: "稅率"
+    taxRate: "稅率",
+    description: "根據您目前的扣除額設定，以下顯示達到各稅率級距所需的年收入",
+    requiredIncome: "所需年收入",
+    suggestion: "建議",
+    currentIncome: "目前年收入",
+    totalDeductions: "扣除額總計",
+    explanationTitle: "說明：",
+    netIncomeFormula: "綜合所得淨額 = 年收入 - 扣除額總計",
+    taxAmountFormula: "應納稅額 = 綜合所得淨額 × 稅率 - 累進差額",
+    colorCoding: "表格中稅率以顏色區分：綠色(5%)藍色(12%)黃色(20%)橙色(30%)紅色(40%)",
+    tableNote: "上表「所需年收入」是根據您目前的扣除額設定計算",
+    disclaimer: "實際報稅時請以財政部公告為準",
+    bracket1: "年所得淨額59萬元以下",
+    bracket2: "年所得淨額59萬-133萬元",
+    bracket3: "年所得淨額133萬-266萬元",
+    bracket4: "年所得淨額266萬-498萬元",
+    bracket5: "年所得淨額498萬元以上",
+    suggestedIncome: "建議年收入"
   },
 
   itemizedDeductionDetails: {
@@ -817,6 +878,49 @@ export const zhTW: I18nTexts = {
     standardDeductionAmounts: "標準扣除額：單身131,000元、夫妻262,000元",
     includesSpouseSalary: "包括：配偶薪資",
     otherIncome: "+ 其他所得"
+  },
+
+  // 稅制改革數據翻譯
+  taxReformData: {
+    // 項目名稱
+    childPreschoolDeduction: "幼兒學前特別扣除額",
+    housingRentalDeduction: "房屋租金支出扣除",
+    allAmountsIncrease: "各項金額全面調升",
+
+    // 變更描述
+    ageExpansionAmountIncrease: "年齡擴大、金額加成、取消排富",
+    fromItemizedToSpecial: "從列舉改為特別扣除額",
+    exemptionDeductionIncrease: "免稅額、扣除額普遍上調",
+
+    // 修改前
+    under5with120k: "5歲以下每人12萬元，有排富規定",
+    itemized120kMutuallyExclusive: "列舉扣除每戶12萬元，與購屋貸款利息擇一",
+    exemption92kStandard124k: "免稅額9.2萬、標準扣除額單身12.4萬",
+
+    // 修改後
+    under6with150kAnd225k: "6歲以下第1名15萬、第2名起22.5萬元，無排富規定",
+    special180kCanCombine: "特別扣除每戶18萬元，可與其他扣除額並用",
+    exemption97kStandard131k: "免稅額9.7萬、標準扣除額單身13.1萬",
+
+    // 影響
+    multChildFamilyBenefit: "多子女家庭大幅受惠",
+    renterTaxReduction: "租屋族稅負減輕",
+    overallTaxReduction: "整體稅負減輕"
+  },
+
+  // 免稅門檻數據翻譯
+  taxThresholdData: {
+    // 家庭類型
+    singleWorker: "單身上班族",
+    dualIncomeCouple: "雙薪夫妻",
+    familyOfFourWith2Children: "四口之家(2名6歲以下子女)",
+    threeGenerationFamily: "三代同堂(含70歲以上長者)",
+
+    // 計算說明
+    singleWorkerCalculation: "免稅額9.7萬 + 標準扣除額13.1萬 + 薪資扣除額21.8萬 = 44.6萬元",
+    dualIncomeCoupleCalculation: "免稅額19.4萬 + 標準扣除額26.2萬 + 薪資扣除額43.6萬 = 89.2萬元",
+    familyOfFourCalculation: "免稅額38.8萬 + 標準扣除額26.2萬 + 薪資扣除額43.6萬 + 幼兒扣除額37.5萬 = 146.1萬元",
+    threeGenerationCalculation: "依具體家庭成員結構計算，長者享有更高免稅額14.55萬元"
   }
 };
 

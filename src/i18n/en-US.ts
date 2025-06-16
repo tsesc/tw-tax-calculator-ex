@@ -404,6 +404,14 @@ const enUS: I18nTexts = {
     taxSavingTips: "Tax Saving Tips",
     importantNotes: "Important Notes & Disclaimer"
   },
+  taxSavingTipsContent: {
+    specialDeductions: "Make good use of special deductions, especially the significantly increased preschool child deduction in 2025",
+    insurancePlanning: "Insurance planning: Personal insurance up to NT$24,000 per person annually, health insurance fully deductible without limit",
+    rentalBenefit: "New benefits for renters: Housing rent reclassified as special deduction, NT$180,000 per household",
+    marriedCouple: "Married couples: System automatically compares three filing methods and chooses the most tax-saving option",
+    itemizedDeductions: "Itemized deductions: Legal donations, medical expenses, etc. can be itemized",
+    longTermCare: "Long-term care: Eligible individuals can deduct NT$120,000 per person (subject to income restrictions)"
+  },
   basicInfo: {
     salaryIncome: "Annual Salary Income (NT$)",
     salaryPlaceholder: "Enter annual salary income",
@@ -553,7 +561,12 @@ const enUS: I18nTexts = {
     taxAmount: "Tax Amount",
     bestChoice: "Best Choice",
     savingsMessage: "Tax Savings",
-    taxSavings: "Save"
+    taxSavings: "Save",
+    combinedFiling: "Joint Filing for All Income",
+    salarySeperateOtherCombined: "Separate Filing for Salary, Joint for Others",
+    allSeparateFiling: "Separate Filing for All Income Types",
+    youSave: "You save",
+    save: "Save"
   },
   calculationSteps: {
     step1: "Step 1: Calculate Salary Net Amount",
@@ -659,7 +672,24 @@ const enUS: I18nTexts = {
     yourApplicableBracket: "← Your Applicable Bracket",
     above: "and above",
     netIncomeRange: "Comprehensive Income Net Amount",
-    taxRate: "Tax Rate"
+    taxRate: "Tax Rate",
+    description: "Based on your current deduction settings, the following shows the annual income required to reach each tax bracket",
+    requiredIncome: "Required Income",
+    suggestion: "Suggestion",
+    currentIncome: "Current Income",
+    totalDeductions: "Total Deductions",
+    explanationTitle: "Explanation:",
+    netIncomeFormula: "Net Income = Annual Income - Total Deductions",
+    taxAmountFormula: "Tax Amount = Net Income × Tax Rate - Progressive Difference",
+    colorCoding: "Tax rates are color-coded in the table: Green(5%) Blue(12%) Yellow(20%) Orange(30%) Red(40%)",
+    tableNote: "The 'Required Income' in the table above is calculated based on your current deduction settings",
+    disclaimer: "Please refer to Ministry of Finance announcements for actual tax filing",
+    bracket1: "Net income under NT$590k",
+    bracket2: "Net income NT$590k-1.33M",
+    bracket3: "Net income NT$1.33M-2.66M",
+    bracket4: "Net income NT$2.66M-4.98M",
+    bracket5: "Net income over NT$4.98M",
+    suggestedIncome: "Suggested annual income"
   },
   itemizedDeductionDetails: {
     description: "Requires supporting documents, choose between this and standard deduction",
@@ -773,6 +803,49 @@ const enUS: I18nTexts = {
     standardDeductionAmounts: "Standard deduction: Single NT$131,000, Married NT$262,000",
     includesSpouseSalary: "Including: spouse salary",
     otherIncome: "+ Other income"
+  },
+
+  // Tax reform data translations
+  taxReformData: {
+    // Item names
+    childPreschoolDeduction: "Preschool Child Special Deduction",
+    housingRentalDeduction: "Housing Rental Expense Deduction",
+    allAmountsIncrease: "Comprehensive Amount Increases",
+
+    // Change descriptions
+    ageExpansionAmountIncrease: "Age expansion, amount increase, elimination of wealth cap",
+    fromItemizedToSpecial: "Changed from itemized to special deduction",
+    exemptionDeductionIncrease: "General increase in exemptions and deductions",
+
+    // Before changes
+    under5with120k: "Under 5 years old: NT$120,000 per person, with wealth cap",
+    itemized120kMutuallyExclusive: "Itemized deduction NT$120,000 per household, mutually exclusive with mortgage interest",
+    exemption92kStandard124k: "Exemption NT$92,000, standard deduction for single NT$124,000",
+
+    // After changes
+    under6with150kAnd225k: "Under 6 years old: 1st child NT$150,000, 2nd+ children NT$225,000, no wealth cap",
+    special180kCanCombine: "Special deduction NT$180,000 per household, can combine with other deductions",
+    exemption97kStandard131k: "Exemption NT$97,000, standard deduction for single NT$131,000",
+
+    // Impact
+    multChildFamilyBenefit: "Multi-child families greatly benefit",
+    renterTaxReduction: "Renters enjoy tax reduction",
+    overallTaxReduction: "Overall tax burden reduction"
+  },
+
+  // Tax threshold data translations
+  taxThresholdData: {
+    // Family types
+    singleWorker: "Single Worker",
+    dualIncomeCouple: "Dual-Income Couple",
+    familyOfFourWith2Children: "Family of Four (2 children under 6)",
+    threeGenerationFamily: "Three-Generation Family (with elderly over 70)",
+
+    // Calculation explanations
+    singleWorkerCalculation: "Exemption 97K + Standard deduction 131K + Salary deduction 218K = 446K",
+    dualIncomeCoupleCalculation: "Exemption 194K + Standard deduction 262K + Salary deduction 436K = 892K",
+    familyOfFourCalculation: "Exemption 388K + Standard deduction 262K + Salary deduction 436K + Child deduction 375K = 1,461K",
+    threeGenerationCalculation: "Calculated based on specific family structure, elderly enjoy higher exemption of 145.5K"
   }
 };
 

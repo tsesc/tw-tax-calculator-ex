@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { formatCurrency } from '../../utils/formatters';
 import { EXEMPTION_AMOUNTS, BASIC_LIVING_EXPENSE } from '../../data/taxRules';
 import { TaxFormData } from '../../types/tax';
-import zhTW from '../../i18n/zh-TW';
+import { useLanguage } from '../../hooks/useLanguage';
 
 interface DetailedCalculationProcessProps {
   result: any;
@@ -11,6 +11,8 @@ interface DetailedCalculationProcessProps {
 }
 
 const DetailedCalculationProcess: React.FC<DetailedCalculationProcessProps> = ({ result, formData }) => {
+  const { t } = useLanguage();
+
   if (!result) return null;
 
   const {
@@ -33,27 +35,27 @@ const DetailedCalculationProcess: React.FC<DetailedCalculationProcessProps> = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{zhTW.cardTitles.completeCalculationFormula}</CardTitle>
+        <CardTitle>{t.cardTitles.completeCalculationFormula}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4 text-sm">
           {/* 步骤1：计算薪资净额 */}
           {'salaryBreakdown' in result && result.salaryBreakdown && (result.salaryBreakdown.taxpayerSalary > 0 || result.salaryBreakdown.spouseSalary > 0) && (
             <div className="bg-orange-50 p-4 rounded-lg">
-              <h4 className="font-bold text-orange-800 mb-3">{zhTW.calculationSteps.step1}</h4>
+              <h4 className="font-bold text-orange-800 mb-3">{t.calculationSteps.step1}</h4>
               <div className="space-y-2">
                 {result.salaryBreakdown.taxpayerSalary > 0 && (
                   <div className="space-y-1">
                     <div className="flex justify-between">
-                      <span>{zhTW.calculationSteps.taxpayerSalaryIncome}</span>
+                      <span>{t.calculationSteps.taxpayerSalaryIncome}</span>
                       <span>{formatCurrency(result.salaryBreakdown.taxpayerSalary)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>{zhTW.calculationSteps.minus}{zhTW.calculationSteps.salarySpecialDeduction}</span>
+                      <span>{t.calculationSteps.minus}{t.calculationSteps.salarySpecialDeduction}</span>
                       <span>-{formatCurrency(Math.min(result.salaryBreakdown.taxpayerSalary, 218000))}</span>
                     </div>
                     <div className="flex justify-between font-medium">
-                      <span>{zhTW.calculationSteps.salaryNetAmount}</span>
+                      <span>{t.calculationSteps.salaryNetAmount}</span>
                       <span>{formatCurrency(result.salaryBreakdown.taxpayerSalaryNet)}</span>
                     </div>
                   </div>
@@ -61,21 +63,21 @@ const DetailedCalculationProcess: React.FC<DetailedCalculationProcessProps> = ({
                 {result.salaryBreakdown.spouseSalary > 0 && (
                                       <div className="space-y-1 mt-3 pt-3 border-t">
                       <div className="flex justify-between">
-                        <span>{zhTW.calculationResults.spouse}{zhTW.calculationSteps.taxpayerSalaryIncome}</span>
+                        <span>{t.calculationResults.spouse}{t.calculationSteps.taxpayerSalaryIncome}</span>
                         <span>{formatCurrency(result.salaryBreakdown.spouseSalary)}</span>
                       </div>
                     <div className="flex justify-between">
-                      <span>{zhTW.calculationSteps.minus}{zhTW.calculationSteps.salarySpecialDeduction}</span>
+                      <span>{t.calculationSteps.minus}{t.calculationSteps.salarySpecialDeduction}</span>
                       <span>-{formatCurrency(Math.min(result.salaryBreakdown.spouseSalary, 218000))}</span>
                     </div>
                     <div className="flex justify-between font-medium">
-                      <span>{zhTW.calculationResults.spouse}{zhTW.calculationSteps.salaryNetAmount}</span>
+                      <span>{t.calculationResults.spouse}{t.calculationSteps.salaryNetAmount}</span>
                       <span>{formatCurrency(result.salaryBreakdown.spouseSalaryNet)}</span>
                     </div>
                   </div>
                 )}
                 <div className="border-t pt-2 font-bold flex justify-between text-orange-600">
-                  <span>{zhTW.calculationResults.grossIncome}</span>
+                  <span>{t.calculationResults.grossIncome}</span>
                   <span>{formatCurrency(result.grossIncome || 0)}</span>
                 </div>
               </div>
@@ -86,20 +88,20 @@ const DetailedCalculationProcess: React.FC<DetailedCalculationProcessProps> = ({
           {'deductions' in result && result.deductions && (
             <>
               <div className="bg-blue-50 p-4 rounded-lg">
-                <h4 className="font-bold text-blue-800 mb-3">{zhTW.calculationSteps.stepNumber}{'salaryBreakdown' in result && result.salaryBreakdown && (result.salaryBreakdown.taxpayerSalary > 0 || result.salaryBreakdown.spouseSalary > 0) ? '2' : '1'}：{zhTW.calculationSteps.calculateExemptions}</h4>
+                <h4 className="font-bold text-blue-800 mb-3">{t.calculationSteps.stepNumber}{'salaryBreakdown' in result && result.salaryBreakdown && (result.salaryBreakdown.taxpayerSalary > 0 || result.salaryBreakdown.spouseSalary > 0) ? '2' : '1'}：{t.calculationSteps.calculateExemptions}</h4>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span>{zhTW.calculationSteps.generalExemptionPeople}：{result.deductions.familySize - parseInt(elderlyOver70 || '0')}{zhTW.calculationSteps.people}</span>
+                    <span>{t.calculationSteps.generalExemptionPeople}：{result.deductions.familySize - parseInt(elderlyOver70 || '0')}{t.calculationSteps.people}</span>
                     <span>{formatCurrency((result.deductions.familySize - parseInt(elderlyOver70 || '0')) * EXEMPTION_AMOUNTS.standard)}</span>
                   </div>
                   {parseInt(elderlyOver70 || '0') > 0 && (
                     <div className="flex justify-between">
-                      <span>{zhTW.calculationSteps.elderlyExemptionPeople}：{elderlyOver70}{zhTW.calculationSteps.people}</span>
+                      <span>{t.calculationSteps.elderlyExemptionPeople}：{elderlyOver70}{t.calculationSteps.people}</span>
                       <span>{formatCurrency(parseInt(elderlyOver70) * EXEMPTION_AMOUNTS.elderly)}</span>
                     </div>
                   )}
                   <div className="border-t pt-2 font-medium flex justify-between">
-                    <span>{zhTW.calculationSteps.exemptionSubtotal}</span>
+                    <span>{t.calculationSteps.exemptionSubtotal}</span>
                     <span>{formatCurrency(result.deductions.exemptions)}</span>
                   </div>
                 </div>
@@ -107,55 +109,55 @@ const DetailedCalculationProcess: React.FC<DetailedCalculationProcessProps> = ({
 
               {/* 步骤3：计算一般扣除额 */}
               <div className="bg-green-50 p-4 rounded-lg">
-                <h4 className="font-bold text-green-800 mb-3">{zhTW.calculationSteps.stepNumber}{'salaryBreakdown' in result && result.salaryBreakdown && (result.salaryBreakdown.taxpayerSalary > 0 || result.salaryBreakdown.spouseSalary > 0) ? '3' : '2'}：{zhTW.calculationSteps.calculateGeneralDeductions}</h4>
+                <h4 className="font-bold text-green-800 mb-3">{t.calculationSteps.stepNumber}{'salaryBreakdown' in result && result.salaryBreakdown && (result.salaryBreakdown.taxpayerSalary > 0 || result.salaryBreakdown.spouseSalary > 0) ? '3' : '2'}：{t.calculationSteps.calculateGeneralDeductions}</h4>
                 {useItemizedDeduction ? (
                   <div className="space-y-2">
-                    <div className="text-sm text-green-700 mb-2">{zhTW.calculationSteps.chooseItemizedDeduction}</div>
+                    <div className="text-sm text-green-700 mb-2">{t.calculationSteps.chooseItemizedDeduction}</div>
                     {parseFloat(donations || '0') > 0 && (
                       <div className="flex justify-between">
-                        <span>{zhTW.calculationSteps.donationDeductionItem}</span>
+                        <span>{t.calculationSteps.donationDeductionItem}</span>
                         <span>{formatCurrency(Math.min(parseFloat(donations), (result.grossIncome || 0) * 0.2))}</span>
                       </div>
                     )}
                     {parseFloat(insurancePremiums || '0') > 0 && (
                       <div className="flex justify-between">
-                        <span>{zhTW.calculationSteps.personalInsuranceDeductionItem}</span>
+                        <span>{t.calculationSteps.personalInsuranceDeductionItem}</span>
                         <span>{formatCurrency(Math.min(parseFloat(insurancePremiums), result.deductions.familySize * 24000))}</span>
                       </div>
                     )}
                     {parseFloat(healthInsurancePremiums || '0') > 0 && (
                       <div className="flex justify-between">
-                        <span>{zhTW.calculationSteps.healthInsuranceDeductionItem}</span>
+                        <span>{t.calculationSteps.healthInsuranceDeductionItem}</span>
                         <span>{formatCurrency(parseFloat(healthInsurancePremiums))}</span>
                       </div>
                     )}
                     {parseFloat(medicalExpenses || '0') > 0 && (
                       <div className="flex justify-between">
-                        <span>{zhTW.calculationSteps.medicalExpensesItem}</span>
+                        <span>{t.calculationSteps.medicalExpensesItem}</span>
                         <span>{formatCurrency(parseFloat(medicalExpenses))}</span>
                       </div>
                     )}
                     {parseFloat(disasterLoss || '0') > 0 && (
                       <div className="flex justify-between">
-                        <span>{zhTW.calculationSteps.disasterLossItem}</span>
+                        <span>{t.calculationSteps.disasterLossItem}</span>
                         <span>{formatCurrency(parseFloat(disasterLoss))}</span>
                       </div>
                     )}
                     {parseFloat(mortgageInterest || '0') > 0 && (
                       <div className="flex justify-between">
-                        <span>{zhTW.calculationSteps.mortgageInterestItem}</span>
+                        <span>{t.calculationSteps.mortgageInterestItem}</span>
                         <span>{formatCurrency(Math.max(0, Math.min(parseFloat(mortgageInterest), 300000) - Math.min(parseFloat(savingsInterest || '0'), 270000)))}</span>
                       </div>
                     )}
                     <div className="border-t pt-2 font-medium flex justify-between">
-                      <span>{zhTW.calculationSteps.generalDeductionSubtotal}</span>
+                      <span>{t.calculationSteps.generalDeductionSubtotal}</span>
                       <span>{formatCurrency(result.deductions.generalDeductions)}</span>
                     </div>
                   </div>
                 ) : (
                   <div className="space-y-2">
                     <div className="flex justify-between">
-                      <span>{isMarried ? zhTW.calculationSteps.marriedStandardDeduction : zhTW.calculationSteps.singleStandardDeduction}</span>
+                      <span>{isMarried ? t.calculationSteps.marriedStandardDeduction : t.calculationSteps.singleStandardDeduction}</span>
                       <span>{formatCurrency(result.deductions.generalDeductions)}</span>
                     </div>
                   </div>
@@ -164,47 +166,47 @@ const DetailedCalculationProcess: React.FC<DetailedCalculationProcessProps> = ({
 
               {/* 步骤4：计算特别扣除额 */}
               <div className="bg-purple-50 p-4 rounded-lg">
-                <h4 className="font-bold text-purple-800 mb-3">{zhTW.calculationSteps.stepNumber}{'salaryBreakdown' in result && result.salaryBreakdown && (result.salaryBreakdown.taxpayerSalary > 0 || result.salaryBreakdown.spouseSalary > 0) ? '4' : '3'}：{zhTW.calculationSteps.calculateSpecialDeductions}</h4>
+                <h4 className="font-bold text-purple-800 mb-3">{t.calculationSteps.stepNumber}{'salaryBreakdown' in result && result.salaryBreakdown && (result.salaryBreakdown.taxpayerSalary > 0 || result.salaryBreakdown.spouseSalary > 0) ? '4' : '3'}：{t.calculationSteps.calculateSpecialDeductions}</h4>
                 <div className="space-y-2">
-                  <div className="text-xs text-purple-600 mb-2">{zhTW.calculationSteps.salarySpecialDeductionAlreadyCalculated}</div>
+                  <div className="text-xs text-purple-600 mb-2">{t.calculationSteps.salarySpecialDeductionAlreadyCalculated}</div>
                   {result.deductions.breakdown.childrenDeduction > 0 && (
                     <div className="flex justify-between">
-                      <span>{zhTW.calculationSteps.childrenDeductionItem}：{childrenUnder6}{zhTW.calculationSteps.people}</span>
+                      <span>{t.calculationSteps.childrenDeductionItem}：{childrenUnder6}{t.calculationSteps.people}</span>
                       <span>{formatCurrency(result.deductions.breakdown.childrenDeduction)}</span>
                     </div>
                   )}
                   {result.deductions.breakdown.educationDeduction > 0 && (
                     <div className="flex justify-between">
-                      <span>{zhTW.calculationSteps.educationDeductionItem}：{students}{zhTW.calculationSteps.people}</span>
+                      <span>{t.calculationSteps.educationDeductionItem}：{students}{t.calculationSteps.people}</span>
                       <span>{formatCurrency(result.deductions.breakdown.educationDeduction)}</span>
                     </div>
                   )}
                   {result.deductions.breakdown.disabilityDeduction > 0 && (
                     <div className="flex justify-between">
-                      <span>{zhTW.calculationSteps.disabilityDeductionItem}：{disabled}{zhTW.calculationSteps.people}</span>
+                      <span>{t.calculationSteps.disabilityDeductionItem}：{disabled}{t.calculationSteps.people}</span>
                       <span>{formatCurrency(result.deductions.breakdown.disabilityDeduction)}</span>
                     </div>
                   )}
                   {result.deductions.breakdown.longTermCareDeduction > 0 && (
                     <div className="flex justify-between">
-                      <span>{zhTW.calculationSteps.longTermCareDeductionItem}：{longTermCare}{zhTW.calculationSteps.people}</span>
+                      <span>{t.calculationSteps.longTermCareDeductionItem}：{longTermCare}{t.calculationSteps.people}</span>
                       <span>{formatCurrency(result.deductions.breakdown.longTermCareDeduction)}</span>
                     </div>
                   )}
                   {result.deductions.breakdown.savingsDeduction > 0 && (
                     <div className="flex justify-between">
-                      <span>{zhTW.calculationSteps.savingsDeductionItem}</span>
+                      <span>{t.calculationSteps.savingsDeductionItem}</span>
                       <span>{formatCurrency(result.deductions.breakdown.savingsDeduction)}</span>
                     </div>
                   )}
                   {result.deductions.breakdown.rentalDeduction > 0 && (
                     <div className="flex justify-between">
-                      <span>{zhTW.calculationSteps.rentalDeductionItem}</span>
+                      <span>{t.calculationSteps.rentalDeductionItem}</span>
                       <span>{formatCurrency(result.deductions.breakdown.rentalDeduction)}</span>
                     </div>
                   )}
                   <div className="border-t pt-2 font-medium flex justify-between">
-                    <span>{zhTW.calculationSteps.specialDeductionSubtotal}</span>
+                    <span>{t.calculationSteps.specialDeductionSubtotal}</span>
                     <span>{formatCurrency(result.deductions.specialDeductions - (result.deductions.breakdown.salaryDeduction || 0))}</span>
                   </div>
                 </div>
@@ -213,18 +215,18 @@ const DetailedCalculationProcess: React.FC<DetailedCalculationProcessProps> = ({
               {/* 步骤5：基本生活费差额 */}
               {result.deductions.basicLivingDifference > 0 && (
                 <div className="bg-yellow-50 p-4 rounded-lg">
-                  <h4 className="font-bold text-yellow-800 mb-3">{zhTW.calculationSteps.stepNumber}{'salaryBreakdown' in result && result.salaryBreakdown && (result.salaryBreakdown.taxpayerSalary > 0 || result.salaryBreakdown.spouseSalary > 0) ? '5' : '4'}：{zhTW.calculationSteps.calculateBasicLivingDifference}</h4>
+                  <h4 className="font-bold text-yellow-800 mb-3">{t.calculationSteps.stepNumber}{'salaryBreakdown' in result && result.salaryBreakdown && (result.salaryBreakdown.taxpayerSalary > 0 || result.salaryBreakdown.spouseSalary > 0) ? '5' : '4'}：{t.calculationSteps.calculateBasicLivingDifference}</h4>
                   <div className="space-y-2">
                     <div className="flex justify-between">
-                      <span>{zhTW.calculationSteps.basicLivingExpenseTotalCalc}：{result.deductions.familySize}{zhTW.calculationSteps.people} × {formatCurrency(BASIC_LIVING_EXPENSE.amount)}</span>
+                      <span>{t.calculationSteps.basicLivingExpenseTotalCalc}：{result.deductions.familySize}{t.calculationSteps.people} × {formatCurrency(BASIC_LIVING_EXPENSE.amount)}</span>
                       <span>{formatCurrency(result.deductions.familySize * BASIC_LIVING_EXPENSE.amount)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>{zhTW.calculationSteps.minusExemptionsAndDeductions}</span>
+                      <span>{t.calculationSteps.minusExemptionsAndDeductions}</span>
                       <span>-{formatCurrency(result.deductions.familySize * BASIC_LIVING_EXPENSE.amount - result.deductions.basicLivingDifference)}</span>
                     </div>
                     <div className="border-t pt-2 font-medium flex justify-between">
-                      <span>{zhTW.calculationSteps.basicLivingExpenseDifference}</span>
+                      <span>{t.calculationSteps.basicLivingExpenseDifference}</span>
                       <span>{formatCurrency(result.deductions.basicLivingDifference)}</span>
                     </div>
                   </div>
@@ -233,28 +235,28 @@ const DetailedCalculationProcess: React.FC<DetailedCalculationProcessProps> = ({
 
               {/* 扣除额总结 */}
               <div className="bg-indigo-50 p-4 rounded-lg">
-                <h4 className="font-bold text-indigo-800 mb-3">{zhTW.calculationSteps.deductionSummary}</h4>
+                <h4 className="font-bold text-indigo-800 mb-3">{t.calculationSteps.deductionSummary}</h4>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span>{zhTW.calculationSteps.exemptions}</span>
+                    <span>{t.calculationSteps.exemptions}</span>
                     <span>{formatCurrency(result.deductions.exemptions)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>{zhTW.calculationSteps.generalDeductions}</span>
+                    <span>{t.calculationSteps.generalDeductions}</span>
                     <span>{formatCurrency(result.deductions.generalDeductions)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>{zhTW.calculationSteps.specialDeductions}</span>
+                    <span>{t.calculationSteps.specialDeductions}</span>
                     <span>{formatCurrency(result.deductions.specialDeductions)}</span>
                   </div>
                   {result.deductions.basicLivingDifference > 0 && (
                     <div className="flex justify-between">
-                      <span>{zhTW.calculationSteps.basicLivingExpenseDiff}</span>
+                      <span>{t.calculationSteps.basicLivingExpenseDiff}</span>
                       <span>{formatCurrency(result.deductions.basicLivingDifference)}</span>
                     </div>
                   )}
                   <div className="border-t pt-2 font-bold text-lg flex justify-between text-indigo-600">
-                    <span>{zhTW.calculationSteps.totalDeductions}</span>
+                    <span>{t.calculationSteps.totalDeductions}</span>
                     <span>{formatCurrency(result.deductions.totalDeductions)}</span>
                   </div>
                 </div>
@@ -262,22 +264,22 @@ const DetailedCalculationProcess: React.FC<DetailedCalculationProcessProps> = ({
 
               {/* 步骤6：计算综合所得净额 */}
               <div className="bg-gray-100 p-4 rounded-lg">
-                <h4 className="font-bold text-gray-800 mb-3">{zhTW.calculationSteps.stepNumber}{(() => {
+                <h4 className="font-bold text-gray-800 mb-3">{t.calculationSteps.stepNumber}{(() => {
                   let step = 'salaryBreakdown' in result && result.salaryBreakdown && (result.salaryBreakdown.taxpayerSalary > 0 || result.salaryBreakdown.spouseSalary > 0) ? 5 : 4;
                   if (result.deductions.basicLivingDifference > 0) step++;
                   return step;
-                })()}：{zhTW.calculationSteps.calculateNetIncome}</h4>
+                })()}：{t.calculationSteps.calculateNetIncome}</h4>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span>{zhTW.calculationSteps.annualTotalIncome}</span>
+                    <span>{t.calculationSteps.annualTotalIncome}</span>
                     <span>{formatCurrency(result.grossIncome || 0)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>{zhTW.calculationSteps.minus}{zhTW.calculationSteps.totalDeductionsAmount}</span>
+                    <span>{t.calculationSteps.minus}{t.calculationSteps.totalDeductionsAmount}</span>
                     <span>-{formatCurrency(result.deductions.totalDeductions)}</span>
                   </div>
                   <div className="border-t pt-2 font-bold text-lg flex justify-between">
-                    <span>{zhTW.calculationResults.netIncome}</span>
+                    <span>{t.calculationResults.netIncome}</span>
                     <span>{formatCurrency(result.netIncome || 0)}</span>
                   </div>
                 </div>
@@ -285,32 +287,32 @@ const DetailedCalculationProcess: React.FC<DetailedCalculationProcessProps> = ({
 
               {/* 步骤7：计算应纳税额 */}
               <div className="bg-red-50 p-4 rounded-lg">
-                <h4 className="font-bold text-red-800 mb-3">{zhTW.calculationSteps.stepNumber}{(() => {
+                <h4 className="font-bold text-red-800 mb-3">{t.calculationSteps.stepNumber}{(() => {
                   let step = 'salaryBreakdown' in result && result.salaryBreakdown && (result.salaryBreakdown.taxpayerSalary > 0 || result.salaryBreakdown.spouseSalary > 0) ? 6 : 5;
                   if (result.deductions.basicLivingDifference > 0) step++;
                   return step;
-                })()}：{zhTW.calculationSteps.calculateTaxAmount}</h4>
+                })()}：{t.calculationSteps.calculateTaxAmount}</h4>
 
                 <div className="space-y-2">
-                  <div className="text-sm text-red-700 mb-2">{zhTW.calculationResults.applicableTaxBracket}：{result.bracketInfo?.description}</div>
+                  <div className="text-sm text-red-700 mb-2">{t.calculationResults.applicableTaxBracket}：{result.bracketInfo?.description}</div>
                   <div className="flex justify-between">
-                    <span>{zhTW.calculationResults.netIncome}</span>
+                    <span>{t.calculationResults.netIncome}</span>
                     <span>{formatCurrency(result.netIncome || 0)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>{zhTW.calculationSteps.multiplyTaxRate}</span>
+                    <span>{t.calculationSteps.multiplyTaxRate}</span>
                     <span>{result.bracketInfo?.rate || 0}%</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>{zhTW.calculationSteps.subtotal}</span>
+                    <span>{t.calculationSteps.subtotal}</span>
                     <span>{formatCurrency((result.netIncome || 0) * (result.bracketInfo?.rate || 0) / 100)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>{zhTW.calculationSteps.minusProgressiveDifference}</span>
+                    <span>{t.calculationSteps.minusProgressiveDifference}</span>
                     <span>-{formatCurrency(result.bracketInfo?.progressiveDifference || 0)}</span>
                   </div>
                   <div className="border-t pt-2 font-bold text-xl flex justify-between text-red-600">
-                    <span>{zhTW.calculationResults.taxAmount}</span>
+                    <span>{t.calculationResults.taxAmount}</span>
                     <span>{formatCurrency(result.taxAmount || 0)}</span>
                   </div>
                 </div>

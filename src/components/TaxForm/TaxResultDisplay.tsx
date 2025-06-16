@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { formatCurrency } from '../../utils/formatters';
-import zhTW from '../../i18n/zh-TW';
+import { useLanguage } from '../../hooks/useLanguage';
 
 interface TaxResultDisplayProps {
   result: any; // 使用 any 类型暂时处理复杂的结果类型
@@ -9,6 +9,7 @@ interface TaxResultDisplayProps {
 }
 
 const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }) => {
+  const { t } = useLanguage();
   const [showEffectiveRateFormula, setShowEffectiveRateFormula] = useState(false);
   const [showAfterTaxFormula, setShowAfterTaxFormula] = useState(false);
 
@@ -17,8 +18,8 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
       <Card>
         <CardContent className="text-center py-8">
           <div className="text-gray-500">
-            <h3 className="text-lg font-medium mb-2">{zhTW.emptyState.title}</h3>
-            <p className="text-sm">{zhTW.emptyState.description}</p>
+            <h3 className="text-lg font-medium mb-2">{t.emptyState.title}</h3>
+            <p className="text-sm">{t.emptyState.description}</p>
           </div>
         </CardContent>
       </Card>
@@ -30,20 +31,20 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
       {/* 计算结果摘要 */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-green-600">{zhTW.cardTitles.calculationResults}</CardTitle>
+          <CardTitle className="text-green-600">{t.cardTitles.calculationResults}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {/* 第一行：總收入和應納稅額 */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="bg-indigo-50 p-3 sm:p-4 rounded-lg">
-                <div className="text-sm text-gray-600">{zhTW.calculationResults.totalIncome}</div>
+                <div className="text-sm text-gray-600">{t.calculationResults.totalIncome}</div>
                 <div className="text-xl sm:text-2xl font-bold text-indigo-600 break-all">
                   {formatCurrency(result.grossIncome || 0)}
                 </div>
               </div>
               <div className="bg-blue-50 p-3 sm:p-4 rounded-lg">
-                <div className="text-sm text-gray-600">{zhTW.calculationResults.taxAmount}</div>
+                <div className="text-sm text-gray-600">{t.calculationResults.taxAmount}</div>
                 <div className="text-xl sm:text-2xl font-bold text-blue-600 break-all">
                   {formatCurrency(result.taxAmount || 0)}
                 </div>
@@ -54,7 +55,7 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="bg-green-50 p-3 sm:p-4 rounded-lg relative">
                 <div className="flex items-center gap-2">
-                  <div className="text-sm text-gray-600">{zhTW.calculationResults.effectiveTaxRate}</div>
+                  <div className="text-sm text-gray-600">{t.calculationResults.effectiveTaxRate}</div>
                   <button
                     onClick={() => setShowEffectiveRateFormula(!showEffectiveRateFormula)}
                     className="w-4 h-4 bg-green-600 text-white rounded-full text-xs flex items-center justify-center hover:bg-green-700 transition-colors flex-shrink-0"
@@ -68,13 +69,13 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
                 </div>
                 {showEffectiveRateFormula && (
                   <div className="absolute top-full left-0 mt-2 p-2 bg-white border border-gray-200 rounded-lg shadow-lg z-10 text-xs text-gray-700 max-w-xs sm:whitespace-nowrap">
-                    {zhTW.calculationResults.effectiveTaxRateFormula}
+                    {t.calculationResults.effectiveTaxRateFormula}
                   </div>
                 )}
               </div>
               <div className="bg-gray-50 p-3 sm:p-4 rounded-lg relative">
                 <div className="flex items-center gap-2">
-                  <div className="text-sm text-gray-600">{zhTW.calculationResults.afterTaxIncome}</div>
+                  <div className="text-sm text-gray-600">{t.calculationResults.afterTaxIncome}</div>
                   <button
                     onClick={() => setShowAfterTaxFormula(!showAfterTaxFormula)}
                     className="w-4 h-4 bg-gray-600 text-white rounded-full text-xs flex items-center justify-center hover:bg-gray-700 transition-colors flex-shrink-0"
@@ -88,7 +89,7 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
                 </div>
                 {showAfterTaxFormula && (
                   <div className="absolute top-full left-0 mt-2 p-2 bg-white border border-gray-200 rounded-lg shadow-lg z-10 text-xs text-gray-700 max-w-xs sm:whitespace-nowrap">
-                    {zhTW.calculationResults.afterTaxIncomeFormula}
+                    {t.calculationResults.afterTaxIncomeFormula}
                   </div>
                 )}
               </div>
@@ -97,7 +98,7 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
             {/* 第三行：適用稅率級距 */}
             <div className="grid grid-cols-1 gap-4">
               <div className="bg-purple-50 p-3 sm:p-4 rounded-lg">
-                <div className="text-sm text-gray-600">{zhTW.calculationResults.applicableTaxBracket}</div>
+                <div className="text-sm text-gray-600">{t.calculationResults.applicableTaxBracket}</div>
                 <div className="text-xl sm:text-2xl font-bold text-purple-600">
                   {(result.bracketInfo?.rate || 0)}%
                 </div>
@@ -113,8 +114,8 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
          ('taxpayerSalaryPortion' in result && 'remainingPortion' in result && result.method === 'salary_separate')) && (
           <Card>
             <CardHeader>
-              <CardTitle className="text-purple-600">{zhTW.labels.separateFilingDetailedInfo}</CardTitle>
-              <p className="text-sm text-gray-600">{zhTW.calculationResults.separateFilingDescription}</p>
+              <CardTitle className="text-purple-600">{t.labels.separateFilingDetailedInfo}</CardTitle>
+              <p className="text-sm text-gray-600">{t.calculationResults.separateFilingDescription}</p>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -122,26 +123,26 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
                   <>
                     {/* 纳税人 */}
                     <div className="bg-blue-50 p-3 sm:p-4 rounded-lg">
-                      <h4 className="font-bold text-blue-800 mb-3">{zhTW.calculationResults.taxpayer}</h4>
+                      <h4 className="font-bold text-blue-800 mb-3">{t.calculationResults.taxpayer}</h4>
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between items-start">
-                          <span className="flex-shrink-0">{zhTW.calculationResults.grossIncome}</span>
+                          <span className="flex-shrink-0">{t.calculationResults.grossIncome}</span>
                           <span className="text-right break-all ml-2">{formatCurrency(result.taxpayer.grossIncome || 0)}</span>
                         </div>
                         <div className="flex justify-between items-start">
-                          <span className="flex-shrink-0">{zhTW.calculationResults.minusDeductionsTotal}</span>
+                          <span className="flex-shrink-0">{t.calculationResults.minusDeductionsTotal}</span>
                           <span className="text-right break-all ml-2">-{formatCurrency(result.taxpayer.deductions.totalDeductions)}</span>
                         </div>
                         <div className="flex justify-between items-start font-medium">
-                          <span className="flex-shrink-0">{zhTW.calculationResults.netIncome}</span>
+                          <span className="flex-shrink-0">{t.calculationResults.netIncome}</span>
                           <span className="text-right break-all ml-2">{formatCurrency(result.taxpayer.netIncome || 0)}</span>
                         </div>
                         <div className="flex justify-between items-start text-red-600 font-bold">
-                          <span className="flex-shrink-0">{zhTW.calculationResults.applicableTaxRate}</span>
+                          <span className="flex-shrink-0">{t.calculationResults.applicableTaxRate}</span>
                           <span className="text-right ml-2">{result.taxpayer.bracketInfo?.rate || 0}%</span>
                         </div>
                         <div className="flex justify-between items-start text-blue-600 font-bold">
-                          <span className="flex-shrink-0">{zhTW.calculationResults.taxAmount}</span>
+                          <span className="flex-shrink-0">{t.calculationResults.taxAmount}</span>
                           <span className="text-right break-all ml-2">{formatCurrency(result.taxpayer.taxAmount)}</span>
                         </div>
                       </div>
@@ -149,10 +150,10 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
 
                     {/* 配偶 */}
                     <div className="bg-pink-50 p-3 sm:p-4 rounded-lg">
-                      <h4 className="font-bold text-pink-800 mb-3">{zhTW.calculationResults.spouse}</h4>
+                      <h4 className="font-bold text-pink-800 mb-3">{t.calculationResults.spouse}</h4>
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between items-start">
-                          <span className="flex-shrink-0">{zhTW.calculationResults.grossIncome}</span>
+                          <span className="flex-shrink-0">{t.calculationResults.grossIncome}</span>
                           <span className="text-right break-all ml-2">{formatCurrency(result.spouse.grossIncome || 0)}</span>
                         </div>
                         <div className="flex justify-between items-start">
@@ -160,11 +161,11 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
                           <span className="text-right break-all ml-2">-{formatCurrency(result.spouse.deductions.totalDeductions)}</span>
                         </div>
                         <div className="flex justify-between items-start font-medium">
-                          <span className="flex-shrink-0">{zhTW.calculationResults.netIncome}</span>
+                          <span className="flex-shrink-0">{t.calculationResults.netIncome}</span>
                           <span className="text-right break-all ml-2">{formatCurrency(result.spouse.netIncome || 0)}</span>
                         </div>
                         <div className="flex justify-between items-start text-red-600 font-bold">
-                          <span className="flex-shrink-0">{zhTW.calculationResults.applicableTaxRate}</span>
+                          <span className="flex-shrink-0">{t.calculationResults.applicableTaxRate}</span>
                           <span className="text-right ml-2">{result.spouse.bracketInfo?.rate || 0}%</span>
                         </div>
                         <div className="flex justify-between items-start text-pink-600 font-bold">
@@ -181,7 +182,7 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
               <div className="mt-4 bg-green-50 p-3 sm:p-4 rounded-lg">
                 <div className="text-center">
                   <div className="text-sm text-gray-600">
-                    {result.method === 'salary_separate' ? zhTW.calculationResults.salarySeperateTotalLabel : zhTW.calculationResults.separateFilingTotalLabel}
+                    {result.method === 'salary_separate' ? t.calculationResults.salarySeperateTotalLabel : t.calculationResults.separateFilingTotalLabel}
                   </div>
                   <div className="text-xl sm:text-2xl font-bold text-green-600 break-all">
                     {formatCurrency(result.taxAmount || 0)}
@@ -197,12 +198,27 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
       {isMarried && 'allMethods' in result && result.allMethods && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-orange-600">{zhTW.labels.filingMethodComparisonTitle}</CardTitle>
-            <p className="text-sm text-gray-600">{zhTW.filingMethodComparison.description}</p>
+            <CardTitle className="text-orange-600">{t.labels.filingMethodComparisonTitle}</CardTitle>
+            <p className="text-sm text-gray-600">{t.filingMethodComparison.description}</p>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {Object.entries(result.allMethods).map(([method, data]: [string, any]) => (
+              {Object.entries(result.allMethods).map(([method, data]: [string, any]) => {
+                // 申報方式名稱翻譯映射
+                const getMethodName = (methodKey: string) => {
+                  switch (methodKey) {
+                    case 'combined':
+                      return (t.filingMethodComparison as any)?.combinedFiling || t.basicInfo?.combinedFiling || '全部合併計稅';
+                    case 'salary_separate':
+                      return (t.filingMethodComparison as any)?.salarySeperateOtherCombined || '薪資分開計稅，其他合併';
+                    case 'all_separate':
+                      return (t.filingMethodComparison as any)?.allSeparateFiling || '各類所得都分開計稅';
+                    default:
+                      return data.description;
+                  }
+                };
+
+                return (
                 <div
                   key={method}
                   className={`p-3 sm:p-4 rounded-lg border-2 ${
@@ -213,25 +229,26 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
                 >
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                     <div className="flex-1">
-                      <div className="font-medium text-sm sm:text-base">{data.description}</div>
+                      <div className="font-medium text-sm sm:text-base">{getMethodName(method)}</div>
                       <div className="text-sm text-gray-600 break-all">
-                        {zhTW.filingMethodComparison.taxAmount}：{formatCurrency(data.totalTax || data.taxAmount)}
+                        {t.filingMethodComparison.taxAmount}：{formatCurrency(data.totalTax || data.taxAmount)}
                       </div>
                     </div>
                     {'chosenMethod' in result && result.chosenMethod === method && (
                       <div className="text-green-600 font-bold text-sm sm:text-base flex-shrink-0">
-                        {zhTW.calculationResults.bestChoice}
+                        {t.calculationResults.bestChoice}
                       </div>
                     )}
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
 
             {'savingsComparedToCombined' in result && result.savingsComparedToCombined && result.savingsComparedToCombined > 0 && (
               <div className="mt-4 bg-green-100 p-3 sm:p-4 rounded-lg">
                 <div className="text-green-800 font-medium text-sm sm:text-base break-all">
-                  {zhTW.calculationResults.savingsMessage} {formatCurrency(result.savingsComparedToCombined)} {zhTW.filingMethodComparison.taxSavings}
+                  {t.calculationResults.savingsMessage} {formatCurrency(result.savingsComparedToCombined)} {t.filingMethodComparison.taxSavings}
                 </div>
               </div>
             )}

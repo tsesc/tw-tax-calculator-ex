@@ -35,14 +35,14 @@ export interface ItemizedDeduction {
   requiredDocuments: string[];
 }
 
-// 2025年稅率級距表
+// 2025年稅率級距表 (使用翻譯鍵)
 export const TAX_BRACKETS: TaxBracket[] = [
   {
     min: 0,
     max: 590000,
     rate: 5,
     progressiveDifference: 0,
-    description: "年所得淨額59萬元以下",
+    description: "bracket1",
     color: "tax-bracket-5"
   },
   {
@@ -50,7 +50,7 @@ export const TAX_BRACKETS: TaxBracket[] = [
     max: 1330000,
     rate: 12,
     progressiveDifference: 41300,
-    description: "年所得淨額59萬-133萬元",
+    description: "bracket2",
     color: "tax-bracket-12"
   },
   {
@@ -58,7 +58,7 @@ export const TAX_BRACKETS: TaxBracket[] = [
     max: 2660000,
     rate: 20,
     progressiveDifference: 147700,
-    description: "年所得淨額133萬-266萬元",
+    description: "bracket3",
     color: "tax-bracket-20"
   },
   {
@@ -66,7 +66,7 @@ export const TAX_BRACKETS: TaxBracket[] = [
     max: 4980000,
     rate: 30,
     progressiveDifference: 413700,
-    description: "年所得淨額266萬-498萬元",
+    description: "bracket4",
     color: "tax-bracket-30"
   },
   {
@@ -74,7 +74,7 @@ export const TAX_BRACKETS: TaxBracket[] = [
     max: null,
     rate: 40,
     progressiveDifference: 911700,
-    description: "年所得淨額498萬元以上",
+    description: "bracket5",
     color: "tax-bracket-40"
   }
 ];
@@ -343,27 +343,27 @@ export const RETIREMENT_INCOME_EXEMPTION = {
   }
 };
 
-// 免稅門檻快速查詢
+// 免稅門檻快速查詢 (使用翻譯鍵)
 export const TAX_FREE_THRESHOLDS = [
   {
-    familyType: "單身上班族",
+    familyTypeKey: "singleWorker",
     threshold: 446000,
-    calculation: "免稅額9.7萬 + 標準扣除額13.1萬 + 薪資扣除額21.8萬 = 44.6萬元"
+    calculationKey: "singleWorkerCalculation"
   },
   {
-    familyType: "雙薪夫妻",
+    familyTypeKey: "dualIncomeCouple",
     threshold: 892000,
-    calculation: "免稅額19.4萬 + 標準扣除額26.2萬 + 薪資扣除額43.6萬 = 89.2萬元"
+    calculationKey: "dualIncomeCoupleCalculation"
   },
   {
-    familyType: "四口之家(2名6歲以下子女)",
+    familyTypeKey: "familyOfFourWith2Children",
     threshold: 1461000,
-    calculation: "免稅額38.8萬 + 標準扣除額26.2萬 + 薪資扣除額43.6萬 + 幼兒扣除額37.5萬 = 146.1萬元"
+    calculationKey: "familyOfFourCalculation"
   },
   {
-    familyType: "三代同堂(含70歲以上長者)",
+    familyTypeKey: "threeGenerationFamily",
     threshold: 1200000,
-    calculation: "依具體家庭成員結構計算，長者享有更高免稅額14.55萬元"
+    calculationKey: "threeGenerationCalculation"
   }
 ];
 
@@ -411,28 +411,28 @@ export const TAX_SAVING_TIPS = [
   }
 ];
 
-// 2025年重大稅制變革摘要
+// 2025年重大稅制變革摘要 (使用翻譯鍵)
 export const TAX_REFORM_2025 = [
   {
-    item: "幼兒學前特別扣除額",
-    change: "年齡擴大、金額加成、取消排富",
-    before: "5歲以下每人12萬元，有排富規定",
-    after: "6歲以下第1名15萬、第2名起22.5萬元，無排富規定",
-    impact: "多子女家庭大幅受惠"
+    itemKey: "childPreschoolDeduction",
+    changeKey: "ageExpansionAmountIncrease",
+    beforeKey: "under5with120k",
+    afterKey: "under6with150kAnd225k",
+    impactKey: "multChildFamilyBenefit"
   },
   {
-    item: "房屋租金支出扣除",
-    change: "從列舉改為特別扣除額",
-    before: "列舉扣除每戶12萬元，與購屋貸款利息擇一",
-    after: "特別扣除每戶18萬元，可與其他扣除額並用",
-    impact: "租屋族稅負減輕"
+    itemKey: "housingRentalDeduction",
+    changeKey: "fromItemizedToSpecial",
+    beforeKey: "itemized120kMutuallyExclusive",
+    afterKey: "special180kCanCombine",
+    impactKey: "renterTaxReduction"
   },
   {
-    item: "各項金額全面調升",
-    change: "免稅額、扣除額普遍上調",
-    before: "免稅額9.2萬、標準扣除額單身12.4萬",
-    after: "免稅額9.7萬、標準扣除額單身13.1萬",
-    impact: "整體稅負減輕"
+    itemKey: "allAmountsIncrease",
+    changeKey: "exemptionDeductionIncrease",
+    beforeKey: "exemption92kStandard124k",
+    afterKey: "exemption97kStandard131k",
+    impactKey: "overallTaxReduction"
   }
 ];
 

@@ -10,6 +10,7 @@ interface I18nTexts {
   };
   buttons: {
     clearAllData: string;
+    changeLanguage: string;
   };
   cardTitles: {
     majorTaxReforms2025: string;
@@ -300,6 +301,10 @@ interface I18nTexts {
     annually: string;
     yuan: string;
     tenThousandYuan: string;
+    annualSalary: string;
+    averageMonthlyIncome: string;
+    averageMonthlySalary: string;
+    annualIncome: string;
   };
   taxReforms: {
     before: string;
@@ -381,7 +386,8 @@ export const zhTW: I18nTexts = {
   },
 
   buttons: {
-    clearAllData: "清除所有輸入資料"
+    clearAllData: "清除所有輸入資料",
+    changeLanguage: "切換語系"
   },
 
   cardTitles: {
@@ -737,7 +743,11 @@ export const zhTW: I18nTexts = {
     perHousehold: "每戶",
     annually: "每年",
     yuan: "元",
-    tenThousandYuan: "萬元"
+    tenThousandYuan: "萬元",
+    annualSalary: "年薪",
+    averageMonthlyIncome: "平均月收入",
+    averageMonthlySalary: "平均月薪",
+    annualIncome: "年收入"
   },
 
   taxReforms: {

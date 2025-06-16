@@ -2,8 +2,8 @@ import React from 'react';
 import { Button } from './components/ui/button';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useTaxCalculation } from './hooks/useTaxCalculation';
+import { useLanguage } from './hooks/useLanguage';
 import { TaxFormData } from './types/tax';
-import zhTW from './i18n/zh-TW';
 import {
   TaxReformInfo,
   TaxThresholdInfo,
@@ -18,6 +18,9 @@ import {
 } from './components/TaxForm';
 
 const TaxCalculatorRefactored: React.FC = () => {
+  // 使用語言 hook
+  const { language, setLanguage, t } = useLanguage();
+
   // 使用localStorage缓存的状态
   const [formData, setFormData] = useLocalStorage<TaxFormData>('taxCalculatorData', {
     salaryIncome: '',
@@ -85,28 +88,36 @@ const TaxCalculatorRefactored: React.FC = () => {
       {/* 标题和说明 */}
       <div className="text-center space-y-4">
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
-          {zhTW.title}
+          {t.title}
         </h1>
         <p className="text-base sm:text-lg text-gray-600">
-          {zhTW.description}
+          {t.description}
         </p>
         <div className="flex flex-wrap justify-center gap-2 sm:gap-4 text-xs sm:text-sm text-blue-600">
-          <span>✓ {zhTW.features.realTimeCalculation}</span>
-          <span>✓ {zhTW.features.detailedDeductions}</span>
-          <span>✓ {zhTW.features.completeFormula}</span>
-          <span>✓ {zhTW.features.taxSavingTips}</span>
-          <span>✓ {zhTW.features.autoSave}</span>
+          <span>✓ {t.features.realTimeCalculation}</span>
+          <span>✓ {t.features.detailedDeductions}</span>
+          <span>✓ {t.features.completeFormula}</span>
+          <span>✓ {t.features.taxSavingTips}</span>
+          <span>✓ {t.features.autoSave}</span>
         </div>
 
-        {/* 清除缓存按钮 */}
-        <div className="flex justify-center mt-4">
+        {/* 清除缓存按钮和語言切換按鈕 */}
+        <div className="flex justify-center items-center gap-3 mt-4">
           <Button
             variant="outline"
             size="sm"
             onClick={clearCachedData}
             className="text-red-600 border-red-200 hover:bg-red-50 text-xs sm:text-sm"
           >
-            🗑️ {zhTW.buttons.clearAllData}
+            🗑️ {t.buttons.clearAllData}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setLanguage(language === 'zh-TW' ? 'en-US' : 'zh-TW')}
+            className="text-blue-600 border-blue-200 hover:bg-blue-50 text-xs sm:text-sm"
+          >
+            🌐 {language === 'zh-TW' ? 'English' : '中文'}
           </Button>
         </div>
       </div>

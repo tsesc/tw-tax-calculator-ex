@@ -44,26 +44,19 @@ const TaxBracketsTable: React.FC<TaxBracketsTableProps> = ({ result, formData })
     if (formData.taxCalculationMethod === 'salary_separate') {
       // 薪资分开计税建议
       const suggestedTaxpayerIncome = targetIncome * 0.6; // 建议比例
-      const suggestedSpouseIncome = targetIncome * 0.4;
       const currentTaxpayerIncome = (parseFloat(formData.salaryIncome) || 0) + (parseFloat(formData.otherIncome) || 0);
-      const currentSpouseIncome = (parseFloat(formData.spouseSalaryIncome) || 0) + (parseFloat(formData.spouseOtherIncome) || 0);
 
       const taxpayerDiff = suggestedTaxpayerIncome - currentTaxpayerIncome;
-      const spouseDiff = suggestedSpouseIncome - currentSpouseIncome;
       const taxpayerPercent = currentTaxpayerIncome > 0 ? Math.abs(taxpayerDiff / currentTaxpayerIncome * 100) : 0;
-      const spousePercent = currentSpouseIncome > 0 ? Math.abs(spouseDiff / currentSpouseIncome * 100) : 0;
       const taxpayerSign = taxpayerDiff > 0 ? '+' : '';
-      const spouseSign = spouseDiff > 0 ? '+' : '';
 
       const newTaxpayerTotal = Math.max(0, suggestedTaxpayerIncome);
-      const newSpouseTotal = Math.max(0, suggestedSpouseIncome);
 
       return `${(t.taxBrackets as any)?.suggestedIncome || '建議年收入'}：${formatCurrency(Math.max(0, newTaxpayerTotal))} (${taxpayerSign}${taxpayerPercent.toFixed(1)}%)`;
     }
 
     if (formData.taxCalculationMethod === 'all_separate') {
       // 全部分开计税建议
-      const newTaxpayerTotal = targetIncome * 0.5;
       const newSpouseTotal = targetIncome * 0.5;
 
       return `${(t.taxBrackets as any)?.suggestedIncome || '建議年收入'}：${formatCurrency(Math.max(0, newSpouseTotal))} (${changeSign}${changePercent.toFixed(1)}%)`;

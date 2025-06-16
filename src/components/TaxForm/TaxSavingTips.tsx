@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { useLanguage } from '../../hooks/useLanguage';
 
 const TaxSavingTips: React.FC = () => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <Card>

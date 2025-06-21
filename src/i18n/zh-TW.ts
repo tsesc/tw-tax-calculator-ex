@@ -640,7 +640,9 @@ export const zhTW: any = {
     bestChoice: "✓ 最優選擇",
     savingsMessage: "💰 相比傳統合併申報，您節省了",
     taxSavings: "的稅款",
-    combinedFiling: "全部合併計稅"
+    combinedFiling: "全部合併計稅",
+    salarySeperateOtherCombined: "薪資分開計稅，其他合併",
+    allSeparateFiling: "各類所得都分開計稅"
   },
 
   calculationSteps: {

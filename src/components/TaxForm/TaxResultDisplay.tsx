@@ -157,7 +157,7 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
                           <span className="text-right break-all ml-2">{formatCurrency(result.spouse.grossIncome || 0)}</span>
                         </div>
                         <div className="flex justify-between items-start">
-                          <span className="flex-shrink-0">减：扣除额总计</span>
+                          <span className="flex-shrink-0">{t.calculationResults.minusDeductionsTotal}</span>
                           <span className="text-right break-all ml-2">-{formatCurrency(result.spouse.deductions.totalDeductions)}</span>
                         </div>
                         <div className="flex justify-between items-start font-medium">
@@ -169,7 +169,7 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
                           <span className="text-right ml-2">{result.spouse.bracketInfo?.rate || 0}%</span>
                         </div>
                         <div className="flex justify-between items-start text-pink-600 font-bold">
-                          <span className="flex-shrink-0">应纳税额</span>
+                          <span className="flex-shrink-0">{t.calculationResults.taxAmount}</span>
                           <span className="text-right break-all ml-2">{formatCurrency(result.spouse.taxAmount)}</span>
                         </div>
                       </div>
@@ -208,11 +208,11 @@ const TaxResultDisplay: React.FC<TaxResultDisplayProps> = ({ result, isMarried }
                 const getMethodName = (methodKey: string) => {
                   switch (methodKey) {
                     case 'combined':
-                      return (t.filingMethodComparison as any)?.combinedFiling || t.basicInfo?.combinedFiling || '全部合併計稅';
+                      return t.filingMethodComparison.combinedFiling || t.basicInfo.combinedFiling;
                     case 'salary_separate':
-                      return (t.filingMethodComparison as any)?.salarySeperateOtherCombined || '薪資分開計稅，其他合併';
+                      return t.filingMethodComparison.salarySeperateOtherCombined;
                     case 'all_separate':
-                      return (t.filingMethodComparison as any)?.allSeparateFiling || '各類所得都分開計稅';
+                      return t.filingMethodComparison.allSeparateFiling;
                     default:
                       return data.description;
                   }

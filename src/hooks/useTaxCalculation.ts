@@ -167,7 +167,12 @@ const calculateAllMarriedMethods = (params: CalculateAllMarriedMethodsParams) =>
   const taxpayerExemption = EXEMPTION_AMOUNTS.standard;
   const taxpayerSalaryNetAfterExemption = Math.max(0, taxpayerSalaryForSeparate - taxpayerExemption);
   const taxpayerSalaryTaxInfo = calculateTax(taxpayerSalaryNetAfterExemption);
-  const remainingNetIncome = Math.max(0, combinedNetIncome - taxpayerSalaryNetAfterExemption);
+
+  // 剩餘所得：其他所得 + 配偶所得
+  const remainingGrossIncome = taxpayerOther + spouseSalaryNet + spouseOther;
+  // 剩餘扣除額：總扣除額 - 已使用的納稅人免稅額
+  const remainingDeductions = Math.max(0, combinedDeductions.totalDeductions - taxpayerExemption);
+  const remainingNetIncome = Math.max(0, remainingGrossIncome - remainingDeductions);
   const remainingTaxInfo = calculateTax(remainingNetIncome);
   const totalSalarySepaRateTax = taxpayerSalaryTaxInfo.taxAmount + remainingTaxInfo.taxAmount;
 
@@ -196,7 +201,7 @@ const calculateAllMarriedMethods = (params: CalculateAllMarriedMethodsParams) =>
       description: '本人薪资所得（分开计税）'
     },
     remainingPortion: {
-      grossIncome: combinedIncome - taxpayerSalaryForSeparate,
+      grossIncome: remainingGrossIncome,
       netIncome: remainingNetIncome,
       ...remainingTaxInfo,
       description: '剩余所得（合并计税）'

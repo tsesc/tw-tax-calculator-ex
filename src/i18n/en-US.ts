@@ -563,8 +563,9 @@ const enUS: any = {
     bestChoice: "Best Choice",
     savingsMessage: "Tax Savings",
     taxSavings: "Save",
-
-
+    combinedFiling: "Joint Filing for All Income",
+    salarySeperateOtherCombined: "Separate Filing for Salary, Joint for Others",
+    allSeparateFiling: "Separate Filing for All Income Types"
   },
   calculationSteps: {
     step1: "Step 1: Calculate Salary Net Amount",
@@ -671,7 +672,7 @@ const enUS: any = {
     above: "and above",
     netIncomeRange: "Comprehensive Income Net Amount",
     taxRate: "Tax Rate",
-
+    description: "Based on your current deduction settings, the table below shows the annual income required to reach each tax bracket",
     requiredIncome: "Required Income",
     suggestion: "Suggestion",
     currentIncome: "Current Income",

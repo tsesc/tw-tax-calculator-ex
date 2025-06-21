@@ -31,7 +31,7 @@ const TaxBracketsTable: React.FC<TaxBracketsTableProps> = ({ result, formData })
       const changePercent = currentIncome > 0 ? Math.abs(difference / currentIncome * 100) : 0;
       const changeSign = difference > 0 ? '+' : '';
 
-      return `${(t.taxBrackets as any)?.suggestedIncome || '建議年收入'}：${formatCurrency(Math.max(0, suggestedIncome))} (${changeSign}${changePercent.toFixed(1)}%)`;
+      return `${t.taxBrackets.suggestedIncome}：${formatCurrency(Math.max(0, suggestedIncome))} (${changeSign}${changePercent.toFixed(1)}%)`;
     }
 
     // 已婚情况的建议收入分配
@@ -52,20 +52,20 @@ const TaxBracketsTable: React.FC<TaxBracketsTableProps> = ({ result, formData })
 
       const newTaxpayerTotal = Math.max(0, suggestedTaxpayerIncome);
 
-      return `${(t.taxBrackets as any)?.suggestedIncome || '建議年收入'}：${formatCurrency(Math.max(0, newTaxpayerTotal))} (${taxpayerSign}${taxpayerPercent.toFixed(1)}%)`;
+      return `${t.taxBrackets.suggestedIncome}：${formatCurrency(Math.max(0, newTaxpayerTotal))} (${taxpayerSign}${taxpayerPercent.toFixed(1)}%)`;
     }
 
     if (formData.taxCalculationMethod === 'all_separate') {
       // 全部分开计税建议
       const newSpouseTotal = targetIncome * 0.5;
 
-      return `${(t.taxBrackets as any)?.suggestedIncome || '建議年收入'}：${formatCurrency(Math.max(0, newSpouseTotal))} (${changeSign}${changePercent.toFixed(1)}%)`;
+      return `${t.taxBrackets.suggestedIncome}：${formatCurrency(Math.max(0, newSpouseTotal))} (${changeSign}${changePercent.toFixed(1)}%)`;
     }
 
     // 合并计税建议
     const newIncome = Math.max(0, targetIncome);
 
-    return `${(t.taxBrackets as any)?.suggestedIncome || '建議年收入'}：${formatCurrency(Math.max(0, newIncome))} (${changeSign}${changePercent.toFixed(1)}%)`;
+    return `${t.taxBrackets.suggestedIncome}：${formatCurrency(Math.max(0, newIncome))} (${changeSign}${changePercent.toFixed(1)}%)`;
   };
 
   return (
@@ -73,7 +73,7 @@ const TaxBracketsTable: React.FC<TaxBracketsTableProps> = ({ result, formData })
       <CardHeader>
         <CardTitle className="text-purple-600">{t.labels.taxBracketTable2025}</CardTitle>
         <div className="text-sm text-gray-600 space-y-1">
-          <div>{(t.taxBrackets as any)?.description || '根據您目前的扣除額設定，以下顯示達到各稅率級距所需的年收入'}</div>
+          <div>{t.taxBrackets.description}</div>
         </div>
       </CardHeader>
       <CardContent>
@@ -84,8 +84,8 @@ const TaxBracketsTable: React.FC<TaxBracketsTableProps> = ({ result, formData })
                 <th className="text-left p-2">{t.taxBrackets.netIncomeRange}</th>
                 <th className="text-left p-2">{t.taxBrackets.taxRate}</th>
                 <th className="text-left p-2">{t.taxBrackets.progressiveDifference}</th>
-                <th className="text-left p-2">{(t.taxBrackets as any)?.requiredIncome || '所需年收入'}</th>
-                <th className="text-left p-2">{(t.taxBrackets as any)?.suggestion || '建議'}</th>
+                <th className="text-left p-2">{t.taxBrackets.requiredIncome}</th>
+                <th className="text-left p-2">{t.taxBrackets.suggestion}</th>
               </tr>
             </thead>
             <tbody>
@@ -136,13 +136,13 @@ const TaxBracketsTable: React.FC<TaxBracketsTableProps> = ({ result, formData })
         </div>
 
         <div className="mt-4 text-xs text-gray-500 space-y-1 bg-gray-50 p-3 rounded">
-          <div><strong>{(t.taxBrackets as any)?.explanationTitle || '說明：'}</strong></div>
-          <div>{(t.taxBrackets as any)?.currentIncome || '目前年收入'}：{formatCurrency(result?.grossIncome || 0)}，{(t.taxBrackets as any)?.totalDeductions || '扣除額總計'}：{formatCurrency(result?.deductions?.totalDeductions || 0)}</div>
-          <div>• {(t.taxBrackets as any)?.netIncomeFormula || '綜合所得淨額 = 年收入 - 扣除額總計'}</div>
-          <div>• {(t.taxBrackets as any)?.taxAmountFormula || '應納稅額 = 綜合所得淨額 × 稅率 - 累進差額'}</div>
-          <div>• {(t.taxBrackets as any)?.colorCoding || '表格中稅率以顏色區分：綠色(5%)藍色(12%)黃色(20%)橙色(30%)紅色(40%)'}</div>
-          <div>• {(t.taxBrackets as any)?.tableNote || '上表「所需年收入」是根據您目前的扣除額設定計算'}</div>
-          <div>• {(t.taxBrackets as any)?.disclaimer || '實際報稅時請以財政部公告為準'}</div>
+          <div><strong>{t.taxBrackets.explanationTitle}</strong></div>
+          <div>{t.taxBrackets.currentIncome}：{formatCurrency(result?.grossIncome || 0)}，{t.taxBrackets.totalDeductions}：{formatCurrency(result?.deductions?.totalDeductions || 0)}</div>
+          <div>• {t.taxBrackets.netIncomeFormula}</div>
+          <div>• {t.taxBrackets.taxAmountFormula}</div>
+          <div>• {t.taxBrackets.colorCoding}</div>
+          <div>• {t.taxBrackets.tableNote}</div>
+          <div>• {t.taxBrackets.disclaimer}</div>
         </div>
       </CardContent>
     </Card>

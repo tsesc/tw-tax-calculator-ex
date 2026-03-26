@@ -683,11 +683,11 @@ const enUS: any = {
     colorCoding: "Tax rates are color-coded in the table: Green(5%) Blue(12%) Yellow(20%) Orange(30%) Red(40%)",
     tableNote: "The 'Required Income' in the table above is calculated based on your current deduction settings",
     disclaimer: "Please refer to Ministry of Finance announcements for actual tax filing",
-    bracket1: "Net income under NT$590k",
-    bracket2: "Net income NT$590k-1.33M",
-    bracket3: "Net income NT$1.33M-2.66M",
-    bracket4: "Net income NT$2.66M-4.98M",
-    bracket5: "Net income over NT$4.98M",
+    bracket1: "Net income under NT$610k",
+    bracket2: "Net income NT$610k-1.38M",
+    bracket3: "Net income NT$1.38M-2.77M",
+    bracket4: "Net income NT$2.77M-5.19M",
+    bracket5: "Net income over NT$5.19M",
     suggestedIncome: "Suggested annual income"
   },
   itemizedDeductionDetails: {

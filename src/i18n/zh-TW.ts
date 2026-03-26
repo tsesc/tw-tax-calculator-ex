@@ -780,11 +780,11 @@ export const zhTW: any = {
     colorCoding: "表格中稅率以顏色區分：綠色(5%)藍色(12%)黃色(20%)橙色(30%)紅色(40%)",
     tableNote: "上表「所需年收入」是根據您目前的扣除額設定計算",
     disclaimer: "實際報稅時請以財政部公告為準",
-    bracket1: "年所得淨額59萬元以下",
-    bracket2: "年所得淨額59萬-133萬元",
-    bracket3: "年所得淨額133萬-266萬元",
-    bracket4: "年所得淨額266萬-498萬元",
-    bracket5: "年所得淨額498萬元以上",
+    bracket1: "年所得淨額61萬元以下",
+    bracket2: "年所得淨額61萬-138萬元",
+    bracket3: "年所得淨額138萬-277萬元",
+    bracket4: "年所得淨額277萬-519萬元",
+    bracket5: "年所得淨額519萬元以上",
     suggestedIncome: "建議年收入"
   },
 
@@ -926,8 +926,8 @@ export const zhTW: any = {
     taxBracketsWidened: "各級距金額上調",
 
     // 修改前
-    under5with120k: "6歲以下第1名15萬、第2名起22.5萬元",
-    itemized120kMutuallyExclusive: "特別扣除每戶18萬元，可與其他扣除額並用",
+    under5with120k: "5歲以下每人12萬元，有排富條款",
+    itemized120kMutuallyExclusive: "列舉扣除每戶12萬元，與房貸利息互斥",
     exemption97kStandard131k: "免稅額9.7萬、標準扣除額單身13.1萬",
     longTermCare120k: "每人每年12萬元",
     bracket1_590k: "5%級距上限59萬",

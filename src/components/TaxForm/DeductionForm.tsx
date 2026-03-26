@@ -167,7 +167,7 @@ const DeductionForm: React.FC<DeductionFormProps> = ({ formData, onFieldChange }
         <CardContent className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-2">
-              {t.labels.rentalExpensesNew2025}
+              {t.labels.rentalExpensesNew2026}
             </label>
             <Input
               type="number"
@@ -177,7 +177,7 @@ const DeductionForm: React.FC<DeductionFormProps> = ({ formData, onFieldChange }
               className="w-full"
             />
             <div className="text-xs text-blue-600 mt-1">
-              {t.descriptions.rentalMajorReform2025}
+              {t.descriptions.rentalMajorReform2026}
             </div>
           </div>
 

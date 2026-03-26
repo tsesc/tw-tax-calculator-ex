@@ -52,7 +52,7 @@ const DetailedCalculationProcess: React.FC<DetailedCalculationProcessProps> = ({
                     </div>
                     <div className="flex justify-between">
                       <span>{t.calculationSteps.minus}{t.calculationSteps.salarySpecialDeduction}</span>
-                      <span>-{formatCurrency(Math.min(result.salaryBreakdown.taxpayerSalary, 218000))}</span>
+                      <span>-{formatCurrency(Math.min(result.salaryBreakdown.taxpayerSalary, 227000))}</span>
                     </div>
                     <div className="flex justify-between font-medium">
                       <span>{t.calculationSteps.salaryNetAmount}</span>
@@ -68,7 +68,7 @@ const DetailedCalculationProcess: React.FC<DetailedCalculationProcessProps> = ({
                       </div>
                     <div className="flex justify-between">
                       <span>{t.calculationSteps.minus}{t.calculationSteps.salarySpecialDeduction}</span>
-                      <span>-{formatCurrency(Math.min(result.salaryBreakdown.spouseSalary, 218000))}</span>
+                      <span>-{formatCurrency(Math.min(result.salaryBreakdown.spouseSalary, 227000))}</span>
                     </div>
                     <div className="flex justify-between font-medium">
                       <span>{t.calculationResults.spouse}{t.calculationSteps.salaryNetAmount}</span>

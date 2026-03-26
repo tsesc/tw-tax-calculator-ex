@@ -1,4 +1,4 @@
-// 2025年台灣綜合所得稅規則資料
+// 2026年(115年度)台灣綜合所得稅規則資料
 
 export interface TaxBracket {
   min: number;
@@ -35,45 +35,45 @@ export interface ItemizedDeduction {
   requiredDocuments: string[];
 }
 
-// 2025年稅率級距表 (使用翻譯鍵)
+// 115年度稅率級距表 (使用翻譯鍵)
 export const TAX_BRACKETS: TaxBracket[] = [
   {
     min: 0,
-    max: 590000,
+    max: 610000,
     rate: 5,
     progressiveDifference: 0,
     description: "bracket1",
     color: "tax-bracket-5"
   },
   {
-    min: 590001,
-    max: 1330000,
+    min: 610001,
+    max: 1380000,
     rate: 12,
-    progressiveDifference: 41300,
+    progressiveDifference: 42700,
     description: "bracket2",
     color: "tax-bracket-12"
   },
   {
-    min: 1330001,
-    max: 2660000,
+    min: 1380001,
+    max: 2770000,
     rate: 20,
-    progressiveDifference: 147700,
+    progressiveDifference: 153100,
     description: "bracket3",
     color: "tax-bracket-20"
   },
   {
-    min: 2660001,
-    max: 4980000,
+    min: 2770001,
+    max: 5190000,
     rate: 30,
-    progressiveDifference: 413700,
+    progressiveDifference: 430100,
     description: "bracket4",
     color: "tax-bracket-30"
   },
   {
-    min: 4980001,
+    min: 5190001,
     max: null,
     rate: 40,
-    progressiveDifference: 911700,
+    progressiveDifference: 949100,
     description: "bracket5",
     color: "tax-bracket-40"
   }
@@ -81,10 +81,10 @@ export const TAX_BRACKETS: TaxBracket[] = [
 
 // 免稅額 (每人可減除金額)
 export const EXEMPTION_AMOUNTS = {
-  standard: 97000, // 一般免稅額 (較112年度增加5,000元)
-  elderly: 145500, // 70歲以上免稅額 (較112年度增加7,500元)
-  description: "納稅義務人本人、配偶及受扶養親屬每人免稅額97,000元",
-  elderlyDescription: "年滿70歲之納稅義務人、配偶及受扶養直系尊親屬每人145,500元",
+  standard: 101000, // 一般免稅額 (較113年度增加4,000元)
+  elderly: 151500, // 70歲以上免稅額 (較113年度增加6,000元)
+  description: "納稅義務人本人、配偶及受扶養親屬每人免稅額101,000元",
+  elderlyDescription: "年滿70歲之納稅義務人、配偶及受扶養直系尊親屬每人151,500元",
   conditions: [
     "受扶養親屬須符合所得稅法第17條規定",
     "直系尊親屬年滿60歲或無謀生能力",
@@ -98,15 +98,15 @@ export const EXEMPTION_AMOUNTS = {
 export const STANDARD_DEDUCTIONS: TaxDeduction[] = [
   {
     name: "單身標準扣除額",
-    amount: 131000, // 較112年度增加7,000元
-    description: "單身納稅人可選擇標準扣除額131,000元",
-    example: "單身上班族年收入80萬元，可直接扣除13.1萬元，無需逐項列舉各項支出"
+    amount: 136000, // 較113年度增加5,000元
+    description: "單身納稅人可選擇標準扣除額136,000元",
+    example: "單身上班族年收入80萬元，可直接扣除13.6萬元，無需逐項列舉各項支出"
   },
   {
     name: "夫妻標準扣除額",
-    amount: 262000, // 較112年度增加14,000元
-    description: "夫妻合併申報可選擇標準扣除額262,000元",
-    example: "夫妻合併申報年收入150萬元，可直接扣除26.2萬元"
+    amount: 272000, // 較113年度增加10,000元
+    description: "夫妻合併申報可選擇標準扣除額272,000元",
+    example: "夫妻合併申報年收入150萬元，可直接扣除27.2萬元"
   }
 ];
 
@@ -235,27 +235,27 @@ export const SPECIAL_DEDUCTIONS: SpecialDeduction[] = [
   },
   {
     name: "薪資所得特別扣除額",
-    amount: 218000, // 較112年度增加11,000元
-    description: "每位有薪資所得者均可扣除218,000元",
-    example: "夫妻皆有薪資所得，可扣除：2人×21.8萬=43.6萬元",
+    amount: 227000, // 較113年度增加9,000元
+    description: "每位有薪資所得者均可扣除227,000元",
+    example: "夫妻皆有薪資所得，可扣除：2人×22.7萬=45.4萬元",
     isPerPerson: true,
     conditions: [
       "適用對象：有薪資所得者",
-      "扣除金額：每人每年218,000元",
+      "扣除金額：每人每年227,000元",
       "無須證明：不需檢附任何文件"
     ]
   },
   {
     name: "身心障礙特別扣除額",
-    amount: 218000, // 較112年度增加11,000元
-    description: "領有身心障礙證明或精神疾病嚴重病人每人可扣除218,000元",
-    example: "家中有2名身心障礙成員，可扣除：2人×21.8萬=43.6萬元",
+    amount: 227000, // 較113年度增加9,000元
+    description: "領有身心障礙證明或精神疾病嚴重病人每人可扣除227,000元",
+    example: "家中有2名身心障礙成員，可扣除：2人×22.7萬=45.4萬元",
     isPerPerson: true,
     conditions: [
       "適用對象：納稅人、配偶、受扶養親屬",
       "身心障礙者：領有身心障礙證明",
       "精神病患：精神衛生法第3條第4款嚴重病人",
-      "扣除金額：每人每年218,000元"
+      "扣除金額：每人每年227,000元"
     ]
   },
   {
@@ -287,9 +287,9 @@ export const SPECIAL_DEDUCTIONS: SpecialDeduction[] = [
   },
   {
     name: "長期照顧特別扣除額",
-    amount: 120000,
-    description: "符合長期照顧需求之身心失能者，每人可扣除120,000元",
-    example: "家中有失智癥長者符合長照需求，可扣除12萬元",
+    amount: 180000, // 較113年度增加60,000元
+    description: "符合長期照顧需求之身心失能者，每人可扣除180,000元",
+    example: "家中有失智癥長者符合長照需求，可扣除18萬元",
     isPerPerson: true,
     conditions: [
       "適用對象：須長期照顧之身心失能者",
@@ -319,10 +319,10 @@ export const SPECIAL_DEDUCTIONS: SpecialDeduction[] = [
 
 // 基本生活費 (保障基本生活水準)
 export const BASIC_LIVING_EXPENSE = {
-  amount: 210000, // 較112年度增加8,000元
-  description: "每人基本生活費210,000元",
+  amount: 213000, // 較113年度增加3,000元
+  description: "每人基本生活費213,000元",
   note: "基本生活費總額超過免稅額及各項扣除額合計時，可減除差額",
-  calculation: "基本生活費總額 = 210,000元 × (納稅人+配偶+受扶養親屬人數)",
+  calculation: "基本生活費總額 = 213,000元 × (納稅人+配偶+受扶養親屬人數)",
   conditions: [
     "比較項目：免稅額+一般扣除額+儲蓄投資+身心障礙+教育學費+幼兒學前+長期照顧+房屋租金特別扣除額",
     "差額扣除：基本生活費總額 > 比較項目合計數，可扣除差額",
@@ -330,15 +330,15 @@ export const BASIC_LIVING_EXPENSE = {
   ]
 };
 
-// 退職所得定額免稅 (較112年度調增)
+// 退職所得定額免稅 (較113年度調增)
 export const RETIREMENT_INCOME_EXEMPTION = {
   onetime: {
-    threshold1: 198000, // 較112年度增加10,000元
-    threshold2: 398000, // 較112年度增加21,000元
+    threshold1: 206000, // 較113年度增加8,000元
+    threshold2: 414000, // 較113年度增加16,000元
     description: "一次領取退職所得免稅門檻調升"
   },
   periodic: {
-    threshold: 859000, // 較112年度增加45,000元
+    threshold: 894000, // 較113年度增加35,000元
     description: "分期領取退職所得免稅門檻調升"
   }
 };
@@ -347,23 +347,45 @@ export const RETIREMENT_INCOME_EXEMPTION = {
 export const TAX_FREE_THRESHOLDS = [
   {
     familyTypeKey: "singleWorker",
-    threshold: 446000,
-    calculationKey: "singleWorkerCalculation"
+    threshold: 464000,
+    calculationKey: "singleWorkerCalculation",
+    formPreset: {
+      salaryIncome: '464000',
+      isMarried: false,
+    }
   },
   {
     familyTypeKey: "dualIncomeCouple",
-    threshold: 892000,
-    calculationKey: "dualIncomeCoupleCalculation"
+    threshold: 928000,
+    calculationKey: "dualIncomeCoupleCalculation",
+    formPreset: {
+      salaryIncome: '464000',
+      spouseSalaryIncome: '464000',
+      isMarried: true,
+    }
   },
   {
     familyTypeKey: "familyOfFourWith2Children",
-    threshold: 1461000,
-    calculationKey: "familyOfFourCalculation"
+    threshold: 1505000,
+    calculationKey: "familyOfFourCalculation",
+    formPreset: {
+      salaryIncome: '752500',
+      spouseSalaryIncome: '752500',
+      isMarried: true,
+      childrenUnder6: '2',
+    }
   },
   {
     familyTypeKey: "threeGenerationFamily",
-    threshold: 1200000,
-    calculationKey: "threeGenerationCalculation"
+    threshold: 1519000,
+    calculationKey: "threeGenerationCalculation",
+    formPreset: {
+      salaryIncome: '760000',
+      spouseSalaryIncome: '759000',
+      isMarried: true,
+      childrenUnder6: '1',
+      elderlyOver70: '2',
+    }
   }
 ];
 
@@ -386,8 +408,8 @@ export const TAX_SAVING_TIPS = [
   },
   {
     category: "幼兒扣除額善用",
-    tip: "2025年幼兒扣除額大幅優化，第2名起加成50%",
-    detail: "年齡從5歲擴大至6歲以下，取消排富規定，所有家庭均可適用"
+    tip: "幼兒扣除額大幅優化，第2名起加成50%",
+    detail: "年齡擴大至6歲以下，取消排富規定，所有家庭均可適用"
   },
   {
     category: "房屋租金新制",
@@ -406,33 +428,33 @@ export const TAX_SAVING_TIPS = [
   },
   {
     category: "長期照顧扣除",
-    tip: "家有長照需求者每人可扣除12萬元",
-    detail: "須符合衛福部長照評估標準，檢附相關證明文件"
+    tip: "家有長照需求者每人可扣除18萬元",
+    detail: "115年度大幅調升至18萬元，須符合衛福部長照評估標準，檢附相關證明文件"
   }
 ];
 
-// 2025年重大稅制變革摘要 (使用翻譯鍵)
+// 115年度重大稅制變革摘要 (使用翻譯鍵)
 export const TAX_REFORM_2025 = [
   {
-    itemKey: "childPreschoolDeduction",
-    changeKey: "ageExpansionAmountIncrease",
-    beforeKey: "under5with120k",
-    afterKey: "under6with150kAnd225k",
-    impactKey: "multChildFamilyBenefit"
-  },
-  {
-    itemKey: "housingRentalDeduction",
-    changeKey: "fromItemizedToSpecial",
-    beforeKey: "itemized120kMutuallyExclusive",
-    afterKey: "special180kCanCombine",
-    impactKey: "renterTaxReduction"
+    itemKey: "longTermCareDeduction",
+    changeKey: "longTermCareIncrease",
+    beforeKey: "longTermCare120k",
+    afterKey: "longTermCare180k",
+    impactKey: "longTermCareFamilyBenefit"
   },
   {
     itemKey: "allAmountsIncrease",
     changeKey: "exemptionDeductionIncrease",
-    beforeKey: "exemption92kStandard124k",
-    afterKey: "exemption97kStandard131k",
+    beforeKey: "exemption97kStandard131k",
+    afterKey: "exemption101kStandard136k",
     impactKey: "overallTaxReduction"
+  },
+  {
+    itemKey: "taxBracketsIncrease",
+    changeKey: "taxBracketsWidened",
+    beforeKey: "bracket1_590k",
+    afterKey: "bracket1_610k",
+    impactKey: "bracketWideningBenefit"
   }
 ];
 
@@ -533,23 +555,23 @@ export function calculateDeductions(params: {
   specialDeductions += studentCount * 25000;
 
   // 身心障礙特別扣除額
-  specialDeductions += disabledCount * 218000;
+  specialDeductions += disabledCount * 227000;
 
   // 長期照顧特別扣除額
-  specialDeductions += longTermCareCount * 120000;
+  specialDeductions += longTermCareCount * 180000;
 
   // 儲蓄投資特別扣除額
   specialDeductions += Math.min(savingsInterest, 270000);
 
-  // 房屋租金支出特別扣除額（2025年新制）
+  // 房屋租金支出特別扣除額
   specialDeductions += Math.min(rentalExpenses, 180000);
 
   // 基本生活費差額計算
   const basicLifeExpense = familySize * BASIC_LIVING_EXPENSE.amount;
   const comparionItems = exemptions + generalDeductions +
     Math.min(savingsInterest, 270000) + // 儲蓄投資
-    disabledCount * 218000 + // 身心障礙
-    longTermCareCount * 120000 + // 長期照顧
+    disabledCount * 227000 + // 身心障礙
+    longTermCareCount * 180000 + // 長期照顧
     studentCount * 25000 + // 教育學費
     (childrenCount > 0 ? (150000 + (childrenCount - 1) * 225000) : 0) + // 幼兒學前
     Math.min(rentalExpenses, 180000); // 房屋租金
@@ -571,8 +593,8 @@ export function calculateDeductions(params: {
       salaryDeduction: 0, // 薪資扣除額已在收入階段處理
       childrenDeduction: childrenCount > 0 ? (150000 + (childrenCount - 1) * 225000) : 0,
       educationDeduction: studentCount * 25000,
-      disabilityDeduction: disabledCount * 218000,
-      longTermCareDeduction: longTermCareCount * 120000,
+      disabilityDeduction: disabledCount * 227000,
+      longTermCareDeduction: longTermCareCount * 180000,
       savingsDeduction: Math.min(savingsInterest, 270000),
       rentalDeduction: Math.min(rentalExpenses, 180000)
     }

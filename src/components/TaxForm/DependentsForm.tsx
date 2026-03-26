@@ -24,7 +24,7 @@ const DependentsForm: React.FC<DependentsFormProps> = ({ formData, onFieldChange
 
         <div>
           <label className="block text-sm font-medium mb-2">
-            {t.labels.childrenUnder6New2025}
+            {t.labels.childrenUnder6New2026}
           </label>
           <Input
             type="number"

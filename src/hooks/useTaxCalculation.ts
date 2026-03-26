@@ -28,8 +28,8 @@ export const useTaxCalculation = (formData: TaxFormData): MarriedTaxResult | Tax
     const longTermCareCount = parseInt(formData.longTermCare) || 0;
 
     // 计算薪资净额（先扣除薪资特别扣除额）
-    const salaryNetIncome = Math.max(0, salary - Math.min(salary, 218000));
-    const spouseSalaryNetIncome = Math.max(0, spouseSalary - Math.min(spouseSalary, 218000));
+    const salaryNetIncome = Math.max(0, salary - Math.min(salary, 227000));
+    const spouseSalaryNetIncome = Math.max(0, spouseSalary - Math.min(spouseSalary, 227000));
 
     // 计算总收入
     const totalIncome = salaryNetIncome + other + (formData.isMarried ? spouseSalaryNetIncome + spouseOther : 0);
@@ -130,7 +130,7 @@ export const useTaxCalculation = (formData: TaxFormData): MarriedTaxResult | Tax
           taxpayerSalaryNet: salaryNetIncome,
           spouseSalary: 0,
           spouseSalaryNet: 0,
-          totalSalaryDeduction: Math.min(salary, 218000)
+          totalSalaryDeduction: Math.min(salary, 227000)
         }
       } as TaxResult;
     }
@@ -146,8 +146,8 @@ const calculateAllMarriedMethods = (params: CalculateAllMarriedMethodsParams) =>
   } = params;
 
   // 计算薪资净额
-  const taxpayerSalaryNet = Math.max(0, taxpayerSalary - Math.min(taxpayerSalary, 218000));
-  const spouseSalaryNet = Math.max(0, spouseSalary - Math.min(spouseSalary, 218000));
+  const taxpayerSalaryNet = Math.max(0, taxpayerSalary - Math.min(taxpayerSalary, 227000));
+  const spouseSalaryNet = Math.max(0, spouseSalary - Math.min(spouseSalary, 227000));
 
   // 方法1：全部合并计税
   const combinedIncome = taxpayerSalaryNet + taxpayerOther + spouseSalaryNet + spouseOther;
@@ -190,7 +190,7 @@ const calculateAllMarriedMethods = (params: CalculateAllMarriedMethodsParams) =>
       taxpayerSalaryNet,
       spouseSalary,
       spouseSalaryNet,
-      totalSalaryDeduction: Math.min(taxpayerSalary, 218000) + Math.min(spouseSalary, 218000)
+      totalSalaryDeduction: Math.min(taxpayerSalary, 227000) + Math.min(spouseSalary, 227000)
     },
     deductions: combinedDeductions,
     taxpayerSalaryPortion: {
@@ -272,7 +272,7 @@ const calculateAllMarriedMethods = (params: CalculateAllMarriedMethodsParams) =>
         taxpayerSalaryNet,
         spouseSalary,
         spouseSalaryNet,
-        totalSalaryDeduction: Math.min(taxpayerSalary, 218000) + Math.min(spouseSalary, 218000)
+        totalSalaryDeduction: Math.min(taxpayerSalary, 227000) + Math.min(spouseSalary, 227000)
       },
       deductions: {
         ...combinedDeductions,

@@ -9,7 +9,7 @@ const TaxReformInfo: React.FC = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-red-600">{t.cardTitles.majorTaxReforms2025}</CardTitle>
+        <CardTitle className="text-red-600">{t.cardTitles.majorTaxReforms2026}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid md:grid-cols-3 gap-4">

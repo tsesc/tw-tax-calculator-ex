@@ -26,17 +26,17 @@ describe('實際稅務情境測試', () => {
       const result = calculateFullTaxInfo(params)
 
             // 總收入：500,000
-      // 免稅額：97,000
-      // 標準扣除額：131,000
+      // 免稅額：101,000
+      // 標準扣除額：136,000
       // 儲蓄投資扣除額：10,000
-      // 總扣除額：238,000
-      // 綜合所得淨額：262,000
-      // 應納稅額：262,000 * 5% = 13,100
+      // 總扣除額：247,000
+      // 綜合所得淨額：253,000
+      // 應納稅額：253,000 * 5% = 12,650
 
-      expect(result.netIncome).toBe(262000)
-      expect(result.taxAmount).toBe(13100)
+      expect(result.netIncome).toBe(253000)
+      expect(result.taxAmount).toBe(12650)
       expect(result.effectiveRate).toBe(5) // 實際有效稅率是5%
-      expect(result.afterTaxIncome).toBe(486900)
+      expect(result.afterTaxIncome).toBe(487350)
     })
 
     it('雙薪夫妻 - 年收入100萬', () => {
@@ -60,17 +60,17 @@ describe('實際稅務情境測試', () => {
       const result = calculateFullTaxInfo(params)
 
             // 總收入：1,000,000
-      // 免稅額：194,000 (97,000 * 2)
-      // 標準扣除額：262,000
+      // 免稅額：202,000 (101,000 * 2)
+      // 標準扣除額：272,000
       // 儲蓄投資扣除額：50,000
-      // 總扣除額：506,000
-      // 綜合所得淨額：494,000
-      // 應納稅額：494,000 * 5% = 24,700
+      // 總扣除額：524,000
+      // 綜合所得淨額：476,000
+      // 應納稅額：476,000 * 5% = 23,800
 
-      expect(result.netIncome).toBe(494000)
-      expect(result.taxAmount).toBe(24700)
+      expect(result.netIncome).toBe(476000)
+      expect(result.taxAmount).toBe(23800)
       expect(result.effectiveRate).toBe(5) // 實際有效稅率是5%
-      expect(result.afterTaxIncome).toBe(975300)
+      expect(result.afterTaxIncome).toBe(976200)
     })
 
     it('四口之家 - 2個6歲以下子女，年收入150萬', () => {
@@ -94,18 +94,18 @@ describe('實際稅務情境測試', () => {
       const result = calculateFullTaxInfo(params)
 
             // 總收入：1,500,000
-      // 免稅額：388,000 (97,000 * 4)
-      // 標準扣除額：262,000
+      // 免稅額：404,000 (101,000 * 4)
+      // 標準扣除額：272,000
       // 幼兒學前扣除額：375,000 (150,000 + 225,000)
       // 儲蓄投資扣除額：30,000
-      // 總扣除額：1,055,000
-      // 綜合所得淨額：445,000
-      // 應納稅額：445,000 * 5% = 22,250
+      // 總扣除額：1,081,000
+      // 綜合所得淨額：419,000
+      // 應納稅額：419,000 * 5% = 20,950
 
-      expect(result.netIncome).toBe(445000)
-      expect(result.taxAmount).toBe(22250)
+      expect(result.netIncome).toBe(419000)
+      expect(result.taxAmount).toBe(20950)
       expect(result.effectiveRate).toBe(5) // 實際有效稅率是5%
-      expect(result.afterTaxIncome).toBe(1477750)
+      expect(result.afterTaxIncome).toBe(1479050)
     })
 
     it('三代同堂家庭 - 扶養2位70歲以上長輩', () => {
@@ -129,15 +129,22 @@ describe('實際稅務情境測試', () => {
       const result = calculateFullTaxInfo(params)
 
             // 總收入：2,000,000
-      // 實際計算結果：
-      // 綜合所得淨額：906,000
-      // 應納稅額：67,420
-      // 有效稅率：7.44%
+      // 免稅額：101,000 * 3 + 151,500 * 2 = 606,000
+      // 標準扣除額：272,000
+      // 幼兒學前扣除額：150,000
+      // 儲蓄投資扣除額：100,000
+      // 比較項目合計：606,000 + 272,000 + 150,000 + 100,000 = 1,128,000
+      // 基本生活費：5 * 213,000 = 1,065,000
+      // 基本生活費差額：0 (比較項目 > 基本生活費)
+      // 總扣除額：1,128,000
+      // 綜合所得淨額：872,000
+      // 應納稅額：872,000 * 12% - 42,700 = 61,940
+      // 有效稅率：61,940 / 872,000 ≈ 7.10%
 
-      expect(result.netIncome).toBe(906000)
-      expect(result.taxAmount).toBe(67420)
-      expect(result.effectiveRate).toBeCloseTo(7.44, 2)
-      expect(result.afterTaxIncome).toBe(1932580)
+      expect(result.netIncome).toBe(872000)
+      expect(result.taxAmount).toBe(61940)
+      expect(result.effectiveRate).toBeCloseTo(7.10, 2)
+      expect(result.afterTaxIncome).toBe(1938060)
     })
   })
 
@@ -164,15 +171,15 @@ describe('實際稅務情境測試', () => {
       const result = calculateFullTaxInfo(params)
 
       // 總收入：800,000
-      // 免稅額：97,000
-      // 標準扣除額：131,000
+      // 免稅額：101,000
+      // 標準扣除額：136,000
       // 房屋租金扣除額：180,000
-      // 總扣除額：408,000
-      // 綜合所得淨額：392,000
-      // 應納稅額：392,000 * 5% = 19,600
+      // 總扣除額：417,000
+      // 綜合所得淨額：383,000
+      // 應納稅額：383,000 * 5% = 19,150
 
-      expect(result.netIncome).toBe(392000)
-      expect(result.taxAmount).toBe(19600)
+      expect(result.netIncome).toBe(383000)
+      expect(result.taxAmount).toBe(19150)
       expect(result.deductions.breakdown.rentalDeduction).toBe(180000)
     })
 
@@ -197,12 +204,18 @@ describe('實際稅務情境測試', () => {
       const result = calculateFullTaxInfo(params)
 
             // 總收入：1,200,000
-      // 實際計算結果：
-      // 綜合所得淨額：360,000
-      // 應納稅額：18,000
+      // 免稅額：101,000 * 4 = 404,000
+      // 標準扣除額：272,000
+      // 教育學費扣除額：50,000
+      // 比較項目合計：404,000 + 272,000 + 50,000 = 726,000
+      // 基本生活費：4 * 213,000 = 852,000
+      // 基本生活費差額：126,000
+      // 總扣除額：852,000
+      // 綜合所得淨額：348,000
+      // 應納稅額：348,000 * 5% = 17,400
 
-      expect(result.netIncome).toBe(360000)
-      expect(result.taxAmount).toBe(18000)
+      expect(result.netIncome).toBe(348000)
+      expect(result.taxAmount).toBe(17400)
       expect(result.deductions.breakdown.educationDeduction).toBe(50000)
     })
 
@@ -227,16 +240,16 @@ describe('實際稅務情境測試', () => {
       const result = calculateFullTaxInfo(params)
 
       // 總收入：1,000,000
-      // 免稅額：291,000 (97,000 * 3)
-      // 標準扣除額：262,000
-      // 身心障礙扣除額：218,000
-      // 總扣除額：771,000
-      // 綜合所得淨額：229,000
-      // 應納稅額：229,000 * 5% = 11,450
+      // 免稅額：303,000 (101,000 * 3)
+      // 標準扣除額：272,000
+      // 身心障礙扣除額：227,000
+      // 總扣除額：802,000
+      // 綜合所得淨額：198,000
+      // 應納稅額：198,000 * 5% = 9,900
 
-      expect(result.netIncome).toBe(229000)
-      expect(result.taxAmount).toBe(11450)
-      expect(result.deductions.breakdown.disabilityDeduction).toBe(218000)
+      expect(result.netIncome).toBe(198000)
+      expect(result.taxAmount).toBe(9900)
+      expect(result.deductions.breakdown.disabilityDeduction).toBe(227000)
     })
 
     it('長期照顧家庭', () => {
@@ -261,16 +274,16 @@ describe('實際稅務情境測試', () => {
       const result = calculateFullTaxInfo(params)
 
       // 總收入：1,500,000
-      // 免稅額：339,500 (97,000 * 2 + 145,500)
-      // 標準扣除額：262,000
-      // 長期照顧扣除額：120,000
-      // 總扣除額：721,500
-      // 綜合所得淨額：778,500
-      // 應納稅額：778,500 * 12% - 41,300 = 52,120
+      // 免稅額：353,500 (101,000 * 2 + 151,500)
+      // 標準扣除額：272,000
+      // 長期照顧扣除額：180,000
+      // 總扣除額：805,500
+      // 綜合所得淨額：694,500
+      // 應納稅額：694,500 * 12% - 42,700 = 40,640
 
-      expect(result.netIncome).toBe(778500)
-      expect(result.taxAmount).toBe(52120)
-      expect(result.deductions.breakdown.longTermCareDeduction).toBe(120000)
+      expect(result.netIncome).toBe(694500)
+      expect(result.taxAmount).toBe(40640)
+      expect(result.deductions.breakdown.longTermCareDeduction).toBe(180000)
     })
   })
 
@@ -303,7 +316,7 @@ describe('實際稅務情境測試', () => {
       // 健保費：30,000
       // 醫療費：300,000
       // 總計：452,000
-      // 標準扣除額：262,000
+      // 標準扣除額：272,000
       // 選擇列舉扣除額：452,000
 
       expect(result.deductions.generalDeductions).toBe(452000)
@@ -338,7 +351,7 @@ describe('實際稅務情境測試', () => {
       // 醫療費：50,000
       // 房貸利息：min(300000, 300000) - min(100000, 270000) = 200,000
       // 總計：423,000
-      // 標準扣除額：262,000
+      // 標準扣除額：272,000
       // 選擇列舉扣除額：423,000
 
       expect(result.deductions.generalDeductions).toBe(423000)
@@ -368,7 +381,7 @@ describe('實際稅務情境測試', () => {
       // 捐贈：min(2000000, 5000000 * 0.2) = 1,000,000
       // 人身保險費：24,000
       // 總計：1,024,000
-      // 標準扣除額：131,000
+      // 標準扣除額：136,000
       // 選擇列舉扣除額：1,024,000
 
       expect(result.deductions.generalDeductions).toBe(1024000)
@@ -398,15 +411,18 @@ describe('實際稅務情境測試', () => {
       const result = calculateFullTaxInfo(params)
 
             // 總收入：3,500,000
-      // 實際計算結果：
-      // 綜合所得淨額：3,002,000
-      // 應納稅額：486,900
-      // 有效稅率：16.22%
+      // 免稅額：101,000
+      // 標準扣除額：136,000
+      // 儲蓄投資扣除額：270,000
+      // 總扣除額：507,000
+      // 綜合所得淨額：2,993,000
+      // 應納稅額：2,993,000 * 30% - 430,100 = 467,800
+      // 有效稅率：467,800 / 2,993,000 ≈ 15.63%
 
-      expect(result.netIncome).toBe(3002000)
-      expect(result.taxAmount).toBe(486900)
+      expect(result.netIncome).toBe(2993000)
+      expect(result.taxAmount).toBe(467800)
       expect(result.bracketInfo.rate).toBe(30)
-      expect(result.effectiveRate).toBeCloseTo(16.22, 2)
+      expect(result.effectiveRate).toBeCloseTo(15.63, 2)
     })
 
     it('超高收入家庭 - 適用40%稅率', () => {
@@ -430,15 +446,19 @@ describe('實際稅務情境測試', () => {
       const result = calculateFullTaxInfo(params)
 
             // 總收入：8,000,000
-      // 實際計算結果：
-      // 綜合所得淨額：6,705,000
-      // 應納稅額：1,770,300
-      // 有效稅率：26.40%
+      // 免稅額：101,000 * 4 = 404,000
+      // 標準扣除額：272,000
+      // 幼兒學前扣除額：375,000
+      // 儲蓄投資扣除額：270,000
+      // 總扣除額：1,321,000
+      // 綜合所得淨額：6,679,000
+      // 應納稅額：6,679,000 * 40% - 949,100 = 1,722,500
+      // 有效稅率：1,722,500 / 6,679,000 ≈ 25.79%
 
-      expect(result.netIncome).toBe(6705000)
-      expect(result.taxAmount).toBe(1770300)
+      expect(result.netIncome).toBe(6679000)
+      expect(result.taxAmount).toBe(1722500)
       expect(result.bracketInfo.rate).toBe(40)
-      expect(result.effectiveRate).toBeCloseTo(26.40, 2)
+      expect(result.effectiveRate).toBeCloseTo(25.79, 2)
     })
   })
 
@@ -465,13 +485,12 @@ describe('實際稅務情境測試', () => {
       const result = calculateFullTaxInfo(params)
 
       // 總收入：446,000
-      // 免稅額：97,000
-      // 標準扣除額：131,000
-      // 薪資扣除額：218,000（在收入階段已處理）
-      // 實際總收入應為：446,000 + 218,000 = 664,000（薪資收入）
-      // 或者總扣除額：228,000
-      // 綜合所得淨額：218,000
-      // 應納稅額：218,000 * 5% = 10,900
+      // 免稅額：101,000
+      // 標準扣除額：136,000
+      // 薪資扣除額：227,000（在收入階段已處理）
+      // 總扣除額：237,000
+      // 綜合所得淨額：209,000
+      // 應納稅額：209,000 * 5% = 10,450
 
       expect(result.netIncome).toBeGreaterThanOrEqual(0)
       expect(result.taxAmount).toBeGreaterThanOrEqual(0)

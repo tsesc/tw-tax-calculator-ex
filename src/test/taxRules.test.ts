@@ -33,8 +33,8 @@ describe('稅務計算邏輯測試', () => {
 
       const result = calculateDeductions(params)
 
-      expect(result.exemptions).toBe(EXEMPTION_AMOUNTS.standard) // 97,000
-      expect(result.generalDeductions).toBe(STANDARD_DEDUCTIONS[0].amount) // 131,000
+      expect(result.exemptions).toBe(EXEMPTION_AMOUNTS.standard) // 101,000
+      expect(result.generalDeductions).toBe(STANDARD_DEDUCTIONS[0].amount) // 136,000
       expect(result.familySize).toBe(1)
     })
 
@@ -58,8 +58,8 @@ describe('稅務計算邏輯測試', () => {
 
       const result = calculateDeductions(params)
 
-      expect(result.exemptions).toBe(EXEMPTION_AMOUNTS.standard * 2) // 194,000
-      expect(result.generalDeductions).toBe(STANDARD_DEDUCTIONS[1].amount) // 262,000
+      expect(result.exemptions).toBe(EXEMPTION_AMOUNTS.standard * 2) // 202,000
+      expect(result.generalDeductions).toBe(STANDARD_DEDUCTIONS[1].amount) // 272,000
       expect(result.familySize).toBe(2)
     })
 
@@ -85,7 +85,7 @@ describe('稅務計算邏輯測試', () => {
 
       // 本人 + 2位70歲以上長輩
       const expectedExemptions = EXEMPTION_AMOUNTS.standard + (EXEMPTION_AMOUNTS.elderly * 2)
-      expect(result.exemptions).toBe(expectedExemptions) // 97,000 + 145,500 * 2 = 388,000
+      expect(result.exemptions).toBe(expectedExemptions) // 101,000 + 151,500 * 2 = 404,000
       expect(result.familySize).toBe(3)
     })
 
@@ -157,7 +157,7 @@ describe('稅務計算邏輯測試', () => {
 
       const result = calculateDeductions(params)
 
-      expect(result.breakdown.disabilityDeduction).toBe(218000)
+      expect(result.breakdown.disabilityDeduction).toBe(227000)
     })
 
     it('應該正確計算長期照顧特別扣除額', () => {
@@ -181,7 +181,7 @@ describe('稅務計算邏輯測試', () => {
 
       const result = calculateDeductions(params)
 
-      expect(result.breakdown.longTermCareDeduction).toBe(120000)
+      expect(result.breakdown.longTermCareDeduction).toBe(180000)
     })
 
     it('應該正確計算儲蓄投資特別扣除額（有上限）', () => {
@@ -258,7 +258,7 @@ describe('稅務計算邏輯測試', () => {
       // 醫療費：50000
       // 房貸利息：min(200000, 300000) - min(50000, 270000) = 150000
       // 總計：344000（實際計算結果）
-      // 標準扣除額：131000
+      // 標準扣除額：136000
       // 應選擇較高的列舉扣除額：344000
 
       expect(result.generalDeductions).toBe(344000)
@@ -285,9 +285,9 @@ describe('稅務計算邏輯測試', () => {
       const result = calculateDeductions(params)
 
       // 列舉扣除額總計：100000
-      // 標準扣除額：131000
+      // 標準扣除額：136000
       // 應選擇較高的標準扣除額
-      expect(result.generalDeductions).toBe(131000)
+      expect(result.generalDeductions).toBe(136000)
     })
 
     it('應該正確計算基本生活費差額', () => {
@@ -311,7 +311,7 @@ describe('稅務計算邏輯測試', () => {
       const result = calculateDeductions(params)
 
       // 家庭人數：2(夫妻) + 2(子女) + 1(長輩) = 5人
-      // 基本生活費：5 * 210000 = 1,050,000
+      // 基本生活費：5 * 213000 = 1,065,000
       // 比較項目：免稅額 + 一般扣除額 + 特別扣除額
       expect(result.familySize).toBe(5)
       expect(result.basicLivingDifference).toBeGreaterThanOrEqual(0)
@@ -335,9 +335,9 @@ describe('稅務計算邏輯測試', () => {
       const result = calculateTax(netIncome)
 
       expect(result.bracketInfo.rate).toBe(12)
-      expect(result.bracketInfo.progressiveDifference).toBe(41300)
-      expect(result.taxAmount).toBe(78700) // 1000000 * 0.12 - 41300
-      expect(result.effectiveRate).toBeCloseTo(7.87, 2)
+      expect(result.bracketInfo.progressiveDifference).toBe(42700)
+      expect(result.taxAmount).toBe(77300) // 1000000 * 0.12 - 42700
+      expect(result.effectiveRate).toBeCloseTo(7.73, 2)
     })
 
     it('應該正確計算20%稅率級距', () => {
@@ -345,9 +345,9 @@ describe('稅務計算邏輯測試', () => {
       const result = calculateTax(netIncome)
 
       expect(result.bracketInfo.rate).toBe(20)
-      expect(result.bracketInfo.progressiveDifference).toBe(147700)
-      expect(result.taxAmount).toBe(252300) // 2000000 * 0.20 - 147700
-      expect(result.effectiveRate).toBeCloseTo(12.615, 2)
+      expect(result.bracketInfo.progressiveDifference).toBe(153100)
+      expect(result.taxAmount).toBe(246900) // 2000000 * 0.20 - 153100
+      expect(result.effectiveRate).toBeCloseTo(12.345, 2)
     })
 
     it('應該正確計算30%稅率級距', () => {
@@ -355,9 +355,9 @@ describe('稅務計算邏輯測試', () => {
       const result = calculateTax(netIncome)
 
       expect(result.bracketInfo.rate).toBe(30)
-      expect(result.bracketInfo.progressiveDifference).toBe(413700)
-      expect(result.taxAmount).toBe(636300) // 3500000 * 0.30 - 413700
-      expect(result.effectiveRate).toBeCloseTo(18.18, 2)
+      expect(result.bracketInfo.progressiveDifference).toBe(430100)
+      expect(result.taxAmount).toBe(619900) // 3500000 * 0.30 - 430100
+      expect(result.effectiveRate).toBeCloseTo(17.71, 2)
     })
 
     it('應該正確計算40%稅率級距', () => {
@@ -365,9 +365,9 @@ describe('稅務計算邏輯測試', () => {
       const result = calculateTax(netIncome)
 
       expect(result.bracketInfo.rate).toBe(40)
-      expect(result.bracketInfo.progressiveDifference).toBe(911700)
-      expect(result.taxAmount).toBe(1488300) // 6000000 * 0.40 - 911700
-      expect(result.effectiveRate).toBeCloseTo(24.81, 2)
+      expect(result.bracketInfo.progressiveDifference).toBe(949100)
+      expect(result.taxAmount).toBe(1450900) // 6000000 * 0.40 - 949100
+      expect(result.effectiveRate).toBeCloseTo(24.18, 2)
     })
 
     it('應該處理零收入情況', () => {
@@ -393,13 +393,13 @@ describe('稅務計算邏輯測試', () => {
       const grossIncome = 1000000
       const deductions = {
         totalDeductions: 300000,
-        exemptions: 97000,
-        generalDeductions: 131000,
-        specialDeductions: 72000,
+        exemptions: 101000,
+        generalDeductions: 136000,
+        specialDeductions: 63000,
         basicLivingDifference: 0,
         familySize: 1,
         breakdown: {
-          standardDeduction: 131000,
+          standardDeduction: 136000,
           itemizedDeduction: 0,
           salaryDeduction: 0,
           childrenDeduction: 0,
@@ -420,13 +420,13 @@ describe('稅務計算邏輯測試', () => {
       const grossIncome = 200000
       const deductions = {
         totalDeductions: 300000,
-        exemptions: 97000,
-        generalDeductions: 131000,
-        specialDeductions: 72000,
+        exemptions: 101000,
+        generalDeductions: 136000,
+        specialDeductions: 63000,
         basicLivingDifference: 0,
         familySize: 1,
         breakdown: {
-          standardDeduction: 131000,
+          standardDeduction: 136000,
           itemizedDeduction: 0,
           salaryDeduction: 0,
           childrenDeduction: 0,
@@ -509,7 +509,7 @@ describe('稅務計算邏輯測試', () => {
 
     it('應該處理稅率級距邊界值', () => {
       // 測試各級距的邊界值
-      const boundaries = [590000, 1330000, 2660000, 4980000]
+      const boundaries = [610000, 1380000, 2770000, 5190000]
 
       boundaries.forEach(boundary => {
         const result = calculateTax(boundary)
@@ -523,8 +523,8 @@ describe('稅務計算邏輯測試', () => {
       const result = calculateTax(netIncome)
 
       expect(result.bracketInfo.rate).toBe(40)
-      expect(result.taxAmount).toBe(39088300) // 100000000 * 0.40 - 911700
-      expect(result.effectiveRate).toBeCloseTo(39.09, 2)
+      expect(result.taxAmount).toBe(39050900) // 100000000 * 0.40 - 949100
+      expect(result.effectiveRate).toBeCloseTo(39.05, 2)
     })
 
     it('應該處理所有扣除額為零的情況', () => {
@@ -565,12 +565,12 @@ describe('稅務常數驗證', () => {
   })
 
   it('免稅額應該正確設定', () => {
-    expect(EXEMPTION_AMOUNTS.standard).toBe(97000)
-    expect(EXEMPTION_AMOUNTS.elderly).toBe(145500)
+    expect(EXEMPTION_AMOUNTS.standard).toBe(101000)
+    expect(EXEMPTION_AMOUNTS.elderly).toBe(151500)
   })
 
   it('標準扣除額應該正確設定', () => {
-    expect(STANDARD_DEDUCTIONS[0].amount).toBe(131000) // 單身
-    expect(STANDARD_DEDUCTIONS[1].amount).toBe(262000) // 夫妻
+    expect(STANDARD_DEDUCTIONS[0].amount).toBe(136000) // 單身
+    expect(STANDARD_DEDUCTIONS[1].amount).toBe(272000) // 夫妻
   })
 })

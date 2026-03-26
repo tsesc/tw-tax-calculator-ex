@@ -55,6 +55,34 @@ const TaxCalculatorRefactored: React.FC = () => {
     setFormData(newFormData);
   };
 
+  // 套用免稅門檻情境預設值
+  const applyPreset = (preset: Partial<TaxFormData>) => {
+    const emptyData: TaxFormData = {
+      salaryIncome: '',
+      otherIncome: '',
+      spouseSalaryIncome: '',
+      spouseOtherIncome: '',
+      isMarried: false,
+      taxCalculationMethod: 'auto',
+      childrenUnder6: '',
+      dependentsGeneral: '',
+      elderlyOver70: '',
+      students: '',
+      disabled: '',
+      rentalExpenses: '',
+      savingsInterest: '',
+      longTermCare: '',
+      useItemizedDeduction: false,
+      donations: '',
+      insurancePremiums: '',
+      healthInsurancePremiums: '',
+      medicalExpenses: '',
+      disasterLoss: '',
+      mortgageInterest: ''
+    };
+    setFormData({ ...emptyData, ...preset });
+  };
+
   // 清除所有缓存数据
   const clearCachedData = () => {
     const emptyData: TaxFormData = {
@@ -122,11 +150,11 @@ const TaxCalculatorRefactored: React.FC = () => {
         </div>
       </div>
 
-      {/* 2025年重大税制变革 */}
+      {/* 115年度重大稅制變革 */}
       <TaxReformInfo />
 
       {/* 免税门槛快速查询 */}
-      <TaxThresholdInfo />
+      <TaxThresholdInfo onApplyPreset={applyPreset} />
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* 左侧：输入区域 */}

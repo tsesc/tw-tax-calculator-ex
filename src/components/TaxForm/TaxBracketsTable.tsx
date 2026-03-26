@@ -71,7 +71,7 @@ const TaxBracketsTable: React.FC<TaxBracketsTableProps> = ({ result, formData })
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-purple-600">{t.labels.taxBracketTable2025}</CardTitle>
+        <CardTitle className="text-purple-600">{t.labels.taxBracketTable2026}</CardTitle>
         <div className="text-sm text-gray-600 space-y-1">
           <div>{t.taxBrackets.description}</div>
         </div>

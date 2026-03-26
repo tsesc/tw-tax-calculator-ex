@@ -14,7 +14,7 @@ interface I18nTexts {
     changeLanguage: string;
   };
   cardTitles: {
-    majorTaxReforms2025: string;
+    majorTaxReforms2026: string;
     taxFreeThresholds: string;
     basicInfo: string;
     dependents: string;
@@ -25,7 +25,7 @@ interface I18nTexts {
     filingMethodComparison: string;
     completeCalculationFormula: string;
     deductionDetails: string;
-    taxBrackets2025: string;
+    taxBrackets2026: string;
     itemizedDeductionDetails: string;
     taxSavingTips: string;
     importantNotes: string;
@@ -316,13 +316,13 @@ interface I18nTexts {
     info: string;
     spouseInfo: string;
     taxCalculationMethodPost2018: string;
-    childrenUnder6New2025: string;
+    childrenUnder6New2026: string;
     elderlyOver70Count: string;
     generalDependentsCount: string;
     collegeStudentsCount: string;
     disabledCount: string;
     longTermCareCount: string;
-    rentalExpensesNew2025: string;
+    rentalExpensesNew2026: string;
     savingsInterestIncome: string;
     itemizedDeductionDetails: string;
     itemizedDeductionReminder: string;
@@ -336,7 +336,7 @@ interface I18nTexts {
     separateFilingDetailedInfo: string;
     filingMethodComparisonTitle: string;
     detailedCalculationProcess: string;
-    taxBracketTable2025: string;
+    taxBracketTable2026: string;
   };
   placeholders: {
     salaryAndBonus: string;
@@ -366,7 +366,7 @@ interface I18nTexts {
     educationFeeDeduction: string;
     disabilityDeduction: string;
     longTermCareDeduction: string;
-    rentalMajorReform2025: string;
+    rentalMajorReform2026: string;
     savingsInterestLimit: string;
     standardDeductionAmounts: string;
     includesSpouseSalary: string;
@@ -375,7 +375,7 @@ interface I18nTexts {
 }
 
 const enUS: any = {
-  title: "2025 Taiwan Income Tax Calculator",
+  title: "2026 Taiwan Income Tax Calculator",
   description: "Calculate Taiwan individual income tax instantly with real-time results and detailed breakdown",
   features: {
     realTimeCalculation: "Real-time calculation",
@@ -389,7 +389,7 @@ const enUS: any = {
     changeLanguage: "Language"
   },
   cardTitles: {
-    majorTaxReforms2025: "Major Tax Reforms 2025",
+    majorTaxReforms2026: "Major Tax Reforms 2026",
     taxFreeThresholds: "Tax-Free Thresholds Quick Reference",
     basicInfo: "Basic Information",
     dependents: "Dependents",
@@ -400,18 +400,18 @@ const enUS: any = {
     filingMethodComparison: "Filing Method Comparison",
     completeCalculationFormula: "Complete Calculation Process",
     deductionDetails: "Deduction Details",
-    taxBrackets2025: "2025 Tax Brackets",
+    taxBrackets2026: "2026 Tax Brackets",
     itemizedDeductionDetails: "Itemized Deduction Details",
     taxSavingTips: "Tax Saving Tips",
     importantNotes: "Important Notes & Disclaimer"
   },
   taxSavingTipsContent: {
-    specialDeductions: "Make good use of special deductions, especially the significantly increased preschool child deduction in 2025",
+    specialDeductions: "Make good use of special deductions, especially the significantly increased preschool child deduction in 2026",
     insurancePlanning: "Insurance planning: Personal insurance up to NT$24,000 per person annually, health insurance fully deductible without limit",
     rentalBenefit: "New benefits for renters: Housing rent reclassified as special deduction, NT$180,000 per household",
     marriedCouple: "Married couples: System automatically compares three filing methods and chooses the most tax-saving option",
     itemizedDeductions: "Itemized deductions: Legal donations, medical expenses, etc. can be itemized",
-    longTermCare: "Long-term care: Eligible individuals can deduct NT$120,000 per person (subject to income restrictions)"
+    longTermCare: "Long-term care: Eligible individuals can deduct NT$180,000 per person (subject to income restrictions)"
   },
   basicInfo: {
     salaryIncome: "Annual Salary Income (NT$)",
@@ -435,30 +435,30 @@ const enUS: any = {
   },
   dependents: {
     description: "Enter number of dependents to calculate exemptions and special deductions",
-    childrenUnder6: "Children Under 6 (🎯2025 New)",
+    childrenUnder6: "Children Under 6 (🎯2026 New)",
     childrenPlaceholder: "Number of children",
     childrenDescription: "Born in 2018 or later, eligible for preschool deduction",
     elderlyOver70: "Elderly Over 70",
     elderlyPlaceholder: "Number of elderly",
-    elderlyDescription: "Direct ascendants aged 70+, higher exemption NT$145,500",
+    elderlyDescription: "Direct ascendants aged 70+, higher exemption NT$151,500",
     generalDependents: "General Dependents",
     generalPlaceholder: "Number of dependents",
-    generalDescription: "Dependents aged 6-70, general exemption NT$97,000",
+    generalDescription: "Dependents aged 6-70, general exemption NT$101,000",
     students: "College Students",
     studentsPlaceholder: "Number of students",
     studentsDescription: "College students, education fee deduction NT$25,000 per person",
     disabled: "Disabled Persons",
     disabledPlaceholder: "Number of disabled",
-    disabledDescription: "Disability certificate holders, deduction NT$218,000 per person",
+    disabledDescription: "Disability certificate holders, deduction NT$227,000 per person",
     longTermCare: "Long-term Care Recipients",
     longTermCarePlaceholder: "Number requiring care",
-    longTermCareDescription: "Qualifying for long-term care, deduction NT$120,000 per person",
+    longTermCareDescription: "Qualifying for long-term care, deduction NT$180,000 per person",
     longTermCareWarning: "Subject to income restrictions"
   },
   deductionChoice: {
     description: "Choose between standard deduction or itemized deduction (whichever is higher will be used)",
     useItemizedDeduction: "Use Itemized Deduction",
-    standardDeductionNote: "Standard Deduction: Single NT$131,000, Married NT$262,000",
+    standardDeductionNote: "Standard Deduction: Single NT$136,000, Married NT$272,000",
     itemizedDeductionDetails: "Itemized Deduction Details",
     itemizedDeductionReminder: "💡 Reminder: Itemized deductions require receipts. Documents already with tax authority need not be submitted.",
     donations: "1. Donations (NT$)",
@@ -512,9 +512,9 @@ const enUS: any = {
   },
   specialDeductions: {
     description: "Special deductions (automatically applied, separate from general deductions)",
-    rentalExpenses: "Housing Rental Expenses (🎯2025 New)",
+    rentalExpenses: "Housing Rental Expenses (🎯2026 New)",
     rentalPlaceholder: "Enter annual rental expenses",
-    rentalDescription: "2025 major reform: Changed from itemized to special deduction, limited to NT$180,000 per household",
+    rentalDescription: "2026 major reform: Changed from itemized to special deduction, limited to NT$180,000 per household",
     savingsInterest: "Savings Interest Income (NT$)",
     savingsPlaceholder: "Enter interest income",
     savingsDescription: "Limited to NT$270,000 per household, excess taxed as general income"
@@ -660,8 +660,8 @@ const enUS: any = {
   },
   deductionDetails: {
     exemptions: "Exemptions",
-    generalExemption: "General exemption: NT$97,000 per person",
-    elderlyExemption: "Elderly (70+) exemption: NT$145,500 per person",
+    generalExemption: "General exemption: NT$101,000 per person",
+    elderlyExemption: "Elderly (70+) exemption: NT$151,500 per person",
     applicableConditions: "Applicable conditions:",
     specialDeductionDetails: "Special Deduction Details",
     conditions: "Conditions:"
@@ -747,13 +747,13 @@ const enUS: any = {
     info: "Information",
     spouseInfo: "Spouse Information",
     taxCalculationMethodPost2018: "Tax Calculation Method (Post-2018 reform)",
-    childrenUnder6New2025: "Children Under 6 Count (🎯2025 New)",
+    childrenUnder6New2026: "Children Under 6 Count (🎯2026 New)",
     elderlyOver70Count: "Elderly Over 70 Count",
     generalDependentsCount: "General Dependents Count",
     collegeStudentsCount: "College Students Count",
     disabledCount: "Disabled Count",
     longTermCareCount: "Long-term Care Count",
-    rentalExpensesNew2025: "Housing Rental Expenses (NT$) (🎯2025 New)",
+    rentalExpensesNew2026: "Housing Rental Expenses (NT$) (🎯2026 New)",
     savingsInterestIncome: "Savings Interest Income (NT$)",
     itemizedDeductionDetails: "Itemized Deduction Details",
     itemizedDeductionReminder: "💡 Reminder: Itemized deductions require receipts. Documents already with tax authority need not be submitted",
@@ -767,7 +767,7 @@ const enUS: any = {
     separateFilingDetailedInfo: "Separate Filing Detailed Information",
     filingMethodComparisonTitle: "Filing Method Comparison",
     detailedCalculationProcess: "Detailed Calculation Process",
-    taxBracketTable2025: "2025 Tax Bracket Table"
+    taxBracketTable2026: "2026 Tax Bracket Table"
   },
   placeholders: {
     salaryAndBonus: "Salary, bonuses and other employment income",
@@ -792,14 +792,14 @@ const enUS: any = {
   descriptions: {
     salaryIncomeIncluding: "Including: salary, bonuses, year-end bonuses and other employment income",
     otherIncomeIncluding: "Including: interest income, dividend income, rental income, other income etc.",
-    elderlyHigherExemption: "Eligible for higher exemption NT$145,500 (general is NT$97,000)",
-    generalExemptionAmount: "Eligible for general exemption NT$97,000",
+    elderlyHigherExemption: "Eligible for higher exemption NT$151,500 (general is NT$101,000)",
+    generalExemptionAmount: "Eligible for general exemption NT$101,000",
     educationFeeDeduction: "Each person eligible for education fee special deduction NT$25,000",
-    disabilityDeduction: "Each person eligible for disability special deduction NT$218,000",
-    longTermCareDeduction: "Each person eligible for long-term care special deduction NT$120,000",
-    rentalMajorReform2025: "2025 major reform: Changed from itemized to special deduction, limited to NT$180,000 per household",
+    disabilityDeduction: "Each person eligible for disability special deduction NT$227,000",
+    longTermCareDeduction: "Each person eligible for long-term care special deduction NT$180,000",
+    rentalMajorReform2026: "2026 major reform: Changed from itemized to special deduction, limited to NT$180,000 per household",
     savingsInterestLimit: "Limited to NT$270,000 per household, excess taxed as general income",
-    standardDeductionAmounts: "Standard deduction: Single NT$131,000, Married NT$262,000",
+    standardDeductionAmounts: "Standard deduction: Single NT$136,000, Married NT$272,000",
     includesSpouseSalary: "Including: spouse salary",
     otherIncome: "+ Other income"
   },
@@ -810,26 +810,36 @@ const enUS: any = {
     childPreschoolDeduction: "Preschool Child Special Deduction",
     housingRentalDeduction: "Housing Rental Expense Deduction",
     allAmountsIncrease: "Comprehensive Amount Increases",
+    longTermCareDeduction: "Long-term Care Special Deduction",
+    taxBracketsIncrease: "Tax Bracket Adjustments",
 
     // Change descriptions
     ageExpansionAmountIncrease: "Age expansion, amount increase, elimination of wealth cap",
     fromItemizedToSpecial: "Changed from itemized to special deduction",
     exemptionDeductionIncrease: "General increase in exemptions and deductions",
+    longTermCareIncrease: "Long-term care deduction significantly increased",
+    taxBracketsWidened: "All bracket thresholds raised",
 
     // Before changes
-    under5with120k: "Under 5 years old: NT$120,000 per person, with wealth cap",
+    under6with120k: "Under 6 years old: NT$120,000 per person, with wealth cap",
     itemized120kMutuallyExclusive: "Itemized deduction NT$120,000 per household, mutually exclusive with mortgage interest",
-    exemption92kStandard124k: "Exemption NT$92,000, standard deduction for single NT$124,000",
+    exemption97kStandard131k: "Exemption NT$97,000, standard deduction for single NT$131,000",
+    longTermCare120k: "NT$120,000 per person per year",
+    bracket1_590k: "5% bracket ceiling NT$590,000",
 
     // After changes
     under6with150kAnd225k: "Under 6 years old: 1st child NT$150,000, 2nd+ children NT$225,000, no wealth cap",
     special180kCanCombine: "Special deduction NT$180,000 per household, can combine with other deductions",
-    exemption97kStandard131k: "Exemption NT$97,000, standard deduction for single NT$131,000",
+    exemption101kStandard136k: "Exemption NT$101,000, standard deduction for single NT$136,000",
+    longTermCare180k: "NT$180,000 per person per year",
+    bracket1_610k: "5% bracket ceiling NT$610,000",
 
     // Impact
     multChildFamilyBenefit: "Multi-child families greatly benefit",
     renterTaxReduction: "Renters enjoy tax reduction",
-    overallTaxReduction: "Overall tax burden reduction"
+    overallTaxReduction: "Overall tax burden reduction",
+    longTermCareFamilyBenefit: "Families with long-term care needs significantly benefit",
+    bracketWideningBenefit: "Lower and middle income earners benefit from reduced tax burden"
   },
 
   // Tax threshold data translations
@@ -838,13 +848,14 @@ const enUS: any = {
     singleWorker: "Single Worker",
     dualIncomeCouple: "Dual-Income Couple",
     familyOfFourWith2Children: "Family of Four (2 children under 6)",
-    threeGenerationFamily: "Three-Generation Family (with elderly over 70)",
+    threeGenerationFamily: "Three-Generation (couple+1 child+2 elderly)",
 
     // Calculation explanations
-    singleWorkerCalculation: "Exemption 97K + Standard deduction 131K + Salary deduction 218K = 446K",
-    dualIncomeCoupleCalculation: "Exemption 194K + Standard deduction 262K + Salary deduction 436K = 892K",
-    familyOfFourCalculation: "Exemption 388K + Standard deduction 262K + Salary deduction 436K + Child deduction 375K = 1,461K",
-    threeGenerationCalculation: "Calculated based on specific family structure, elderly enjoy higher exemption of 145.5K"
+    singleWorkerCalculation: "Exemption 101K + Standard deduction 136K + Salary deduction 227K = 464K",
+    dualIncomeCoupleCalculation: "Exemption 202K + Standard deduction 272K + Salary deduction 454K = 928K",
+    familyOfFourCalculation: "Exemption 404K + Standard deduction 272K + Salary deduction 454K + Child deduction 375K = 1,505K",
+    threeGenerationCalculation: "Exemption 606K(incl. 2 elderly) + Standard 272K + Salary 454K + Child 150K + BLE diff 37K = 1,519K",
+    clickToApply: "👆 Click to apply this scenario"
   }
 };
 

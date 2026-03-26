@@ -14,7 +14,7 @@ interface I18nTexts {
     changeLanguage: string;
   };
   cardTitles: {
-    majorTaxReforms2025: string;
+    majorTaxReforms2026: string;
     taxFreeThresholds: string;
     basicInfo: string;
     dependents: string;
@@ -25,7 +25,7 @@ interface I18nTexts {
     filingMethodComparison: string;
     completeCalculationFormula: string;
     deductionDetails: string;
-    taxBrackets2025: string;
+    taxBrackets2026: string;
     itemizedDeductionDetails: string;
     taxSavingTips: string;
     importantNotes: string;
@@ -344,13 +344,13 @@ interface I18nTexts {
     info: string;
     spouseInfo: string;
     taxCalculationMethodPost2018: string;
-    childrenUnder6New2025: string;
+    childrenUnder6New2026: string;
     elderlyOver70Count: string;
     generalDependentsCount: string;
     collegeStudentsCount: string;
     disabledCount: string;
     longTermCareCount: string;
-    rentalExpensesNew2025: string;
+    rentalExpensesNew2026: string;
     savingsInterestIncome: string;
     itemizedDeductionDetails: string;
     itemizedDeductionReminder: string;
@@ -364,7 +364,7 @@ interface I18nTexts {
     separateFilingDetailedInfo: string;
     filingMethodComparisonTitle: string;
     detailedCalculationProcess: string;
-    taxBracketTable2025: string;
+    taxBracketTable2026: string;
   };
   placeholders: {
     salaryAndBonus: string;
@@ -394,7 +394,7 @@ interface I18nTexts {
     educationFeeDeduction: string;
     disabilityDeduction: string;
     longTermCareDeduction: string;
-    rentalMajorReform2025: string;
+    rentalMajorReform2026: string;
     savingsInterestLimit: string;
     standardDeductionAmounts: string;
     includesSpouseSalary: string;
@@ -406,28 +406,38 @@ interface I18nTexts {
     childPreschoolDeduction: string;
     housingRentalDeduction: string;
     allAmountsIncrease: string;
+    longTermCareDeduction: string;
+    taxBracketsIncrease: string;
     // 變更描述
     ageExpansionAmountIncrease: string;
     fromItemizedToSpecial: string;
     exemptionDeductionIncrease: string;
+    longTermCareIncrease: string;
+    taxBracketsWidened: string;
     // 修改前
     under5with120k: string;
     itemized120kMutuallyExclusive: string;
-    exemption92kStandard124k: string;
+    exemption97kStandard131k: string;
+    longTermCare120k: string;
+    bracket1_590k: string;
     // 修改後
     under6with150kAnd225k: string;
     special180kCanCombine: string;
-    exemption97kStandard131k: string;
+    exemption101kStandard136k: string;
+    longTermCare180k: string;
+    bracket1_610k: string;
     // 影響
     multChildFamilyBenefit: string;
     renterTaxReduction: string;
     overallTaxReduction: string;
+    longTermCareFamilyBenefit: string;
+    bracketWideningBenefit: string;
   };
 }
 
 export const zhTW: any = {
-  title: "台灣綜合所得稅計算器 2025",
-  description: "基於2025年最新稅制規則，動態計算稅務並提供完整扣除額說明",
+  title: "台灣綜合所得稅計算器 2026",
+  description: "基於2026年最新稅制規則，動態計算稅務並提供完整扣除額說明",
 
   features: {
     realTimeCalculation: "即時動態計算",
@@ -443,7 +453,7 @@ export const zhTW: any = {
   },
 
   cardTitles: {
-    majorTaxReforms2025: "🎯 2025年重大稅制變革",
+    majorTaxReforms2026: "🎯 2026年重大稅制變革",
     taxFreeThresholds: "💡 免稅門檻快速查詢",
     basicInfo: "基本資訊",
     dependents: "扶養親屬",
@@ -454,18 +464,18 @@ export const zhTW: any = {
     filingMethodComparison: "計稅方式比較",
     completeCalculationFormula: "完整計算公式",
     deductionDetails: "扣除額詳細說明",
-    taxBrackets2025: "2025年稅率級距表",
+    taxBrackets2026: "2026年稅率級距表",
     itemizedDeductionDetails: "列舉扣除額詳細說明",
     taxSavingTips: "💰 節稅建議",
     importantNotes: "⚠️ 注意事項"
   },
   taxSavingTipsContent: {
-    specialDeductions: "善用各項特別扣除額，特別是2025年大幅調升的幼兒學前扣除額",
+    specialDeductions: "善用各項特別扣除額，特別是2026年大幅調升的幼兒學前扣除額",
     insurancePlanning: "保險規劃：人身保險費每人每年最高2.4萬元，健保費無限制全額扣除",
     rentalBenefit: "租屋族新福利：房租改列特別扣除額，每戶18萬元",
     marriedCouple: "已婚夫妻：系統自動比較三種計稅方式，選擇最省稅方案",
     itemizedDeductions: "列舉扣除額：合法捐贈、醫療費用等可列舉扣除",
-    longTermCare: "長期照顧：符合條件者每人可扣除12萬元（有排富規定）"
+    longTermCare: "長期照顧：符合條件者每人可扣除18萬元（有排富規定）"
   },
 
   basicInfo: {
@@ -491,31 +501,31 @@ export const zhTW: any = {
 
   dependents: {
     description: "每位扶養親屬可享有免稅額，特定條件另有特別扣除額",
-    childrenUnder6: "6歲以下子女人數 (🎯2025年新制)",
+    childrenUnder6: "6歲以下子女人數 (🎯2026年新制)",
     childrenPlaceholder: "民國107年(含)以後出生",
-    childrenDescription: "2025年新制：第1名15萬元，第2名起22.5萬元，已取消排富規定",
+    childrenDescription: "2026年新制：第1名15萬元，第2名起22.5萬元，已取消排富規定",
     elderlyOver70: "70歲以上長輩人數",
     elderlyPlaceholder: "年滿70歲之直系尊親屬",
-    elderlyDescription: "享有較高免稅額145,500元(一般為97,000元)",
+    elderlyDescription: "享有較高免稅額151,500元(一般為101,000元)",
     generalDependents: "一般扶養親屬人數",
     generalPlaceholder: "6歲以上70歲以下扶養親屬",
-    generalDescription: "享有一般免稅額97,000元",
+    generalDescription: "享有一般免稅額101,000元",
     students: "大專院校學生人數",
     studentsPlaceholder: "大專以上在學子女",
     studentsDescription: "每人可享教育學費特別扣除額25,000元",
     disabled: "身心障礙人數",
     disabledPlaceholder: "持有身心障礙證明者",
-    disabledDescription: "每人可享身心障礙特別扣除額218,000元",
+    disabledDescription: "每人可享身心障礙特別扣除額227,000元",
     longTermCare: "長期照顧需求人數",
     longTermCarePlaceholder: "符合長期照顧需求者",
-    longTermCareDescription: "每人可享長期照顧特別扣除額120,000元",
+    longTermCareDescription: "每人可享長期照顧特別扣除額180,000元",
     longTermCareWarning: "⚠️ 有排富規定：適用稅率20%以上不適用"
   },
 
   deductionChoice: {
     description: "可選擇標準扣除額或列舉扣除額，系統會自動選擇對您最有利的方案",
     useItemizedDeduction: "使用列舉扣除額 (需檢附證明文件)",
-    standardDeductionNote: "標準扣除額：單身131,000元、夫妻262,000元",
+    standardDeductionNote: "標準扣除額：單身136,000元、夫妻272,000元",
     itemizedDeductionDetails: "列舉扣除額明細",
     itemizedDeductionReminder: "💡 提醒：列舉扣除額需檢附收據證明，國稅局有資料者免附",
 
@@ -587,9 +597,9 @@ export const zhTW: any = {
 
   specialDeductions: {
     description: "符合條件可同時適用多項特別扣除額",
-    rentalExpenses: "房屋租金支出 (NT$) (🎯2025年新制)",
+    rentalExpenses: "房屋租金支出 (NT$) (🎯2026年新制)",
     rentalPlaceholder: "租屋自住年支出",
-    rentalDescription: "2025年重大變革：從列舉扣除改為特別扣除，每戶限180,000元",
+    rentalDescription: "2026年重大變革：從列舉扣除改為特別扣除，每戶限180,000元",
     savingsInterest: "儲蓄投資利息 (NT$)",
     savingsPlaceholder: "銀行存款利息收入",
     savingsDescription: "每戶限270,000元，超過部分按一般所得課稅"
@@ -746,8 +756,8 @@ export const zhTW: any = {
 
   deductionDetails: {
     exemptions: "免稅額",
-    generalExemption: "一般免稅額：每人97,000元",
-    elderlyExemption: "70歲以上免稅額：每人145,500元",
+    generalExemption: "一般免稅額：每人101,000元",
+    elderlyExemption: "70歲以上免稅額：每人151,500元",
     applicableConditions: "適用條件：",
     specialDeductionDetails: "特別扣除額明細",
     conditions: "條件："
@@ -840,13 +850,13 @@ export const zhTW: any = {
     info: "資訊",
     spouseInfo: "配偶資訊",
     taxCalculationMethodPost2018: "計稅方式 (2018年修法後)",
-    childrenUnder6New2025: "6歲以下子女人數 (🎯2025年新制)",
+    childrenUnder6New2026: "6歲以下子女人數 (🎯2026年新制)",
     elderlyOver70Count: "70歲以上長輩人數",
     generalDependentsCount: "一般扶養親屬人數",
     collegeStudentsCount: "大專院校學生人數",
     disabledCount: "身心障礙人數",
     longTermCareCount: "長期照顧需求人數",
-    rentalExpensesNew2025: "房屋租金支出 (NT$) (🎯2025年新制)",
+    rentalExpensesNew2026: "房屋租金支出 (NT$) (🎯2026年新制)",
     savingsInterestIncome: "儲蓄投資利息 (NT$)",
     itemizedDeductionDetails: "列舉扣除額明細",
     itemizedDeductionReminder: "💡 提醒：列舉扣除額需檢附收據證明，國稅局有資料者免附",
@@ -860,7 +870,7 @@ export const zhTW: any = {
     separateFilingDetailedInfo: "分開計稅詳細資訊",
     filingMethodComparisonTitle: "計稅方式比較",
     detailedCalculationProcess: "詳細計算過程",
-    taxBracketTable2025: "2025年稅率級距表"
+    taxBracketTable2026: "2026年稅率級距表"
   },
 
   placeholders: {
@@ -887,14 +897,14 @@ export const zhTW: any = {
   descriptions: {
     salaryIncomeIncluding: "包含：薪資、獎金、年終獎金等薪資所得",
     otherIncomeIncluding: "包含：利息所得、股利所得、租賃所得、其他所得等",
-    elderlyHigherExemption: "享有較高免稅額145,500元(一般為97,000元)",
-    generalExemptionAmount: "享有一般免稅額97,000元",
+    elderlyHigherExemption: "享有較高免稅額151,500元(一般為101,000元)",
+    generalExemptionAmount: "享有一般免稅額101,000元",
     educationFeeDeduction: "每人可享教育學費特別扣除額25,000元",
-    disabilityDeduction: "每人可享身心障礙特別扣除額218,000元",
-    longTermCareDeduction: "每人可享長期照顧特別扣除額120,000元",
-    rentalMajorReform2025: "2025年重大變革：從列舉扣除改為特別扣除，每戶限180,000元",
+    disabilityDeduction: "每人可享身心障礙特別扣除額227,000元",
+    longTermCareDeduction: "每人可享長期照顧特別扣除額180,000元",
+    rentalMajorReform2026: "2026年重大變革：從列舉扣除改為特別扣除，每戶限180,000元",
     savingsInterestLimit: "每戶限270,000元，超過部分按一般所得課稅",
-    standardDeductionAmounts: "標準扣除額：單身131,000元、夫妻262,000元",
+    standardDeductionAmounts: "標準扣除額：單身136,000元、夫妻272,000元",
     includesSpouseSalary: "包括：配偶薪資",
     otherIncome: "+ 其他所得"
   },
@@ -905,26 +915,36 @@ export const zhTW: any = {
     childPreschoolDeduction: "幼兒學前特別扣除額",
     housingRentalDeduction: "房屋租金支出扣除",
     allAmountsIncrease: "各項金額全面調升",
+    longTermCareDeduction: "長期照顧特別扣除額",
+    taxBracketsIncrease: "課稅級距調整",
 
     // 變更描述
     ageExpansionAmountIncrease: "年齡擴大、金額加成、取消排富",
     fromItemizedToSpecial: "從列舉改為特別扣除額",
     exemptionDeductionIncrease: "免稅額、扣除額普遍上調",
+    longTermCareIncrease: "長照扣除額大幅調升",
+    taxBracketsWidened: "各級距金額上調",
 
     // 修改前
-    under5with120k: "5歲以下每人12萬元，有排富規定",
-    itemized120kMutuallyExclusive: "列舉扣除每戶12萬元，與購屋貸款利息擇一",
-    exemption92kStandard124k: "免稅額9.2萬、標準扣除額單身12.4萬",
+    under5with120k: "6歲以下第1名15萬、第2名起22.5萬元",
+    itemized120kMutuallyExclusive: "特別扣除每戶18萬元，可與其他扣除額並用",
+    exemption97kStandard131k: "免稅額9.7萬、標準扣除額單身13.1萬",
+    longTermCare120k: "每人每年12萬元",
+    bracket1_590k: "5%級距上限59萬",
 
     // 修改後
-    under6with150kAnd225k: "6歲以下第1名15萬、第2名起22.5萬元，無排富規定",
-    special180kCanCombine: "特別扣除每戶18萬元，可與其他扣除額並用",
-    exemption97kStandard131k: "免稅額9.7萬、標準扣除額單身13.1萬",
+    under6with150kAnd225k: "6歲以下第1名15萬、第2名起22.5萬元（維持不變）",
+    special180kCanCombine: "特別扣除每戶18萬元，可與其他扣除額並用（維持不變）",
+    exemption101kStandard136k: "免稅額10.1萬、標準扣除額單身13.6萬",
+    longTermCare180k: "每人每年18萬元",
+    bracket1_610k: "5%級距上限61萬",
 
     // 影響
     multChildFamilyBenefit: "多子女家庭大幅受惠",
     renterTaxReduction: "租屋族稅負減輕",
-    overallTaxReduction: "整體稅負減輕"
+    overallTaxReduction: "整體稅負減輕",
+    longTermCareFamilyBenefit: "長照家庭稅負大幅減輕",
+    bracketWideningBenefit: "中低所得者稅負減輕"
   },
 
   taxThresholdData: {
@@ -932,13 +952,14 @@ export const zhTW: any = {
     singleWorker: "單身上班族",
     dualIncomeCouple: "雙薪夫妻",
     familyOfFourWith2Children: "四口之家(2名6歲以下子女)",
-    threeGenerationFamily: "三代同堂(含70歲以上長者)",
+    threeGenerationFamily: "三代同堂(夫妻+1幼兒+2長輩)",
 
     // 計算說明
-    singleWorkerCalculation: "免稅額9.7萬 + 標準扣除額13.1萬 + 薪資扣除額21.8萬 = 44.6萬元",
-    dualIncomeCoupleCalculation: "免稅額19.4萬 + 標準扣除額26.2萬 + 薪資扣除額43.6萬 = 89.2萬元",
-    familyOfFourCalculation: "免稅額38.8萬 + 標準扣除額26.2萬 + 薪資扣除額43.6萬 + 幼兒扣除額37.5萬 = 146.1萬元",
-    threeGenerationCalculation: "依具體家庭成員結構計算，長者享有更高免稅額14.55萬元"
+    singleWorkerCalculation: "免稅額10.1萬 + 標準扣除額13.6萬 + 薪資扣除額22.7萬 = 46.4萬元",
+    dualIncomeCoupleCalculation: "免稅額20.2萬 + 標準扣除額27.2萬 + 薪資扣除額45.4萬 = 92.8萬元",
+    familyOfFourCalculation: "免稅額40.4萬 + 標準扣除額27.2萬 + 薪資扣除額45.4萬 + 幼兒扣除額37.5萬 = 150.5萬元",
+    threeGenerationCalculation: "免稅額60.6萬(含2長輩) + 標準扣除額27.2萬 + 薪資扣除額45.4萬 + 幼兒扣除15萬 + 基本生活費差額3.7萬 = 151.9萬元",
+    clickToApply: "👆 點擊套用此情境"
   }
 };
 
